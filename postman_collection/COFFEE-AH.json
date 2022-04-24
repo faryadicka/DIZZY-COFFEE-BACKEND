@@ -1,0 +1,1036 @@
+{
+	"info": {
+		"_postman_id": "d26bc293-8bbb-4599-b740-13c0aa22748f",
+		"name": "COFFEE-AH",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "PRODUCTS CRUD",
+			"item": [
+				{
+					"name": "CREATE PRODUCT",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "",
+									"description": "VARCHAR",
+									"type": "default"
+								},
+								{
+									"key": "price",
+									"value": "",
+									"description": "INTEGER",
+									"type": "default"
+								},
+								{
+									"key": "image",
+									"value": "",
+									"description": "TEXT",
+									"type": "default"
+								},
+								{
+									"key": "description",
+									"value": "",
+									"description": "TEXT",
+									"type": "default"
+								},
+								{
+									"key": "start",
+									"value": "",
+									"description": "HH:MM:SS",
+									"type": "default"
+								},
+								{
+									"key": "end",
+									"value": "",
+									"description": "HH:MM:SS",
+									"type": "default"
+								},
+								{
+									"key": "updated",
+									"value": "",
+									"description": "YYYY-MM-DD HH:MM:SS",
+									"type": "default"
+								},
+								{
+									"key": "delivery_info",
+									"value": "",
+									"description": "TEXT",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{HOST}}/api/products/insert",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"products",
+								"insert"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET ALL PRODUCTS",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}/api/products/all",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"products",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET PRODUCT BY NAME",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}/api/products/search?name=",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"products",
+								"search"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "",
+									"description": "VARCHAR"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SORT PRODUCT TIME",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}/api/products/time?sort=&order=&from=&to=",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"products",
+								"time"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "",
+									"description": "VARCHAR(COLUMN NAME)"
+								},
+								{
+									"key": "order",
+									"value": "",
+									"description": "VARCHAR(ASCE OR DESC)"
+								},
+								{
+									"key": "from",
+									"value": "",
+									"description": "TIME HH:MM:SS"
+								},
+								{
+									"key": "to",
+									"value": "",
+									"description": "TIME HH:MM:SS"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SORT PRODUCT PRICE",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}/api/products/price?order=",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"products",
+								"price"
+							],
+							"query": [
+								{
+									"key": "order",
+									"value": "",
+									"description": "VARCHAR(ASCE OR DESC)"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SORT PRODUCT TRANSACTION",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}/api/products/popular?order=",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"products",
+								"popular"
+							],
+							"query": [
+								{
+									"key": "order",
+									"value": "",
+									"description": "VARCHAR(ASCE OR DESC)"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE PRODUCT",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "",
+									"description": "VARCHAR",
+									"type": "default"
+								},
+								{
+									"key": "price",
+									"value": "",
+									"description": "INTEGER",
+									"type": "default"
+								},
+								{
+									"key": "image",
+									"value": "",
+									"description": "TEXT",
+									"type": "default"
+								},
+								{
+									"key": "description",
+									"value": "",
+									"description": "TEXT",
+									"type": "default"
+								},
+								{
+									"key": "start",
+									"value": "",
+									"description": "HH:MM:SS",
+									"type": "default"
+								},
+								{
+									"key": "end",
+									"value": "",
+									"description": "HH:MM:SS",
+									"type": "default"
+								},
+								{
+									"key": "updated",
+									"value": "",
+									"description": "YYYY-MM-DD HH:MM:SS",
+									"type": "default"
+								},
+								{
+									"key": "delivery_info",
+									"value": "",
+									"description": "TEXT",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{HOST}}/api/products/update/:id",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"products",
+								"update",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE PRODUCT",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}/api/products/delete/:id",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"products",
+								"delete",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "USERS CRUD",
+			"item": [
+				{
+					"name": "CREATE USERS",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "display",
+									"value": "",
+									"description": "VARCHAR",
+									"type": "default"
+								},
+								{
+									"key": "address",
+									"value": "",
+									"description": "VARCHAR",
+									"type": "default"
+								},
+								{
+									"key": "phone",
+									"value": "",
+									"description": "VARCHAR",
+									"type": "default"
+								},
+								{
+									"key": "image",
+									"value": "",
+									"description": "TEXT",
+									"type": "default"
+								},
+								{
+									"key": "birthdate",
+									"value": "",
+									"description": "YYYY-MM-DD",
+									"type": "default"
+								},
+								{
+									"key": "gender",
+									"value": "",
+									"description": "VARCHAR",
+									"type": "default"
+								},
+								{
+									"key": "firstName",
+									"value": "",
+									"description": "VARCHAR",
+									"type": "default"
+								},
+								{
+									"key": "lastName",
+									"value": "",
+									"description": "VARCHAR",
+									"type": "default"
+								},
+								{
+									"key": "updated",
+									"value": "",
+									"description": "YYYY-MM-DD HH:MM:SS",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{HOST}}/api/users/add",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET ALL USERS",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}/api/users/all",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET USERS BY ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}/api/users/:id",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"users",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE USER",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "display",
+									"value": "",
+									"description": "VARCHAR",
+									"type": "default"
+								},
+								{
+									"key": "address",
+									"value": "",
+									"description": "VARCHAR",
+									"type": "default"
+								},
+								{
+									"key": "phone",
+									"value": "",
+									"description": "VARCHAR",
+									"type": "default"
+								},
+								{
+									"key": "image",
+									"value": "",
+									"description": "TEXT",
+									"type": "default"
+								},
+								{
+									"key": "birthdate",
+									"value": "",
+									"description": "YYYY-MM-DD",
+									"type": "default"
+								},
+								{
+									"key": "gender",
+									"value": "",
+									"description": "VARCHAR",
+									"type": "default"
+								},
+								{
+									"key": "firstName",
+									"value": "",
+									"description": "VARCHAR",
+									"type": "default"
+								},
+								{
+									"key": "lastName",
+									"value": "",
+									"description": "VARCHAR",
+									"type": "default"
+								},
+								{
+									"key": "updated",
+									"value": "",
+									"description": "YYYY-MM-DD HH:MM:SS",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{HOST}}/api/users/update/:id",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"update",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE USER",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}/api/users/delete/:id",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"delete",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "PROMOS CRUD",
+			"item": [
+				{
+					"name": "INSERT PROMO",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "",
+									"description": "VARCHAR",
+									"type": "default"
+								},
+								{
+									"key": "discount",
+									"value": "",
+									"description": "INTEGER",
+									"type": "default"
+								},
+								{
+									"key": "description",
+									"value": "",
+									"description": "TEXT",
+									"type": "default"
+								},
+								{
+									"key": "available_start",
+									"value": "",
+									"description": "YYYY-MM-DD HH:MM:SS",
+									"type": "default"
+								},
+								{
+									"key": "available_end",
+									"value": "",
+									"description": "YYYY-MM-DD HH:MM:SS",
+									"type": "default"
+								},
+								{
+									"key": "updated_at",
+									"value": "",
+									"description": "YYYY-MM-DD HH:MM:SS",
+									"type": "default"
+								},
+								{
+									"key": "normal_price",
+									"value": "",
+									"description": "INTEGER",
+									"type": "default"
+								},
+								{
+									"key": "coupon",
+									"value": "",
+									"description": "VARCHAR",
+									"type": "default"
+								},
+								{
+									"key": "id_size",
+									"value": "",
+									"description": "INTEGER",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{HOST}}/api/promos/insert",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"promos",
+								"insert"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET ALL PROMO",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}/api/promos/all",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"promos",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET PROMO BY NAME",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}/api/promos/:id",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"promos",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE PROMO",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "",
+									"description": "VARCHAR",
+									"type": "default"
+								},
+								{
+									"key": "discount",
+									"value": "",
+									"description": "INTEGER",
+									"type": "default"
+								},
+								{
+									"key": "description",
+									"value": "",
+									"description": "TEXT",
+									"type": "default"
+								},
+								{
+									"key": "available_start",
+									"value": "",
+									"description": "YYYY-MM-DD HH:MM:SS",
+									"type": "default"
+								},
+								{
+									"key": "available_end",
+									"value": "",
+									"description": "YYYY-MM-DD HH:MM:SS",
+									"type": "default"
+								},
+								{
+									"key": "updated_at",
+									"value": "",
+									"description": "YYYY-MM-DD HH:MM:SS",
+									"type": "default"
+								},
+								{
+									"key": "normal_price",
+									"value": "",
+									"description": "INTEGER",
+									"type": "default"
+								},
+								{
+									"key": "coupon",
+									"value": "",
+									"description": "VARCHAR",
+									"type": "default"
+								},
+								{
+									"key": "id_size",
+									"value": "",
+									"description": "INTEGER",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{HOST}}/api/promos/update/:id",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"promos",
+								"update",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE PROMO",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}/api/promos/delete/:id",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"promos",
+								"delete",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TRANSACTION CRUD",
+			"item": [
+				{
+					"name": "INSERT TRANSACTION",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "product_name",
+									"value": "",
+									"description": "VARHCHAR",
+									"type": "default"
+								},
+								{
+									"key": "quantity",
+									"value": "",
+									"description": "INTEGER",
+									"type": "default"
+								},
+								{
+									"key": "total_price",
+									"value": "",
+									"description": "INTEGER",
+									"type": "default"
+								},
+								{
+									"key": "subtotal",
+									"value": "",
+									"description": "INTEGER",
+									"type": "default"
+								},
+								{
+									"key": "tax_and_fees",
+									"value": "",
+									"description": "INTEGER",
+									"type": "default"
+								},
+								{
+									"key": "shipping",
+									"value": "",
+									"description": "INTEGER",
+									"type": "default"
+								},
+								{
+									"key": "address",
+									"value": "",
+									"description": "VARCHAR",
+									"type": "default"
+								},
+								{
+									"key": "phone",
+									"value": "",
+									"description": "VARCHAR",
+									"type": "default"
+								},
+								{
+									"key": "id_paymethod",
+									"value": "",
+									"description": "INTEGER",
+									"type": "default"
+								},
+								{
+									"key": "id_size",
+									"value": "",
+									"description": "INTEGER",
+									"type": "default"
+								},
+								{
+									"key": "id_product",
+									"value": "",
+									"description": "INTEGER",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{HOST}}/api/transactions/insert",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"transactions",
+								"insert"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE TRANSACTION",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "product_name",
+									"value": "",
+									"description": "VARHCHAR",
+									"type": "default"
+								},
+								{
+									"key": "quantity",
+									"value": "",
+									"description": "INTEGER",
+									"type": "default"
+								},
+								{
+									"key": "total_price",
+									"value": "",
+									"description": "INTEGER",
+									"type": "default"
+								},
+								{
+									"key": "subtotal",
+									"value": "",
+									"description": "INTEGER",
+									"type": "default"
+								},
+								{
+									"key": "tax_and_fees",
+									"value": "",
+									"description": "INTEGER",
+									"type": "default"
+								},
+								{
+									"key": "shipping",
+									"value": "",
+									"description": "INTEGER",
+									"type": "default"
+								},
+								{
+									"key": "address",
+									"value": "",
+									"description": "VARCHAR",
+									"type": "default"
+								},
+								{
+									"key": "phone",
+									"value": "",
+									"description": "VARCHAR",
+									"type": "default"
+								},
+								{
+									"key": "id_paymethod",
+									"value": "",
+									"description": "INTEGER",
+									"type": "default"
+								},
+								{
+									"key": "id_size",
+									"value": "",
+									"description": "INTEGER",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{HOST}}/api/transactions/update/:id",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"transactions",
+								"update",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET ALL TRANSACTION",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}/api/transactions/all",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"transactions",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE TRANSACTION",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}/api/transactions/delete/:id",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"transactions",
+								"delete",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
