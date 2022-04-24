@@ -6,7 +6,7 @@ const getAllProductsModel = () => {
     db.query(sql, (err, res) => {
       if (err) return reject({
         message: "Data not found",
-        status: 500,
+        status: 403,
         err
       })
       return resolve({
