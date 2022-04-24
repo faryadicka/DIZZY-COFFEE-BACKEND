@@ -16,19 +16,19 @@ app.use(bodyParser.urlencoded({
 app.use(express.json())
 // Morgan
 app.use(morgan(":method :url :status :res[content-length] - :response-time ms"))
-//Error Handling When URL is Wrong
-app.use((req, res) => {
-  res.send({
-    status_code: 400,
-    message: `URL is wrong!`
-  })
-})
+
 
 db.connect()
   .then(() => {
     console.log("DB Connected!")
     // Route
     app.use("/api", mainRoute)
+    //Error Handling When URL is Wrong
+    app.use((req, res) => {
+      res.status(404).send({
+        message: `URL is wrong!`
+      })
+    })
     app.listen(PORT, () => console.log(`Port listening on port ${PORT}`))
   })
   .catch((err) => {
