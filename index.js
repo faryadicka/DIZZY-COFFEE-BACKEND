@@ -19,7 +19,7 @@ app.use(morgan(":method :url :status :res[content-length] - :response-time ms"))
 //Error Handling When URL is Wrong
 app.use((req, res) => {
   res.send({
-    status_code: 403,
+    status_code: 400,
     message: `URL is wrong!`
   })
 })
