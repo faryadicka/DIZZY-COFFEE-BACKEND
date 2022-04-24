@@ -26,7 +26,7 @@ db.connect()
     //Error Handling When URL is Wrong
     app.use((req, res) => {
       res.status(404).send({
-        message: `URL is wrong!`
+        message: "URL is wrong!"
       })
     })
     app.listen(PORT, () => console.log(`Port listening on port ${PORT}`))
