@@ -110,32 +110,10 @@ const updateUserModel = (body, params) => {
   })
 }
 
-const deleteUserModel = (params) => {
-  return new Promise((resolve, reject) => {
-    const {
-      id
-    } = params
-    const sql = "DELETE FROM public.users WHERE id= $1 RETURNING *"
-    db.query(sql, [id], (err, res) => {
-      if (err) return reject({
-        message: "Delete user failed",
-        status: 404,
-        err
-      })
-      return resolve({
-        data: res.rows,
-        message: "Delete user success",
-        status: 200,
-        err: null
-      })
-    })
-  })
-}
 
 module.exports = {
   insertUserModel,
   getAllUsersModel,
   getUsersByIdModel,
-  updateUserModel,
-  deleteUserModel
+  updateUserModel
 }

@@ -1,12 +1,9 @@
 const {
-  getAllProductsModel,
-  searchProductByNameModel,
+  getProductsModel,
   insertProductModel,
   updateProductModel,
   deleteProductModel,
-  sortProductTimeModel,
-  sortProductPriceModel,
-  sortProductTransactionModel
+
 } = require("../models/products")
 
 const {
@@ -14,8 +11,8 @@ const {
   onFailed
 } = require("../helpers/response")
 
-const getAllProductsControl = (req, res) => {
-  getAllProductsModel()
+const getProductsControl = (req, res) => {
+  getProductsModel(req.query)
     .then(({
       data,
       total,
@@ -32,23 +29,6 @@ const getAllProductsControl = (req, res) => {
     }) => {
       onFailed(res, status, message, err)
     })
-}
-
-const searchProductByNameControl = (req, res) => {
-  searchProductByNameModel(req.query).then(({
-    status,
-    message,
-    err,
-    data
-  }) => {
-    onSuccess(res, status, message, err, data)
-  }).catch(({
-    err,
-    status,
-    message
-  }) => {
-    onFailed(res, status, message, err)
-  })
 }
 
 const insertProductControl = (req, res) => {
@@ -108,73 +88,10 @@ const deleteProductControl = (req, res) => {
     })
 }
 
-const sortProductPriceControl = (req, res) => {
-  sortProductPriceModel(req.query)
-    .then(({
-      data,
-      total,
-      message,
-      status,
-      err
-    }) => {
-      onSuccess(res, status, message, err, data, total)
-    })
-    .catch(({
-      message,
-      status,
-      err
-    }) => {
-      onFailed(res, status, message, err)
-    })
-}
-
-const sortProductTimeControl = (req, res) => {
-  sortProductTimeModel(req.query)
-    .then(({
-      data,
-      total,
-      message,
-      err,
-      status
-    }) => {
-      onSuccess(res, status, message, err, data, total)
-    })
-    .catch(({
-      message,
-      status,
-      err
-    }) => {
-      onFailed(res, status, message, err)
-    })
-}
-
-const sortProductTransactionContol = (req, res) => {
-  sortProductTransactionModel(req.query)
-    .then(({
-      data,
-      total,
-      message,
-      status,
-      err
-    }) => {
-      onSuccess(res, status, message, err, data, total)
-    })
-    .catch(({
-      message,
-      status,
-      err
-    }) => {
-      onFailed(res, status, message, err)
-    })
-}
 
 module.exports = {
-  getAllProductsControl,
-  searchProductByNameControl,
+  getProductsControl,
   insertProductControl,
   updateProductControl,
   deleteProductControl,
-  sortProductTimeControl,
-  sortProductPriceControl,
-  sortProductTransactionContol
 }

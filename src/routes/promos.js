@@ -1,16 +1,14 @@
 const Router = require("express").Router()
 const {
   insertPromoControl,
-  getAllPromosControl,
-  searchPromoByNameControl,
+  getPromosControl,
   updatePromoControl,
   deletePromoControl
 } = require("../controllers/promos")
 
 Router
   .post("/insert", insertPromoControl)
-  .get("/all", getAllPromosControl)
-  .get("/search", searchPromoByNameControl)
+  .get("/all", getPromosControl)
   .patch("/update/:id", updatePromoControl)
   .delete("/delete/:id", deletePromoControl)
 

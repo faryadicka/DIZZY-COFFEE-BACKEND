@@ -3,9 +3,6 @@ const {
   getAllTransactionModel,
   updateTransactionModel,
   deleteTransactionModel,
-  // getAllTransactionModel,
-  // updateTransactionModel,
-  // deleteTransactionModel
 } = require("../models/transaction")
 const {
   onSuccess,

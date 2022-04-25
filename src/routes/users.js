@@ -3,7 +3,6 @@ const {
   insertUserControl,
   getAllUsersControl,
   getUsersByIdControl,
-  deleteUserControl,
   updateUserControl
 } = require("../controllers/users")
 
@@ -12,6 +11,5 @@ Router
   .get("/all", getAllUsersControl)
   .get("/:id", getUsersByIdControl)
   .patch("/update/:id", updateUserControl)
-  .delete("/delete/:id", deleteUserControl)
 
 module.exports = Router

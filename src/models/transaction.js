@@ -5,18 +5,14 @@ const insertTransactionModel = (body) => {
     const {
       product_name,
       quantity,
-      total_price,
-      subtotal,
-      tax_and_fees,
-      shipping,
-      address,
-      phone,
-      id_paymethod,
-      id_size,
-      id_product
+      payment_methods_id,
+      size_id,
+      products_id,
+      users_id,
+      total_id
     } = body
-    const sql = "INSERT INTO public.transactions(product_name, quantity, total_price, subtotal, tax_and_fees, shipping, address, phone, id_paymethod, id_size, id_product)VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *"
-    db.query(sql, [product_name, quantity, total_price, subtotal, tax_and_fees, shipping, address, phone, id_paymethod, id_size, id_product], (err, res) => {
+    const sql = "INSERT INTO public.transactions(product_name, quantity, payment_methods_id, size_id, products_id, users_id, total_id)VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *"
+    db.query(sql, [product_name, quantity, payment_methods_id, size_id, products_id, users_id, total_id], (err, res) => {
       if (err) return reject({
         message: "Insert data failed",
         status: 404,
@@ -34,7 +30,7 @@ const insertTransactionModel = (body) => {
 
 const getAllTransactionModel = () => {
   return new Promise((resolve, reject) => {
-    const sql = "SELECT t.product_name, t.quantity, t.total_price, t.subtotal, t.tax_and_fees, t.shipping, t.address, t.phone, p.pay_method FROM public.transactions t JOIN public.payment_method_transaction p ON t.id_paymethod = p.id"
+    let sql = "SELECT p.name, t.quantity, p.price, pt.subtotal, pt.tax_and_fees, pt.shipping, pt.total, u.display_name, u.address, u.phone FROM public.transactions t JOIN public.products p ON t.products_id = p.id JOIN public.users u ON t.users_id = u.id JOIN public.payment_methods m ON t.payment_methods_id = m.id JOIN public.total pt ON t.total_id = pt.id"
     db.query(sql, (err, res) => {
       if (err) return reject({
         message: "Data not found",
@@ -60,17 +56,13 @@ const updateTransactionModel = (body, params) => {
     const {
       product_name,
       quantity,
-      total_price,
-      subtotal,
-      tax_and_fees,
-      shipping,
-      address,
-      phone,
-      id_paymethod,
-      id_size
+      payment_methods_id,
+      size_id,
+      products_id,
+      users_id
     } = body
-    const sql = "UPDATE public.transactions SET product_name=$1, quantity=$2, total_price=$3, subtotal=$4, tax_and_fees=$5, shipping=$6, address=$7, phone=$8, id_paymethod=$9, id_size=$10 WHERE id=$11 RETURNING *"
-    db.query(sql, [product_name, quantity, total_price, subtotal, tax_and_fees, shipping, address, phone, id_paymethod, id_size, id], (err, res) => {
+    const sql = "UPDATE public.transactions SET product_name=$1, quantity=$2, payment_methods_id=$3, size_id=$4, products_id=$5, users_id=$6 WHERE id=$7 RETURNING *"
+    db.query(sql, [product_name, quantity, payment_methods_id, size_id, products_id, users_id, id], (err, res) => {
       if (err) return reject({
         message: "Update failed",
         status: 404,

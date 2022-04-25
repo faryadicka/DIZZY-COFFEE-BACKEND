@@ -1,9 +1,8 @@
 const {
   insertPromoModel,
-  getAllPromosModel,
+  getPromosModel,
   updatePromoModel,
-  deletePromoModel,
-  searchPromoByNameModel
+  deletePromoModel
 } = require("../models/promos")
 
 const {
@@ -30,8 +29,8 @@ const insertPromoControl = (req, res) => {
     })
 }
 
-const getAllPromosControl = (req, res) => {
-  getAllPromosModel()
+const getPromosControl = (req, res) => {
+  getPromosModel(req.query)
     .then(({
       message,
       status,
@@ -40,25 +39,6 @@ const getAllPromosControl = (req, res) => {
       total
     }) => {
       onSuccess(res, status, message, err, data, total)
-    })
-    .catch(({
-      message,
-      status,
-      err
-    }) => {
-      onFailed(res, status, message, err)
-    })
-}
-
-const searchPromoByNameControl = (req, res) => {
-  searchPromoByNameModel(req.query)
-    .then(({
-      message,
-      status,
-      err,
-      data
-    }) => {
-      onSuccess(res, status, message, err, data)
     })
     .catch(({
       message,
@@ -109,8 +89,7 @@ const deletePromoControl = (req, res) => {
 
 module.exports = {
   insertPromoControl,
-  getAllPromosControl,
-  searchPromoByNameControl,
+  getPromosControl,
   updatePromoControl,
   deletePromoControl
 }

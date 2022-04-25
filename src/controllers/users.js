@@ -2,7 +2,6 @@ const {
   insertUserModel,
   getAllUsersModel,
   getUsersByIdModel,
-  deleteUserModel,
   updateUserModel
 } = require("../models/users")
 const {
@@ -87,29 +86,9 @@ const updateUserControl = (req, res) => {
     })
 }
 
-const deleteUserControl = (req, res) => {
-  deleteUserModel(req.params)
-    .then(({
-      message,
-      status,
-      data,
-      err
-    }) => {
-      onSuccess(res, status, message, err, data)
-    })
-    .catch(({
-      message,
-      status,
-      err
-    }) => {
-      onFailed(res, status, message, err)
-    })
-}
-
 module.exports = {
   insertUserControl,
   getAllUsersControl,
   getUsersByIdControl,
-  deleteUserControl,
   updateUserControl
 }
