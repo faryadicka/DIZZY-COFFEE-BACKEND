@@ -8,7 +8,7 @@ const {
 
 Router
   .post("/insert", insertPromoControl)
-  .get("/all", getPromosControl)
+  .get("/search", getPromosControl)
   .patch("/update/:id", updatePromoControl)
   .delete("/delete/:id", deletePromoControl)
 

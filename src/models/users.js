@@ -11,10 +11,13 @@ const insertUserModel = (body) => {
       gender,
       firstName,
       lastName,
-      updated
+      updated,
+      username,
+      email,
+      password
     } = body
-    const sql = "INSERT INTO public.users(display_name, address, phone, image_profile, birthdate, gender, first_name, last_name, updated_at) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *"
-    db.query(sql, [display, address, phone, image, birthdate, gender, firstName, lastName, updated], (err, res) => {
+    const sql = "INSERT INTO public.users(display_name, address, phone, image_profile, birthdate, gender, first_name, last_name, updated_at, username, email, password) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9. $10, $11, $12) RETURNING *"
+    db.query(sql, [display, address, phone, image, birthdate, gender, firstName, lastName, updated, username, email, password], (err, res) => {
       if (err) return reject({
         message: "Insert data failed",
         status: 403,
@@ -88,10 +91,13 @@ const updateUserModel = (body, params) => {
       gender,
       firstName,
       lastName,
-      updated
+      updated,
+      username,
+      email,
+      password
     } = body
-    const sql = "UPDATE public.users SET display_name=$1, address=$2, phone=$3, image_profile=$4, birthdate=$5, gender=$6, first_name=$7, last_name=$8, updated_at=$9 WHERE id=$10 RETURNING *"
-    db.query(sql, [display, address, phone, image, birthdate, gender, firstName, lastName, updated, id], (err, res) => {
+    const sql = "UPDATE public.users SET display_name=$1, address=$2, phone=$3, image_profile=$4, birthdate=$5, gender=$6, first_name=$7, last_name=$8, updated_at=$9, username=$10, email=$11, password=$12 WHERE id=$13 RETURNING *"
+    db.query(sql, [display, address, phone, image, birthdate, gender, firstName, lastName, updated, username, email, password, id], (err, res) => {
       if (err) return reject({
         message: "Update user failed",
         status: 500,
