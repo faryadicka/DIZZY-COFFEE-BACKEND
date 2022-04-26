@@ -3,6 +3,7 @@ const {
   insertProductModel,
   updateProductModel,
   deleteProductModel,
+  getProductDetailModel,
 
 } = require("../models/products")
 
@@ -18,9 +19,8 @@ const getProductsControl = (req, res) => {
       total,
       message,
       status,
-      err
     }) => {
-      onSuccess(res, status, message, err, data, total)
+      onSuccess(res, status, message, data, total)
     })
     .catch(({
       err,
@@ -37,9 +37,8 @@ const insertProductControl = (req, res) => {
       data,
       message,
       status,
-      err
     }) => {
-      onSuccess(res, status, message, err, data)
+      onSuccess(res, status, message, data)
     })
     .catch(({
       message,
@@ -56,9 +55,8 @@ const updateProductControl = (req, res) => {
       data,
       message,
       status,
-      err
     }) => {
-      onSuccess(res, status, message, err, data)
+      onSuccess(res, status, message, data)
     })
     .catch(({
       message,
@@ -75,9 +73,8 @@ const deleteProductControl = (req, res) => {
       data,
       message,
       status,
-      err
     }) => {
-      onSuccess(res, status, message, err, data)
+      onSuccess(res, status, message, data)
     })
     .catch(({
       message,
@@ -88,10 +85,28 @@ const deleteProductControl = (req, res) => {
     })
 }
 
+const getProductDetailControl = (req, res) => {
+  getProductDetailModel(req.params)
+    .then(({
+      data,
+      message,
+      status
+    }) => {
+      onSuccess(res, status, message, data)
+    })
+    .catch(({
+      message,
+      status,
+      err
+    }) => {
+      onFailed(res, status, message, err)
+    })
+}
 
 module.exports = {
   getProductsControl,
   insertProductControl,
   updateProductControl,
   deleteProductControl,
+  getProductDetailControl
 }
