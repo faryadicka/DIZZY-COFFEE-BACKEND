@@ -3,16 +3,16 @@ const db = require("../config/db")
 const insertTransactionModel = (body) => {
   return new Promise((resolve, reject) => {
     const {
-      product_name,
+      productName,
       quantity,
-      payment_methods_id,
-      size_id,
-      products_id,
-      users_id,
-      total_id
+      paymentMethodsId,
+      sizeId,
+      productsId,
+      usersId,
+      totalId
     } = body
     const sql = "INSERT INTO public.transactions(product_name, quantity, payment_methods_id, size_id, products_id, users_id, total_id)VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *"
-    db.query(sql, [product_name, quantity, payment_methods_id, size_id, products_id, users_id, total_id], (err, res) => {
+    db.query(sql, [productName, quantity, paymentMethodsId, sizeId, productsId, usersId, totalId], (err, res) => {
       if (err) return reject({
         message: "Insert data failed",
         status: 404,
@@ -22,7 +22,6 @@ const insertTransactionModel = (body) => {
         data: res.rows[0],
         message: "Inser data success",
         status: 200,
-        err: null
       })
     })
   })
@@ -42,7 +41,32 @@ const getAllTransactionModel = () => {
         total: res.rowCount,
         message: "Data found",
         status: 200,
-        err: null
+      })
+    })
+  })
+}
+
+const getTransactionDetailModel = (params) => {
+  return new Promise((resolve, reject) => {
+    const {
+      id
+    } = params
+    let sql = "SELECT p.name, p.price, p.image, p.description, p.start_hour, p.end_hour, p.delivery_info, c.category, s.size, d.delivery_name FROM public.products p JOIN public.category c ON p.category_id = c.id JOIN public.size s ON p.size_id = s.id JOIN public.delivery_methods d ON p.delivery_methods_id = d.id WHERE p.id=$1"
+    db.query(sql, [id], (err, res) => {
+      if (err) return reject({
+        message: "Product not found",
+        status: 403,
+        err
+      })
+      if (res.rows.length > 1 || res.rows.length === 0) return reject({
+        message: "Product no found",
+        status: 403,
+        err
+      })
+      return resolve({
+        data: res.rows[0],
+        message: "Product found",
+        status: 200,
       })
     })
   })
@@ -54,15 +78,16 @@ const updateTransactionModel = (body, params) => {
       id
     } = params
     const {
-      product_name,
+      productName,
       quantity,
-      payment_methods_id,
-      size_id,
-      products_id,
-      users_id
+      paymentMethodsId,
+      sizeId,
+      productsId,
+      usersId,
+      totalId
     } = body
-    const sql = "UPDATE public.transactions SET product_name=$1, quantity=$2, payment_methods_id=$3, size_id=$4, products_id=$5, users_id=$6 WHERE id=$7 RETURNING *"
-    db.query(sql, [product_name, quantity, payment_methods_id, size_id, products_id, users_id, id], (err, res) => {
+    const sql = "UPDATE public.transactions SET product_name=$1, quantity=$2, payment_methods_id=$3, size_id=$4, products_id=$5, users_id=$6, total_id=$7 WHERE id=$8 RETURNING *"
+    db.query(sql, [productName, quantity, paymentMethodsId, sizeId, productsId, usersId, totalId, id], (err, res) => {
       if (err) return reject({
         message: "Update failed",
         status: 404,
@@ -72,7 +97,6 @@ const updateTransactionModel = (body, params) => {
         data: res.rows[0],
         message: "Update success",
         status: 200,
-        err: null
       })
     })
   })
@@ -94,7 +118,6 @@ const deleteTransactionModel = (params) => {
         data: res.rows,
         message: "Delete success",
         status: 200,
-        err: null
       })
     })
   })
@@ -103,6 +126,7 @@ const deleteTransactionModel = (params) => {
 module.exports = {
   insertTransactionModel,
   getAllTransactionModel,
+  getTransactionDetailModel,
   updateTransactionModel,
   deleteTransactionModel
 }

@@ -1,10 +1,9 @@
 const helper = {}
 
-helper.onSuccess = (res, status, message, err, data, total) => {
+helper.onSuccess = (res, status, message, data, total) => {
   res.status(status).send({
     message,
     total,
-    err,
     data
   })
 }

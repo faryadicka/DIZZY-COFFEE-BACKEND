@@ -24,7 +24,6 @@ const insertUserModel = (body) => {
         message: "Insert data success",
         data: res.rows[0],
         status: 200,
-        err: null
       })
     })
   })
@@ -42,7 +41,6 @@ const getAllUsersModel = () => {
       return resolve({
         message: "List of data users",
         status: 200,
-        err: null,
         data: res.rows,
         total: res.rowCount
       })
@@ -70,7 +68,6 @@ const getUsersByIdModel = (params) => {
       return resolve({
         message: "Data found",
         status: 200,
-        err: null,
         data: res.rows[0]
       })
     })
@@ -104,7 +101,6 @@ const updateUserModel = (body, params) => {
         data: res.rows,
         message: "Update user success",
         status: 200,
-        err: null
       })
     })
   })

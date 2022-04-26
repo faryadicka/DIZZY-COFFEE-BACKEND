@@ -3,6 +3,7 @@ const {
   getAllTransactionModel,
   updateTransactionModel,
   deleteTransactionModel,
+  getTransactionDetailModel
 } = require("../models/transaction")
 const {
   onSuccess,
@@ -40,6 +41,25 @@ const getAllTransactionControl = async (req, res) => {
       err
     } = result
     onSuccess(res, status, message, err, data, total)
+  } catch (error) {
+    const {
+      message,
+      status,
+      err
+    } = error
+    onFailed(res, status, message, err)
+  }
+}
+
+const getTransactionDetailControl = async (req, res) => {
+  try {
+    const result = await getTransactionDetailModel(req.params)
+    const {
+      data,
+      message,
+      status
+    } = result
+    onSuccess(res, status, message, data)
   } catch (error) {
     const {
       message,
@@ -93,5 +113,6 @@ module.exports = {
   insertTransactionControl,
   getAllTransactionControl,
   updateTransactionControl,
-  deleteTransactionControl
+  deleteTransactionControl,
+  getTransactionDetailControl
 }

@@ -6,15 +6,15 @@ const insertPromoModel = (body) => {
       name,
       discount,
       description,
-      available_start,
-      available_end,
-      updated_at,
-      normal_price,
+      availableStart,
+      availableEnd,
+      updatedAt,
+      normalPrice,
       coupon,
-      size_id
+      sizeId
     } = body
     const sql = "INSERT INTO public.promos (name, discount, description, available_start, available_end, updated_at, normal_price, coupon, size_id) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *"
-    db.query(sql, [name, discount, description, available_start, available_end, updated_at, normal_price, coupon, size_id], (err, res) => {
+    db.query(sql, [name, discount, description, availableStart, availableEnd, updatedAt, normalPrice, coupon, sizeId], (err, res) => {
       if (err) return reject({
         message: "Insert data failed",
         status: 500,
@@ -23,7 +23,6 @@ const insertPromoModel = (body) => {
       return resolve({
         message: "Insert data success",
         status: 200,
-        err: null,
         data: res.rows[0]
       })
     })
@@ -51,7 +50,6 @@ const getPromosModel = (query) => {
       return resolve({
         message: "Data found",
         status: 200,
-        err: null,
         total: res.rowCount,
         data: res.rows
       })
@@ -68,15 +66,15 @@ const updatePromoModel = (body, params) => {
       name,
       discount,
       description,
-      available_start,
-      available_end,
-      updated_at,
-      normal_price,
+      availableStart,
+      availableEnd,
+      updatedAt,
+      normalPrice,
       coupon,
-      id_size
+      sizeId
     } = body
     const sql = "UPDATE public.promos SET name=$1, discount=$2, description=$3, available_start=$4, available_end=$5, updated_at=$6, normal_price=$7, coupon=$8, size_id=$9 WHERE id= $10 RETURNING *"
-    db.query(sql, [name, discount, description, available_start, available_end, updated_at, normal_price, coupon, id_size, id], (err, res) => {
+    db.query(sql, [name, discount, description, availableStart, availableEnd, updatedAt, normalPrice, coupon, sizeId, id], (err, res) => {
       if (err) return reject({
         message: "Update failed",
         status: 403,
@@ -85,7 +83,6 @@ const updatePromoModel = (body, params) => {
       return resolve({
         message: "Updates success",
         status: 200,
-        err: null,
         data: res.rows[0]
       })
     })
@@ -107,7 +104,6 @@ const deletePromoModel = (params) => {
       return resolve({
         message: "Delete promo success",
         status: 200,
-        err: null,
         data: res.rows[0]
       })
     })
