@@ -8,9 +8,13 @@ const {
   getProductDetailControl,
 } = require("../controllers/products")
 
+const {
+  queryFind,
+  valueType
+} = require("../middlewares/validation")
 
 Router
-  .get("/search", getProductsControl)
+  .get("/search", queryFind, valueType, getProductsControl)
   .get("/detail/:id", getProductDetailControl)
   .post("/insert", insertProductControl)
   .patch("/update/:id", updateProductControl)

@@ -4,52 +4,30 @@ validate.queryFind = (req, res, next) => {
   const {
     query
   } = req
-  const validQuery = Object.keys(query).map((key) => key === "order" || key === "name" || key === "from" || key === "to" || key === "count" || key === "sort")
+  const validQuery = Object.keys(query).filter((key) => key === "name" || key === "favoriteOrder" || key === "timeOrder" || key === "priceOrder" || key === "category" || key === "sort")
 
   if (validQuery.length < 1) return res.status(400).send({
     message: "Key yang dibutuhkan harus aktif!",
     error: true
   })
+  // console.log(validQuery)
   next()
 }
 
-// validate.queryFindName = (req, res, next) => {
-//   const {
-//     query
-//   } = req
-//   const validQuery = Object.keys(query).map((keys) => keys === "name")
+validate.valueType = (req, res, next) => {
+  const {
+    query
+  } = req
 
-//   if (validQuery.length < 1) return res.status(400).send({
-//     message: "Key name harus aktif!",
-//     error: true
-//   })
-//   next()
-// }
-
-// validate.queryFindTime = (req, res, next) => {
-//   const {
-//     query
-//   } = req
-//   const validQuery = Object.keys(query).map((keys) => keys === "order" || keys === "from" || keys === "to")
-
-//   if (validQuery.length < 3) return res.status(400).send({
-//     message: "Key order, from dan to harus aktif!",
-//     error: true
-//   })
-//   next()
-// }
-
-// validate.queryFindTransaction = (req, res, next) => {
-//   const {
-//     query
-//   } = req
-//   const validQuery = Object.keys(query).map((keys) => keys === "order")
-
-//   if (validQuery.length < 1) return res.status(400).send({
-//     message: "Key order harus aktif!",
-//     error: true
-//   })
-//   next()
-// }
+  const validType = Object.values(query).find((value) => {
+    return value
+  })
+  console.log(validType)
+  if (typeof validType !== 'string') return res.status(400).send({
+    message: "Type data value harus string!",
+    error: true
+  })
+  next()
+}
 
 module.exports = validate

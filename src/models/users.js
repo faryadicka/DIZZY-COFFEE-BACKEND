@@ -48,7 +48,7 @@ const getAllUsersModel = () => {
   })
 }
 
-const getUsersByIdModel = (params) => {
+const getDetailUserModel = (params) => {
   return new Promise((resolve, reject) => {
     const {
       id
@@ -110,6 +110,6 @@ const updateUserModel = (body, params) => {
 module.exports = {
   insertUserModel,
   getAllUsersModel,
-  getUsersByIdModel,
+  getDetailUserModel,
   updateUserModel
 }

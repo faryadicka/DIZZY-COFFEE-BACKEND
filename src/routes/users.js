@@ -2,14 +2,14 @@ const Router = require("express").Router()
 const {
   insertUserControl,
   getAllUsersControl,
-  getUsersByIdControl,
+  getDetailUserControl,
   updateUserControl
 } = require("../controllers/users")
 
 Router
   .post("/add", insertUserControl)
   .get("/all", getAllUsersControl)
-  .get("/:id", getUsersByIdControl)
+  .get("/:id", getDetailUserControl)
   .patch("/update/:id", updateUserControl)
 
 module.exports = Router

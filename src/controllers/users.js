@@ -1,7 +1,7 @@
 const {
   insertUserModel,
   getAllUsersModel,
-  getUsersByIdModel,
+  getDetailUserModel,
   updateUserModel
 } = require("../models/users")
 const {
@@ -48,8 +48,8 @@ const getAllUsersControl = (req, res) => {
     })
 }
 
-const getUsersByIdControl = (req, res) => {
-  getUsersByIdModel(req.params)
+const getDetailUserControl = (req, res) => {
+  getDetailUserModel(req.params)
     .then(({
       message,
       status,
@@ -89,6 +89,6 @@ const updateUserControl = (req, res) => {
 module.exports = {
   insertUserControl,
   getAllUsersControl,
-  getUsersByIdControl,
+  getDetailUserControl,
   updateUserControl
 }

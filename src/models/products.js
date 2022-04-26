@@ -9,10 +9,8 @@ const getProductsModel = (query) => {
       priceOrder,
       category
     } = query
-    let sql = "SELECT c.category, p.name, p.price as price, p.image FROM public.products p JOIN public.category c on p.category_id = c.id "
-    if (favoriteOrder) {
-      sql = "SELECT t.product_name, p.price, p.image, COUNT(*) AS total FROM public.transactions t JOIN public.products p ON t.products_id = p.id GROUP BY t.product_name, p.price, p.image ORDER BY total " + favoriteOrder
-    }
+    let sql = ""
+    favoriteOrder ? sql = "SELECT t.product_name, p.price, p.image, COUNT(*) AS total FROM public.transactions t JOIN public.products p ON t.products_id = p.id GROUP BY t.product_name, p.price, p.image ORDER BY total " + favoriteOrder : sql = "SELECT p.name, p.price as price, p.image FROM public.products p JOIN public.category c on p.category_id = c.id "
     let value = []
     if (name) {
       value.push(name)
@@ -28,7 +26,6 @@ const getProductsModel = (query) => {
     if (timeOrder) {
       sql += "ORDER BY p.start_hour " + timeOrder
     }
-    console.log(sql)
     db.query(sql, value, (err, res) => {
       if (err) return reject({
         message: "Data not found",
