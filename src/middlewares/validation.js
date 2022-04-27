@@ -23,7 +23,7 @@ validate.valueType = (req, res, next) => {
     return value
   })
   console.log(validType)
-  if (typeof validType !== 'string') return res.status(400).send({
+  if (typeof validType !== "string") return res.status(400).send({
     message: "Type data value harus string!",
     error: true
   })
