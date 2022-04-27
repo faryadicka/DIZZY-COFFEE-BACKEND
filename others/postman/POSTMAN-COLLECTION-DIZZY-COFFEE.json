@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "d26bc293-8bbb-4599-b740-13c0aa22748f",
-		"name": "COFFEE-AH",
+		"name": "DIZZY-COFFEE",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -59,7 +59,25 @@
 									"type": "default"
 								},
 								{
-									"key": "delivery_info",
+									"key": "categoryId",
+									"value": "",
+									"description": "INTEGER",
+									"type": "default"
+								},
+								{
+									"key": "deliveryMethodsId",
+									"value": "",
+									"description": "INTEGER",
+									"type": "default"
+								},
+								{
+									"key": "sizeId",
+									"value": "",
+									"description": "INTEGER",
+									"type": "default"
+								},
+								{
+									"key": "deliveryInfo",
 									"value": "",
 									"description": "TEXT",
 									"type": "default"
@@ -86,14 +104,40 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{HOST}}/api/products/all",
+							"raw": "{{HOST}}/api/products/search",
 							"host": [
 								"{{HOST}}"
 							],
 							"path": [
 								"api",
 								"products",
-								"all"
+								"search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET PRODUCT DETAIL",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}/api/products/detail/:id",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"products",
+								"detail",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
 							]
 						}
 					},
@@ -105,7 +149,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{HOST}}/api/products/search?name=",
+							"raw": "{{HOST}}/api/products/search?name=HAZELNUT",
 							"host": [
 								"{{HOST}}"
 							],
@@ -117,8 +161,7 @@
 							"query": [
 								{
 									"key": "name",
-									"value": "",
-									"description": "VARCHAR"
+									"value": "HAZELNUT"
 								}
 							]
 						}
@@ -126,65 +169,24 @@
 					"response": []
 				},
 				{
-					"name": "SORT PRODUCT TIME",
+					"name": "FILTER PRODUCT BY CATEGORY",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{HOST}}/api/products/time?sort=&order=&from=&to=",
+							"raw": "{{HOST}}/api/products/search?category=coffee",
 							"host": [
 								"{{HOST}}"
 							],
 							"path": [
 								"api",
 								"products",
-								"time"
+								"search"
 							],
 							"query": [
 								{
-									"key": "sort",
-									"value": "",
-									"description": "VARCHAR(COLUMN NAME)"
-								},
-								{
-									"key": "order",
-									"value": "",
-									"description": "VARCHAR(ASCE OR DESC)"
-								},
-								{
-									"key": "from",
-									"value": "",
-									"description": "TIME HH:MM:SS"
-								},
-								{
-									"key": "to",
-									"value": "",
-									"description": "TIME HH:MM:SS"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "SORT PRODUCT PRICE",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{HOST}}/api/products/price?order=",
-							"host": [
-								"{{HOST}}"
-							],
-							"path": [
-								"api",
-								"products",
-								"price"
-							],
-							"query": [
-								{
-									"key": "order",
-									"value": "",
+									"key": "category",
+									"value": "coffee",
 									"description": "VARCHAR(ASCE OR DESC)"
 								}
 							]
@@ -198,19 +200,71 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{HOST}}/api/products/popular?order=",
+							"raw": "{{HOST}}/api/products/search?favoriteOrder=desc",
 							"host": [
 								"{{HOST}}"
 							],
 							"path": [
 								"api",
 								"products",
-								"popular"
+								"search"
 							],
 							"query": [
 								{
-									"key": "order",
-									"value": "",
+									"key": "favoriteOrder",
+									"value": "desc",
+									"description": "VARCHAR(ASCE OR DESC)"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SORT PRODUCT TIME",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}/api/products/search?timeOrder",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"products",
+								"search"
+							],
+							"query": [
+								{
+									"key": "timeOrder",
+									"value": null,
+									"description": "VARCHAR(ASCE OR DESC)"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SORT PRODUCT PRICE",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}/api/products/search?priceOrder=price",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"products",
+								"search"
+							],
+							"query": [
+								{
+									"key": "priceOrder",
+									"value": "price",
 									"description": "VARCHAR(ASCE OR DESC)"
 								}
 							]
@@ -269,7 +323,25 @@
 									"type": "default"
 								},
 								{
-									"key": "delivery_info",
+									"key": "categoryId",
+									"value": "",
+									"description": "INTEGER",
+									"type": "default"
+								},
+								{
+									"key": "deliveryMethodsId",
+									"value": "",
+									"description": "INTEGER",
+									"type": "default"
+								},
+								{
+									"key": "sizeId",
+									"value": "",
+									"description": "INTEGER",
+									"type": "default"
+								},
+								{
+									"key": "deliveryInfo",
 									"value": "",
 									"description": "TEXT",
 									"type": "default"
@@ -389,6 +461,24 @@
 									"value": "",
 									"description": "YYYY-MM-DD HH:MM:SS",
 									"type": "default"
+								},
+								{
+									"key": "username",
+									"value": "",
+									"description": "VARCHAR",
+									"type": "default"
+								},
+								{
+									"key": "email",
+									"value": "",
+									"description": "VARCHAR",
+									"type": "default"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"description": "VARCHAR",
+									"type": "default"
 								}
 							]
 						},
@@ -443,7 +533,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": ""
+									"value": "1"
 								}
 							]
 						}
@@ -511,6 +601,24 @@
 									"value": "",
 									"description": "YYYY-MM-DD HH:MM:SS",
 									"type": "default"
+								},
+								{
+									"key": "username",
+									"value": "",
+									"description": "VARCHAR",
+									"type": "default"
+								},
+								{
+									"key": "email",
+									"value": "",
+									"description": "VARCHAR",
+									"type": "default"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"description": "VARCHAR",
+									"type": "default"
 								}
 							]
 						},
@@ -523,32 +631,6 @@
 								"api",
 								"users",
 								"update",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": ""
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "DELETE USER",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{HOST}}/api/users/delete/:id",
-							"host": [
-								"{{HOST}}"
-							],
-							"path": [
-								"api",
-								"users",
-								"delete",
 								":id"
 							],
 							"variable": [
@@ -576,13 +658,13 @@
 							"urlencoded": [
 								{
 									"key": "name",
-									"value": "",
+									"value": "Coffe Whipped Cream",
 									"description": "VARCHAR",
 									"type": "default"
 								},
 								{
 									"key": "discount",
-									"value": "",
+									"value": "10",
 									"description": "INTEGER",
 									"type": "default"
 								},
@@ -593,38 +675,38 @@
 									"type": "default"
 								},
 								{
-									"key": "available_start",
-									"value": "",
+									"key": "availableStart",
+									"value": "now()",
 									"description": "YYYY-MM-DD HH:MM:SS",
 									"type": "default"
 								},
 								{
-									"key": "available_end",
-									"value": "",
+									"key": "availableEnd",
+									"value": "2022-05-05",
 									"description": "YYYY-MM-DD HH:MM:SS",
 									"type": "default"
 								},
 								{
-									"key": "updated_at",
-									"value": "",
+									"key": "updatedAt",
+									"value": "now()",
 									"description": "YYYY-MM-DD HH:MM:SS",
 									"type": "default"
 								},
 								{
-									"key": "normal_price",
-									"value": "",
+									"key": "normalPrice",
+									"value": "24000",
 									"description": "INTEGER",
 									"type": "default"
 								},
 								{
 									"key": "coupon",
-									"value": "",
+									"value": "CWC10EDM",
 									"description": "VARCHAR",
 									"type": "default"
 								},
 								{
-									"key": "id_size",
-									"value": "",
+									"key": "sizeId",
+									"value": "2",
 									"description": "INTEGER",
 									"type": "default"
 								}
@@ -650,37 +732,44 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{HOST}}/api/promos/all",
+							"raw": "{{HOST}}/api/promos/search",
 							"host": [
 								"{{HOST}}"
 							],
 							"path": [
 								"api",
 								"promos",
-								"all"
+								"search"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "hazel",
+									"disabled": true
+								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "GET PROMO BY NAME",
+					"name": "GET PROMO BY COUPON",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{HOST}}/api/promos/:id",
+							"raw": "{{HOST}}/api/promos/search?coupon=",
 							"host": [
 								"{{HOST}}"
 							],
 							"path": [
 								"api",
 								"promos",
-								":id"
+								"search"
 							],
-							"variable": [
+							"query": [
 								{
-									"key": "id",
+									"key": "coupon",
 									"value": ""
 								}
 							]
@@ -698,55 +787,55 @@
 							"urlencoded": [
 								{
 									"key": "name",
-									"value": "",
+									"value": "Beef Spaghetti",
 									"description": "VARCHAR",
 									"type": "default"
 								},
 								{
 									"key": "discount",
-									"value": "",
+									"value": "20",
 									"description": "INTEGER",
 									"type": "default"
 								},
 								{
 									"key": "description",
-									"value": "",
+									"value": "-",
 									"description": "TEXT",
 									"type": "default"
 								},
 								{
-									"key": "available_start",
-									"value": "",
+									"key": "availableStart",
+									"value": "2022-04-20 24:00:00",
 									"description": "YYYY-MM-DD HH:MM:SS",
 									"type": "default"
 								},
 								{
-									"key": "available_end",
-									"value": "",
+									"key": "availableEnd",
+									"value": "2022-04-25 01:00:00",
 									"description": "YYYY-MM-DD HH:MM:SS",
 									"type": "default"
 								},
 								{
-									"key": "updated_at",
-									"value": "",
-									"description": "YYYY-MM-DD HH:MM:SS",
+									"key": "updatedAt",
+									"value": "now()",
+									"description": "YYYY-MM-DD HH:MM:SS / now()",
 									"type": "default"
 								},
 								{
-									"key": "normal_price",
-									"value": "",
+									"key": "normalPrice",
+									"value": "24000",
 									"description": "INTEGER",
 									"type": "default"
 								},
 								{
 									"key": "coupon",
-									"value": "",
+									"value": "FNPR15RG",
 									"description": "VARCHAR",
 									"type": "default"
 								},
 								{
-									"key": "id_size",
-									"value": "",
+									"key": "sizeId",
+									"value": "3",
 									"description": "INTEGER",
 									"type": "default"
 								}
@@ -813,67 +902,43 @@
 							"mode": "urlencoded",
 							"urlencoded": [
 								{
-									"key": "product_name",
-									"value": "",
+									"key": "productName",
+									"value": "Chicken Fire Wings",
 									"description": "VARHCHAR",
 									"type": "default"
 								},
 								{
 									"key": "quantity",
-									"value": "",
+									"value": "2",
 									"description": "INTEGER",
 									"type": "default"
 								},
 								{
-									"key": "total_price",
-									"value": "",
+									"key": "paymentMethodsId",
+									"value": "2",
 									"description": "INTEGER",
 									"type": "default"
 								},
 								{
-									"key": "subtotal",
-									"value": "",
+									"key": "sizeId",
+									"value": "2",
 									"description": "INTEGER",
 									"type": "default"
 								},
 								{
-									"key": "tax_and_fees",
-									"value": "",
+									"key": "productsId",
+									"value": "1",
 									"description": "INTEGER",
 									"type": "default"
 								},
 								{
-									"key": "shipping",
-									"value": "",
+									"key": "usersId",
+									"value": "1",
 									"description": "INTEGER",
 									"type": "default"
 								},
 								{
-									"key": "address",
-									"value": "",
-									"description": "VARCHAR",
-									"type": "default"
-								},
-								{
-									"key": "phone",
-									"value": "",
-									"description": "VARCHAR",
-									"type": "default"
-								},
-								{
-									"key": "id_paymethod",
-									"value": "",
-									"description": "INTEGER",
-									"type": "default"
-								},
-								{
-									"key": "id_size",
-									"value": "",
-									"description": "INTEGER",
-									"type": "default"
-								},
-								{
-									"key": "id_product",
+									"key": "totalId",
 									"value": "",
 									"description": "INTEGER",
 									"type": "default"
@@ -903,61 +968,43 @@
 							"mode": "urlencoded",
 							"urlencoded": [
 								{
-									"key": "product_name",
-									"value": "",
+									"key": "productName",
+									"value": "Hazelnut Latte",
 									"description": "VARHCHAR",
 									"type": "default"
 								},
 								{
 									"key": "quantity",
-									"value": "",
+									"value": "1",
 									"description": "INTEGER",
 									"type": "default"
 								},
 								{
-									"key": "total_price",
-									"value": "",
+									"key": "paymentMethodsId",
+									"value": "2",
 									"description": "INTEGER",
 									"type": "default"
 								},
 								{
-									"key": "subtotal",
-									"value": "",
+									"key": "sizeId",
+									"value": "1",
 									"description": "INTEGER",
 									"type": "default"
 								},
 								{
-									"key": "tax_and_fees",
-									"value": "",
+									"key": "productsId",
+									"value": "1",
 									"description": "INTEGER",
 									"type": "default"
 								},
 								{
-									"key": "shipping",
-									"value": "",
+									"key": "usersId",
+									"value": "1",
 									"description": "INTEGER",
 									"type": "default"
 								},
 								{
-									"key": "address",
-									"value": "",
-									"description": "VARCHAR",
-									"type": "default"
-								},
-								{
-									"key": "phone",
-									"value": "",
-									"description": "VARCHAR",
-									"type": "default"
-								},
-								{
-									"key": "id_paymethod",
-									"value": "",
-									"description": "INTEGER",
-									"type": "default"
-								},
-								{
-									"key": "id_size",
+									"key": "totalId",
 									"value": "",
 									"description": "INTEGER",
 									"type": "default"
@@ -978,7 +1025,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": ""
+									"value": "1"
 								}
 							]
 						}
@@ -999,6 +1046,32 @@
 								"api",
 								"transactions",
 								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET TRANSACTION DETAIL",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}/api/transactions/detail/:id",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"transactions",
+								"detail",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
 							]
 						}
 					},

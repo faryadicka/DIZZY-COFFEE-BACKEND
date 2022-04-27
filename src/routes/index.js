@@ -3,7 +3,6 @@ const productsRouter = require("./products")
 const usersRouter = require("./users")
 const promosRouter = require("./promos")
 const transactionRoute = require("./transactions")
-const historyRoute = require("./history")
 
 
 Router
@@ -11,7 +10,6 @@ Router
   .use("/users", usersRouter)
   .use("/promos", promosRouter)
   .use("/transactions", transactionRoute)
-  .use("/history", historyRoute)
 
 
 module.exports = Router
