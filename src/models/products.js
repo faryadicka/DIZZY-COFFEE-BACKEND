@@ -7,10 +7,12 @@ const getProductsModel = (query) => {
       favoriteOrder,
       timeOrder,
       priceOrder,
-      category
+      category,
+      maxPrice,
+      minPrice
     } = query
     let sql = ""
-    favoriteOrder ? sql = "SELECT t.product_name, p.price, p.image, COUNT(*) AS total FROM public.transactions t JOIN public.products p ON t.products_id = p.id GROUP BY t.product_name, p.price, p.image ORDER BY total " + favoriteOrder : sql = "SELECT p.name, p.price as price, p.image FROM public.products p JOIN public.category c on p.category_id = c.id "
+    favoriteOrder ? sql = "SELECT p.id, t.product_name, p.price, p.image, COUNT(*) AS total FROM public.transactions t JOIN public.products p ON t.products_id = p.id GROUP BY t.product_name, p.price, p.image ORDER BY total " + favoriteOrder : sql = "SELECT p.id, p.name, p.price as price, p.image FROM public.products p JOIN public.category c on p.category_id = c.id "
     let value = []
     if (name) {
       value.push(name)
@@ -20,12 +22,17 @@ const getProductsModel = (query) => {
       value.push(category)
       sql += "WHERE lower(c.category) LIKE lower('%' || $1 || '%')"
     }
+    if (maxPrice && maxPrice) {
+      value.push(minPrice, maxPrice)
+      sql += "WHERE p.price BETWEEN $1 AND $2"
+    }
     if (priceOrder) {
       sql += "ORDER BY p.price " + priceOrder
     }
     if (timeOrder) {
       sql += "ORDER BY p.start_hour " + timeOrder
     }
+    console.log(sql)
     db.query(sql, value, (err, res) => {
       if (err) return reject({
         message: "Data not found",
@@ -91,15 +98,20 @@ const updateProductModel = (body, params) => {
     const {
       id
     } = params
-    const sql = "UPDATE public.products SET name=$1, price=$2, image=$3, description=$4, start_hour=$5, end_hour=$6, updated_at=$7, category_id=$8, delivery_methods_id=$9, size_id=$10, delivery_info=$11 WHERE id=$12"
+    const sql = "UPDATE public.products SET name=$1, price=$2, image=$3, description=$4, start_hour=$5, end_hour=$6, updated_at=$7, category_id=$8, delivery_methods_id=$9, size_id=$10, delivery_info=$11 WHERE id=$12 RETURNING *"
     db.query(sql, [name, price, image, description, start, end, updated, categoryId, deliveryMethodsId, sizeId, deliveryInfo, id], (err, res) => {
       if (err) return reject({
         message: "Updated failed",
         status: 403,
         err
       })
+      if (res.rows.length === 0) return reject({
+        message: "Id product not found",
+        status: 403,
+        err
+      })
       return resolve({
-        data: res.command,
+        data: res.rows[0],
         message: "Updated data success!",
         status: 200,
       })
@@ -112,16 +124,21 @@ const deleteProductModel = (params) => {
     const {
       id
     } = params
-    const sql = "DELETE FROM public.products WHERE id= $1"
+    const sql = "DELETE FROM public.products WHERE id= $1 RETURNING *"
     db.query(sql, [id], (err, res) => {
       if (err) return reject({
         message: "Delete product failed",
         status: 403,
         err
       })
+      if (res.rows.length === 0) return reject({
+        message: "ID product not found",
+        status: 403,
+        err
+      })
       return resolve({
-        data: res,
-        message: "Delete product success",
+        data: res.rows[0],
+        message: "Delete product successS",
         status: 200,
       })
     })
@@ -140,8 +157,8 @@ const getProductDetailModel = (params) => {
         status: 403,
         err
       })
-      if (res.rows.length > 1 || res.rows.length === 0) return reject({
-        message: "Product no found",
+      if (res.rows.length === 0) return reject({
+        message: "Product not found",
         status: 403,
         err
       })

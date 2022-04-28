@@ -20,7 +20,7 @@ const insertTransactionModel = (body) => {
       })
       return resolve({
         data: res.rows[0],
-        message: "Inser data success",
+        message: "Insert data success",
         status: 200,
       })
     })
