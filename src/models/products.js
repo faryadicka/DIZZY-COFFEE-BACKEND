@@ -98,8 +98,54 @@ const updateProductModel = (body, params) => {
     const {
       id
     } = params
-    const sql = "UPDATE public.products SET name=$1, price=$2, image=$3, description=$4, start_hour=$5, end_hour=$6, updated_at=$7, category_id=$8, delivery_methods_id=$9, size_id=$10, delivery_info=$11 WHERE id=$12 RETURNING *"
-    db.query(sql, [name, price, image, description, start, end, updated, categoryId, deliveryMethodsId, sizeId, deliveryInfo, id], (err, res) => {
+    let sql = "UPDATE public.products SET "
+    let value = []
+    if (name) {
+      value.push(name, id)
+      sql += "name=$1 WHERE id=$2 RETURNING *"
+    }
+    if (price) {
+      value.push(price, id)
+      sql += "price=$1 WHERE id=$2 RETURNING *"
+    }
+    if (image) {
+      value.push(image, id)
+      sql += "image=$1 WHERE id=$2 RETURNING *"
+    }
+    if (description) {
+      value.push(description, id)
+      sql += "description=$1 WHERE id=$2 RETURNING *"
+    }
+    if (start) {
+      value.push(start, id)
+      sql += "start_hour=$1 WHERE id=$2 RETURNING *"
+    }
+    if (end) {
+      value.push(end, id)
+      sql += "end_hour=$1 WHERE id=$2 RETURNING *"
+    }
+    if (updated) {
+      value.push(updated, id)
+      sql += "updated_at=$1 WHERE id=$2 RETURNING *"
+    }
+    if (categoryId) {
+      value.push(categoryId, id)
+      sql += "category_id=$1 WHERE id=$2 RETURNING *"
+    }
+    if (deliveryMethodsId) {
+      value.push(deliveryMethodsId, id)
+      sql += "delivery_methods_id=$1 WHERE id=$2 RETURNING *"
+    }
+    if (sizeId) {
+      value.push(sizeId, id)
+      sql += "size_id=$1 WHERE id=$2 RETURNING *"
+    }
+    if (deliveryInfo) {
+      value.push(deliveryInfo, id)
+      sql += "delivery_info=$1 WHERE id=$2 RETURNING *"
+    }
+    console.log(sql)
+    db.query(sql, value, (err, res) => {
       if (err) return reject({
         message: "Updated failed",
         status: 403,

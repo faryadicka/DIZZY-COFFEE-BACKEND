@@ -29,7 +29,7 @@ const insertTransactionModel = (body) => {
 
 const getAllTransactionModel = () => {
   return new Promise((resolve, reject) => {
-    let sql = "SELECT p.name, t.quantity, p.price, pt.subtotal, pt.tax_and_fees, pt.shipping, pt.total, u.display_name, u.address, u.phone FROM public.transactions t JOIN public.products p ON t.products_id = p.id JOIN public.users u ON t.users_id = u.id JOIN public.payment_methods m ON t.payment_methods_id = m.id JOIN public.total pt ON t.total_id = pt.id"
+    let sql = "SELECT p.id, p.name, t.quantity, p.price, pt.subtotal, pt.tax_and_fees, pt.shipping, pt.total, u.display_name, u.address, u.phone FROM public.transactions t JOIN public.products p ON t.products_id = p.id JOIN public.users u ON t.users_id = u.id JOIN public.payment_methods m ON t.payment_methods_id = m.id JOIN public.total pt ON t.total_id = pt.id"
     db.query(sql, (err, res) => {
       if (err) return reject({
         message: "Data not found",
@@ -51,7 +51,7 @@ const getTransactionDetailModel = (params) => {
     const {
       id
     } = params
-    let sql = "SELECT p.name, p.price, p.image, p.description, p.start_hour, p.end_hour, p.delivery_info, c.category, s.size, d.delivery_name FROM public.products p JOIN public.category c ON p.category_id = c.id JOIN public.size s ON p.size_id = s.id JOIN public.delivery_methods d ON p.delivery_methods_id = d.id WHERE p.id=$1"
+    let sql = "SELECT p.id, p.name, p.price, p.image, p.description, p.start_hour, p.end_hour, p.delivery_info, c.category, s.size, d.delivery_name FROM public.products p JOIN public.category c ON p.category_id = c.id JOIN public.size s ON p.size_id = s.id JOIN public.delivery_methods d ON p.delivery_methods_id = d.id WHERE p.id=$1"
     db.query(sql, [id], (err, res) => {
       if (err) return reject({
         message: "Product not found",
@@ -86,8 +86,37 @@ const updateTransactionModel = (body, params) => {
       usersId,
       totalId
     } = body
-    const sql = "UPDATE public.transactions SET product_name=$1, quantity=$2, payment_methods_id=$3, size_id=$4, products_id=$5, users_id=$6, total_id=$7 WHERE id=$8 RETURNING *"
-    db.query(sql, [productName, quantity, paymentMethodsId, sizeId, productsId, usersId, totalId, id], (err, res) => {
+    let sql = "UPDATE public.transactions SET quantity=$2, payment_methods_id=$3, size_id=$4, products_id=$5, users_id=$6, total_id=$7 "
+    let value = []
+    if (productName) {
+      value.push(productName, id)
+      sql += "product_name=$1 WHERE id=$2 RETURNING *"
+    }
+    if (quantity) {
+      value.push(quantity, id)
+      sql += "quantity=$1 WHERE id=$2 RETURNING *"
+    }
+    if (paymentMethodsId) {
+      value.push(paymentMethodsId, id)
+      sql += "payment_methods_id=$1 WHERE id=$2 RETURNING *"
+    }
+    if (sizeId) {
+      value.push(sizeId, id)
+      sql += "size_id=$1 WHERE id=$2 RETURNING *"
+    }
+    if (productsId) {
+      value.push(productsId, id)
+      sql += "product_name=$1 WHERE id=$2 RETURNING *"
+    }
+    if (usersId) {
+      value.push(usersId)
+      sql += "user_id=$1 WHERE id=$2 RETURNING *"
+    }
+    if (totalId) {
+      value.push(totalId)
+      sql += "total_id=$1 WHERE id=$2 RETURNING *"
+    }
+    db.query(sql, value, (err, res) => {
       if (err) return reject({
         message: "Update failed",
         status: 404,

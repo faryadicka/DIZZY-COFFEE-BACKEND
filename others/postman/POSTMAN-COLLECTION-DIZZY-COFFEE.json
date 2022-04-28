@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "d26bc293-8bbb-4599-b740-13c0aa22748f",
-		"name": "DIZZY-COFFEE",
+		"name": "DIZZY-COFFEE-SHOP",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -18,61 +18,61 @@
 							"urlencoded": [
 								{
 									"key": "name",
-									"value": "",
+									"value": "Cappocino",
 									"description": "VARCHAR",
 									"type": "default"
 								},
 								{
 									"key": "price",
-									"value": "",
+									"value": "35000",
 									"description": "INTEGER",
 									"type": "default"
 								},
 								{
 									"key": "image",
-									"value": "",
+									"value": "-",
 									"description": "TEXT",
 									"type": "default"
 								},
 								{
 									"key": "description",
-									"value": "",
+									"value": "CapPucino adalah minuman khas Italia yang dibuat dari espreso dan susu, tetapi referensi lain juga ada yang menyebutkan bahwa kapucino berawal dari biji biji kopi tentara Turki yang tertinggal setelah peperangan yang di pimpin oleh Kara Mustapha Pasha di Wina, Austria melawan tentara gabungan Polandia-Germania.",
 									"description": "TEXT",
 									"type": "default"
 								},
 								{
 									"key": "start",
-									"value": "",
+									"value": "08:00:00",
 									"description": "HH:MM:SS",
 									"type": "default"
 								},
 								{
 									"key": "end",
-									"value": "",
+									"value": "13:00:00",
 									"description": "HH:MM:SS",
 									"type": "default"
 								},
 								{
 									"key": "updated",
-									"value": "",
+									"value": "now()",
 									"description": "YYYY-MM-DD HH:MM:SS",
 									"type": "default"
 								},
 								{
 									"key": "categoryId",
-									"value": "",
+									"value": "1",
 									"description": "INTEGER",
 									"type": "default"
 								},
 								{
 									"key": "deliveryMethodsId",
-									"value": "",
+									"value": "1",
 									"description": "INTEGER",
 									"type": "default"
 								},
 								{
 									"key": "sizeId",
-									"value": "",
+									"value": "1",
 									"description": "INTEGER",
 									"type": "default"
 								},
@@ -136,7 +136,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "1"
+									"value": ""
 								}
 							]
 						}
@@ -187,7 +187,38 @@
 								{
 									"key": "category",
 									"value": "coffee",
-									"description": "VARCHAR(ASCE OR DESC)"
+									"description": "VARCHAR(COFEE/NON-COFFEE/FOODS)"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "FILTER PRODUCT BY RANGE PRICE",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}/api/products/search?minPrice=20000&maxPrice=30000",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"products",
+								"search"
+							],
+							"query": [
+								{
+									"key": "minPrice",
+									"value": "20000",
+									"description": "INTEGER"
+								},
+								{
+									"key": "maxPrice",
+									"value": "30000",
+									"description": "INTEGER"
 								}
 							]
 						}
@@ -282,67 +313,76 @@
 							"urlencoded": [
 								{
 									"key": "name",
-									"value": "",
+									"value": "Americano",
 									"description": "VARCHAR",
 									"type": "default"
 								},
 								{
 									"key": "price",
-									"value": "",
+									"value": "35000",
 									"description": "INTEGER",
-									"type": "default"
+									"type": "default",
+									"disabled": true
 								},
 								{
 									"key": "image",
-									"value": "",
+									"value": "-",
 									"description": "TEXT",
-									"type": "default"
+									"type": "default",
+									"disabled": true
 								},
 								{
 									"key": "description",
-									"value": "",
+									"value": "-",
 									"description": "TEXT",
-									"type": "default"
+									"type": "default",
+									"disabled": true
 								},
 								{
 									"key": "start",
-									"value": "",
+									"value": "now()",
 									"description": "HH:MM:SS",
-									"type": "default"
+									"type": "default",
+									"disabled": true
 								},
 								{
 									"key": "end",
-									"value": "",
+									"value": "now()",
 									"description": "HH:MM:SS",
-									"type": "default"
+									"type": "default",
+									"disabled": true
 								},
 								{
 									"key": "updated",
-									"value": "",
+									"value": "now()",
 									"description": "YYYY-MM-DD HH:MM:SS",
-									"type": "default"
+									"type": "default",
+									"disabled": true
 								},
 								{
 									"key": "categoryId",
-									"value": "",
+									"value": "1",
 									"description": "INTEGER",
-									"type": "default"
+									"type": "default",
+									"disabled": true
 								},
 								{
 									"key": "deliveryMethodsId",
-									"value": "",
+									"value": "2",
 									"description": "INTEGER",
-									"type": "default"
+									"type": "default",
+									"disabled": true
 								},
 								{
 									"key": "sizeId",
-									"value": "",
+									"value": "2",
 									"description": "INTEGER",
-									"type": "default"
+									"type": "default",
+									"disabled": true
 								},
 								{
 									"key": "deliveryInfo",
-									"value": "",
+									"value": "-",
 									"description": "TEXT",
 									"type": "default"
 								}
@@ -362,7 +402,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": ""
+									"value": "1"
 								}
 							]
 						}
@@ -398,7 +438,7 @@
 			]
 		},
 		{
-			"name": "USERS CRUD",
+			"name": "USERS CRU",
 			"item": [
 				{
 					"name": "CREATE USERS",
@@ -410,73 +450,73 @@
 							"urlencoded": [
 								{
 									"key": "display",
-									"value": "",
+									"value": "Perry Aryadicka",
 									"description": "VARCHAR",
 									"type": "default"
 								},
 								{
 									"key": "address",
-									"value": "",
+									"value": "Subang, Jawabarat.",
 									"description": "VARCHAR",
 									"type": "default"
 								},
 								{
 									"key": "phone",
-									"value": "",
+									"value": "08923456789",
 									"description": "VARCHAR",
 									"type": "default"
 								},
 								{
 									"key": "image",
-									"value": "",
+									"value": "-",
 									"description": "TEXT",
 									"type": "default"
 								},
 								{
 									"key": "birthdate",
-									"value": "",
+									"value": "now()",
 									"description": "YYYY-MM-DD",
 									"type": "default"
 								},
 								{
 									"key": "gender",
-									"value": "",
+									"value": "Laki-laki",
 									"description": "VARCHAR",
 									"type": "default"
 								},
 								{
 									"key": "firstName",
-									"value": "",
+									"value": "Perry",
 									"description": "VARCHAR",
 									"type": "default"
 								},
 								{
 									"key": "lastName",
-									"value": "",
+									"value": "Aryadicka",
 									"description": "VARCHAR",
 									"type": "default"
 								},
 								{
 									"key": "updated",
-									"value": "",
+									"value": "now()",
 									"description": "YYYY-MM-DD HH:MM:SS",
 									"type": "default"
 								},
 								{
 									"key": "username",
-									"value": "",
+									"value": "faryadicka",
 									"description": "VARCHAR",
 									"type": "default"
 								},
 								{
 									"key": "email",
-									"value": "",
+									"value": "faryadicka@outlook.com",
 									"description": "VARCHAR",
 									"type": "default"
 								},
 								{
 									"key": "password",
-									"value": "",
+									"value": "12345",
 									"description": "VARCHAR",
 									"type": "default"
 								}
@@ -550,75 +590,85 @@
 							"urlencoded": [
 								{
 									"key": "display",
-									"value": "",
+									"value": "Ferry Aryadicka",
 									"description": "VARCHAR",
 									"type": "default"
 								},
 								{
 									"key": "address",
-									"value": "",
+									"value": "Purbalingga, Jawatengah.",
 									"description": "VARCHAR",
-									"type": "default"
+									"type": "default",
+									"disabled": true
 								},
 								{
 									"key": "phone",
-									"value": "",
+									"value": "08931241257",
 									"description": "VARCHAR",
-									"type": "default"
+									"type": "default",
+									"disabled": true
 								},
 								{
 									"key": "image",
-									"value": "",
+									"value": "-",
 									"description": "TEXT",
-									"type": "default"
+									"type": "default",
+									"disabled": true
 								},
 								{
 									"key": "birthdate",
-									"value": "",
+									"value": "1998-08-30",
 									"description": "YYYY-MM-DD",
-									"type": "default"
+									"type": "default",
+									"disabled": true
 								},
 								{
 									"key": "gender",
-									"value": "",
+									"value": "Laki-laki",
 									"description": "VARCHAR",
-									"type": "default"
+									"type": "default",
+									"disabled": true
 								},
 								{
 									"key": "firstName",
-									"value": "",
+									"value": "Ferry",
 									"description": "VARCHAR",
 									"type": "default"
 								},
 								{
 									"key": "lastName",
-									"value": "",
+									"value": "Aryadicka",
 									"description": "VARCHAR",
-									"type": "default"
+									"type": "default",
+									"disabled": true
 								},
 								{
 									"key": "updated",
-									"value": "",
+									"value": "now()",
 									"description": "YYYY-MM-DD HH:MM:SS",
-									"type": "default"
+									"type": "default",
+									"disabled": true
 								},
 								{
 									"key": "username",
-									"value": "",
+									"value": "faryadicka",
 									"description": "VARCHAR",
-									"type": "default"
+									"type": "default",
+									"disabled": true
 								},
 								{
 									"key": "email",
-									"value": "",
+									"value": "faryadicka@outlook.com",
 									"description": "VARCHAR",
-									"type": "default"
+									"type": "default",
+									"disabled": true
 								},
 								{
 									"key": "password",
-									"value": "",
+									"value": "4321",
 									"description": "VARCHAR",
-									"type": "default"
+									"type": "default",
+									"disabled": true
 								}
 							]
 						},
@@ -636,7 +686,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": ""
+									"value": "4"
 								}
 							]
 						}
@@ -787,13 +837,13 @@
 							"urlencoded": [
 								{
 									"key": "name",
-									"value": "Beef Spaghetti",
+									"value": "Americano",
 									"description": "VARCHAR",
 									"type": "default"
 								},
 								{
 									"key": "discount",
-									"value": "20",
+									"value": "30",
 									"description": "INTEGER",
 									"type": "default"
 								},
@@ -805,13 +855,13 @@
 								},
 								{
 									"key": "availableStart",
-									"value": "2022-04-20 24:00:00",
+									"value": "now()",
 									"description": "YYYY-MM-DD HH:MM:SS",
 									"type": "default"
 								},
 								{
 									"key": "availableEnd",
-									"value": "2022-04-25 01:00:00",
+									"value": "2022-04-20 01:00:00",
 									"description": "YYYY-MM-DD HH:MM:SS",
 									"type": "default"
 								},
@@ -829,13 +879,13 @@
 								},
 								{
 									"key": "coupon",
-									"value": "FNPR15RG",
+									"value": "AMRCN30RG",
 									"description": "VARCHAR",
 									"type": "default"
 								},
 								{
 									"key": "sizeId",
-									"value": "3",
+									"value": "2",
 									"description": "INTEGER",
 									"type": "default"
 								}
@@ -855,7 +905,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "1"
+									"value": "3"
 								}
 							]
 						}
