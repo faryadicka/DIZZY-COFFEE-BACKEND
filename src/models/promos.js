@@ -111,7 +111,7 @@ const updatePromoModel = (body, params) => {
       value.push(sizeId, id)
       sql += "size_id=$1 WHERE id= $2 RETURNING *"
     }
-    db.query(sql, [name, discount, description, availableStart, availableEnd, updatedAt, normalPrice, coupon, sizeId, id], (err, res) => {
+    db.query(sql, value, (err, res) => {
       if (err) return reject({
         message: "Update failed",
         status: 403,
@@ -131,7 +131,7 @@ const deletePromoModel = (params) => {
     const {
       id
     } = params
-    const sql = "DELETE FROM public.promos WHERE id=$1 RETURNING *"
+    const sql = "DELETE FROM public.promos id=$1 RETURNING *"
     db.query(sql, [id], (err, res) => {
       if (err) return reject({
         message: "Delete promo failed",

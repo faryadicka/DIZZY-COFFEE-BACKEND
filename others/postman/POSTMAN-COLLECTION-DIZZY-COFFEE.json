@@ -85,14 +85,13 @@
 							]
 						},
 						"url": {
-							"raw": "{{HOST}}/api/products/insert",
+							"raw": "{{HOST}}/api/products",
 							"host": [
 								"{{HOST}}"
 							],
 							"path": [
 								"api",
-								"products",
-								"insert"
+								"products"
 							]
 						}
 					},
@@ -104,14 +103,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{HOST}}/api/products/search",
+							"raw": "{{HOST}}/api/products",
 							"host": [
 								"{{HOST}}"
 							],
 							"path": [
 								"api",
-								"products",
-								"search"
+								"products"
 							]
 						}
 					},
@@ -123,14 +121,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{HOST}}/api/products/detail/:id",
+							"raw": "{{HOST}}/api/products/:id",
 							"host": [
 								"{{HOST}}"
 							],
 							"path": [
 								"api",
 								"products",
-								"detail",
 								":id"
 							],
 							"variable": [
@@ -149,19 +146,18 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{HOST}}/api/products/search?name=HAZELNUT",
+							"raw": "{{HOST}}/api/products?name=Cappocino",
 							"host": [
 								"{{HOST}}"
 							],
 							"path": [
 								"api",
-								"products",
-								"search"
+								"products"
 							],
 							"query": [
 								{
 									"key": "name",
-									"value": "HAZELNUT"
+									"value": "Cappocino"
 								}
 							]
 						}
@@ -174,19 +170,18 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{HOST}}/api/products/search?category=coffee",
+							"raw": "{{HOST}}/api/products?category=foods",
 							"host": [
 								"{{HOST}}"
 							],
 							"path": [
 								"api",
-								"products",
-								"search"
+								"products"
 							],
 							"query": [
 								{
 									"key": "category",
-									"value": "coffee",
+									"value": "foods",
 									"description": "VARCHAR(COFEE/NON-COFFEE/FOODS)"
 								}
 							]
@@ -200,14 +195,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{HOST}}/api/products/search?minPrice=20000&maxPrice=30000",
+							"raw": "{{HOST}}/api/products?minPrice=20000&maxPrice=30000",
 							"host": [
 								"{{HOST}}"
 							],
 							"path": [
 								"api",
-								"products",
-								"search"
+								"products"
 							],
 							"query": [
 								{
@@ -226,76 +220,28 @@
 					"response": []
 				},
 				{
-					"name": "SORT PRODUCT TRANSACTION",
+					"name": "SORT PRODUCT TIME & PRICE",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{HOST}}/api/products/search?favoriteOrder=desc",
+							"raw": "{{HOST}}/api/products?sort=p.start_hour&order=desc",
 							"host": [
 								"{{HOST}}"
 							],
 							"path": [
 								"api",
-								"products",
-								"search"
+								"products"
 							],
 							"query": [
 								{
-									"key": "favoriteOrder",
+									"key": "sort",
+									"value": "p.start_hour",
+									"description": "VARCHAR(COLUMN NAME)"
+								},
+								{
+									"key": "order",
 									"value": "desc",
-									"description": "VARCHAR(ASCE OR DESC)"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "SORT PRODUCT TIME",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{HOST}}/api/products/search?timeOrder",
-							"host": [
-								"{{HOST}}"
-							],
-							"path": [
-								"api",
-								"products",
-								"search"
-							],
-							"query": [
-								{
-									"key": "timeOrder",
-									"value": null,
-									"description": "VARCHAR(ASCE OR DESC)"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "SORT PRODUCT PRICE",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{HOST}}/api/products/search?priceOrder=price",
-							"host": [
-								"{{HOST}}"
-							],
-							"path": [
-								"api",
-								"products",
-								"search"
-							],
-							"query": [
-								{
-									"key": "priceOrder",
-									"value": "price",
 									"description": "VARCHAR(ASCE OR DESC)"
 								}
 							]
@@ -389,14 +335,13 @@
 							]
 						},
 						"url": {
-							"raw": "{{HOST}}/api/products/update/:id",
+							"raw": "{{HOST}}/api/products/:id",
 							"host": [
 								"{{HOST}}"
 							],
 							"path": [
 								"api",
 								"products",
-								"update",
 								":id"
 							],
 							"variable": [
@@ -415,14 +360,13 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{HOST}}/api/products/delete/:id",
+							"raw": "{{HOST}}/api/products/:id",
 							"host": [
 								"{{HOST}}"
 							],
 							"path": [
 								"api",
 								"products",
-								"delete",
 								":id"
 							],
 							"variable": [
@@ -523,14 +467,13 @@
 							]
 						},
 						"url": {
-							"raw": "{{HOST}}/api/users/add",
+							"raw": "{{HOST}}/api/users",
 							"host": [
 								"{{HOST}}"
 							],
 							"path": [
 								"api",
-								"users",
-								"add"
+								"users"
 							]
 						}
 					},
@@ -542,14 +485,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{HOST}}/api/users/all",
+							"raw": "{{HOST}}/api/users",
 							"host": [
 								"{{HOST}}"
 							],
 							"path": [
 								"api",
-								"users",
-								"all"
+								"users"
 							]
 						}
 					},
@@ -673,20 +615,19 @@
 							]
 						},
 						"url": {
-							"raw": "{{HOST}}/api/users/update/:id",
+							"raw": "{{HOST}}/api/users/:id",
 							"host": [
 								"{{HOST}}"
 							],
 							"path": [
 								"api",
 								"users",
-								"update",
 								":id"
 							],
 							"variable": [
 								{
 									"key": "id",
-									"value": "4"
+									"value": ""
 								}
 							]
 						}
@@ -763,14 +704,14 @@
 							]
 						},
 						"url": {
-							"raw": "{{HOST}}/api/promos/insert",
+							"raw": "{{HOST}}/api/promos/",
 							"host": [
 								"{{HOST}}"
 							],
 							"path": [
 								"api",
 								"promos",
-								"insert"
+								""
 							]
 						}
 					},
@@ -782,14 +723,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{HOST}}/api/promos/search",
+							"raw": "{{HOST}}/api/promos/",
 							"host": [
 								"{{HOST}}"
 							],
 							"path": [
 								"api",
 								"promos",
-								"search"
+								""
 							],
 							"query": [
 								{
@@ -892,20 +833,19 @@
 							]
 						},
 						"url": {
-							"raw": "{{HOST}}/api/promos/update/:id",
+							"raw": "{{HOST}}/api/promos/:id",
 							"host": [
 								"{{HOST}}"
 							],
 							"path": [
 								"api",
 								"promos",
-								"update",
 								":id"
 							],
 							"variable": [
 								{
 									"key": "id",
-									"value": "3"
+									"value": ""
 								}
 							]
 						}
@@ -918,20 +858,19 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{HOST}}/api/promos/delete/:id",
+							"raw": "{{HOST}}/api/promos/:id",
 							"host": [
 								"{{HOST}}"
 							],
 							"path": [
 								"api",
 								"promos",
-								"delete",
 								":id"
 							],
 							"variable": [
 								{
 									"key": "id",
-									"value": "2"
+									"value": ""
 								}
 							]
 						}
@@ -996,14 +935,14 @@
 							]
 						},
 						"url": {
-							"raw": "{{HOST}}/api/transactions/insert",
+							"raw": "{{HOST}}/api/transactions/",
 							"host": [
 								"{{HOST}}"
 							],
 							"path": [
 								"api",
 								"transactions",
-								"insert"
+								""
 							]
 						}
 					},
@@ -1062,20 +1001,19 @@
 							]
 						},
 						"url": {
-							"raw": "{{HOST}}/api/transactions/update/:id",
+							"raw": "{{HOST}}/api/transactions/:id",
 							"host": [
 								"{{HOST}}"
 							],
 							"path": [
 								"api",
 								"transactions",
-								"update",
 								":id"
 							],
 							"variable": [
 								{
 									"key": "id",
-									"value": "1"
+									"value": ""
 								}
 							]
 						}
@@ -1088,14 +1026,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{HOST}}/api/transactions/all",
+							"raw": "{{HOST}}/api/transactions/",
 							"host": [
 								"{{HOST}}"
 							],
 							"path": [
 								"api",
 								"transactions",
-								"all"
+								""
 							]
 						}
 					},
@@ -1107,20 +1045,19 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{HOST}}/api/transactions/detail/:id",
+							"raw": "{{HOST}}/api/transactions/:id",
 							"host": [
 								"{{HOST}}"
 							],
 							"path": [
 								"api",
 								"transactions",
-								"detail",
 								":id"
 							],
 							"variable": [
 								{
 									"key": "id",
-									"value": "1"
+									"value": ""
 								}
 							]
 						}
@@ -1133,20 +1070,19 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{HOST}}/api/transactions/delete/:id",
+							"raw": "{{HOST}}/api/transactions/:id",
 							"host": [
 								"{{HOST}}"
 							],
 							"path": [
 								"api",
 								"transactions",
-								"delete",
 								":id"
 							],
 							"variable": [
 								{
 									"key": "id",
-									"value": "1"
+									"value": ""
 								}
 							]
 						}

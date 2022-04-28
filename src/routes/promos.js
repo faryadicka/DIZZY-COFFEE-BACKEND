@@ -7,9 +7,9 @@ const {
 } = require("../controllers/promos")
 
 Router
-  .post("/insert", insertPromoControl)
-  .get("/search", getPromosControl)
-  .patch("/update/:id", updatePromoControl)
-  .delete("/delete/:id", deletePromoControl)
+  .post("/", insertPromoControl)
+  .get("/", getPromosControl)
+  .patch("/:id", updatePromoControl)
+  .delete("/:id", deletePromoControl)
 
 module.exports = Router

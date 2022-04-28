@@ -6,19 +6,17 @@ const {
   updateProductControl,
   deleteProductControl,
   getProductDetailControl,
+  getFavoriteProductControl,
 } = require("../controllers/products")
 
-// const {
-//   queryFind,
-//   valueType
-// } = require("../middlewares/validation")
 
 Router
-  .get("/search", getProductsControl)
-  .get("/detail/:id", getProductDetailControl)
-  .post("/insert", insertProductControl)
-  .patch("/update/:id", updateProductControl)
-  .delete("/delete/:id", deleteProductControl)
+  .get("/", getProductsControl)
+  .get("/favorite", getFavoriteProductControl)
+  .get("/detailproduct/:id", getProductDetailControl)
+  .post("/", insertProductControl)
+  .patch("/:id", updateProductControl)
+  .delete("/:id", deleteProductControl)
 
 
 module.exports = Router

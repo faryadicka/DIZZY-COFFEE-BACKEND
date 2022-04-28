@@ -4,15 +4,13 @@ const getProductsModel = (query) => {
   return new Promise((resolve, reject) => {
     const {
       name,
-      favoriteOrder,
-      timeOrder,
-      priceOrder,
+      order,
+      sort,
       category,
       maxPrice,
       minPrice
     } = query
-    let sql = ""
-    favoriteOrder ? sql = "SELECT p.id, t.product_name, p.price, p.image, COUNT(*) AS total FROM public.transactions t JOIN public.products p ON t.products_id = p.id GROUP BY t.product_name, p.price, p.image ORDER BY total " + favoriteOrder : sql = "SELECT p.id, p.name, p.price as price, p.image FROM public.products p JOIN public.category c on p.category_id = c.id "
+    let sql = "SELECT p.id, p.name, p.price as price, p.start_hour as time, p.image FROM public.products p JOIN public.category c on p.category_id = c.id "
     let value = []
     if (name) {
       value.push(name)
@@ -26,11 +24,8 @@ const getProductsModel = (query) => {
       value.push(minPrice, maxPrice)
       sql += "WHERE p.price BETWEEN $1 AND $2"
     }
-    if (priceOrder) {
-      sql += "ORDER BY p.price " + priceOrder
-    }
-    if (timeOrder) {
-      sql += "ORDER BY p.start_hour " + timeOrder
+    if (sort) {
+      sql += "ORDER BY " + sort + " " + order
     }
     console.log(sql)
     db.query(sql, value, (err, res) => {
@@ -44,6 +39,25 @@ const getProductsModel = (query) => {
         status: 200,
         data: res.rows,
         total: res.rowCount
+      })
+    })
+  })
+}
+
+const getFavoriteProductModel = () => {
+  return new Promise((resolve, reject) => {
+    let sql = "SELECT p.id, p.name, p.price, p.image, COUNT(*) AS total FROM public.transactions t JOIN public.products p ON t.products_id = p.id GROUP BY p.id, p.name, p.price, p.image ORDER BY total DESC"
+    db.query(sql, (err, res) => {
+      if (err) return reject({
+        message: "Product no found",
+        status: 403,
+        err
+      })
+      return resolve({
+        data: res.rows,
+        total: res.rowCount,
+        message: "Product of Favorite",
+        status: 200,
       })
     })
   })
@@ -224,4 +238,5 @@ module.exports = {
   insertProductModel,
   updateProductModel,
   deleteProductModel,
+  getFavoriteProductModel
 }

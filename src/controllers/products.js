@@ -4,6 +4,7 @@ const {
   updateProductModel,
   deleteProductModel,
   getProductDetailModel,
+  getFavoriteProductModel
 
 } = require("../models/products")
 
@@ -14,6 +15,25 @@ const {
 
 const getProductsControl = (req, res) => {
   getProductsModel(req.query)
+    .then(({
+      data,
+      total,
+      message,
+      status,
+    }) => {
+      onSuccess(res, status, message, data, total)
+    })
+    .catch(({
+      err,
+      status,
+      message
+    }) => {
+      onFailed(res, status, message, err)
+    })
+}
+
+const getFavoriteProductControl = (req, res) => {
+  getFavoriteProductModel()
     .then(({
       data,
       total,
@@ -108,5 +128,6 @@ module.exports = {
   insertProductControl,
   updateProductControl,
   deleteProductControl,
-  getProductDetailControl
+  getProductDetailControl,
+  getFavoriteProductControl
 }

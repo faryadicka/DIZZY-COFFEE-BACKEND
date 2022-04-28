@@ -9,7 +9,7 @@ const {
 Router
   .post("/add", insertUserControl)
   .get("/all", getAllUsersControl)
-  .get("/:id", getDetailUserControl)
+  .get("/detailuser/:id", getDetailUserControl)
   .patch("/update/:id", updateUserControl)
 
 module.exports = Router

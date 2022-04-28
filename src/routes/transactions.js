@@ -9,10 +9,10 @@ const {
 const Router = require("express").Router()
 
 Router
-  .post("/insert", insertTransactionControl)
-  .get("/all", getAllTransactionControl)
-  .get("/detail/:id", getTransactionDetailControl)
-  .patch("/update/:id", updateTransactionControl)
-  .delete("/delete/:id", deleteTransactionControl)
+  .post("/", insertTransactionControl)
+  .get("/", getAllTransactionControl)
+  .get("/detailtransaction/:id", getTransactionDetailControl)
+  .patch("/:id", updateTransactionControl)
+  .delete("/:id", deleteTransactionControl)
 
 module.exports = Router

@@ -29,7 +29,7 @@ const insertTransactionModel = (body) => {
 
 const getAllTransactionModel = () => {
   return new Promise((resolve, reject) => {
-    let sql = "SELECT p.id, p.name, t.quantity, p.price, pt.subtotal, pt.tax_and_fees, pt.shipping, pt.total, u.display_name, u.address, u.phone FROM public.transactions t JOIN public.products p ON t.products_id = p.id JOIN public.users u ON t.users_id = u.id JOIN public.payment_methods m ON t.payment_methods_id = m.id JOIN public.total pt ON t.total_id = pt.id"
+    let sql = "SELECT t.id, p.name, t.quantity, p.price, s.size, m.pay_method, pt.subtotal, pt.tax_and_fees, pt.shipping, pt.total, u.display_name, u.address, u.phone FROM public.transactions t JOIN public.products p ON t.products_id = p.id JOIN public.users u ON t.users_id = u.id JOIN public.payment_methods m ON t.payment_methods_id = m.id JOIN public.total pt ON t.total_id = pt.id JOIN public.size s ON t.size_id = s.id"
     db.query(sql, (err, res) => {
       if (err) return reject({
         message: "Data not found",
