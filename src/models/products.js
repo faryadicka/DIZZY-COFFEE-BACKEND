@@ -10,7 +10,7 @@ const getProductsModel = (query) => {
       maxPrice,
       minPrice
     } = query
-    let sql = "SELECT p.id, p.name, p.price as price, p.start_hour as time, p.image FROM public.products p JOIN public.category c on p.category_id = c.id "
+    let sql = "SELECT p.id, p.name, p.price as price, p.start_hour as time, p.image, c.category FROM public.products p JOIN public.category c on p.category_id = c.id "
     let value = []
     if (name) {
       value.push(name)
@@ -18,9 +18,9 @@ const getProductsModel = (query) => {
     }
     if (category) {
       value.push(category)
-      sql += "WHERE lower(c.category) LIKE lower('%' || $1 || '%')"
+      sql += "WHERE c.id = $1"
     }
-    if (maxPrice && maxPrice) {
+    if (minPrice && maxPrice) {
       value.push(minPrice, maxPrice)
       sql += "WHERE p.price BETWEEN $1 AND $2"
     }
