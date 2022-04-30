@@ -1,32 +1,29 @@
+const {
+  onFailed
+} = require("../helpers/response")
 const validate = {}
 
-validate.queryFind = (req, res, next) => {
+validate.InsertProduct = (req, res, next) => {
   const {
-    query
+    body
   } = req
-  const validQuery = Object.keys(query).filter((key) => key === "name" || key === "favoriteOrder" || key === "timeOrder" || key === "priceOrder" || key === "category" || key === "sort")
-
-  if (validQuery.length < 1) return res.status(400).send({
-    message: "Key yang dibutuhkan harus aktif!",
-    error: true
-  })
-  // console.log(validQuery)
+  const bodyKeysAvailable = ["name", "price", "image", "description", "start", "end", "updated", "categoryId", "deliveryMethodsId", "sizeId", "deliveryInfo"]
+  const bodyKeysFind = Object.keys(body)
+  const bodyKeysFilter = bodyKeysAvailable.filter((item) => !bodyKeysFind.includes(item)).length == 0 ? true : false
+  if (!bodyKeysFilter) return onFailed(res, 400, "Input body invalid!")
   next()
 }
 
-validate.valueType = (req, res, next) => {
+validate.InsertUser = (req, res, next) => {
   const {
-    query
+    body
   } = req
+  const bodyKeysAvailable = ["display", "address", "phone", "image", "birthdate", "gender", "firstName", "lastName", "updated", "email", "password"]
+  const bodyKeysFind = Object.keys(body)
+  const bodyKeysFilter = bodyKeysAvailable.filter((item) => !bodyKeysFind.includes(item)).length == 0 ? true : false
+  console.log(bodyKeysFilter)
+  if (!bodyKeysFilter) return onFailed(res, 400, "Input body invalid!")
 
-  const validType = Object.values(query).find((value) => {
-    return value
-  })
-  console.log(validType)
-  if (typeof validType !== "string") return res.status(400).send({
-    message: "Type data value harus string!",
-    error: true
-  })
   next()
 }
 
