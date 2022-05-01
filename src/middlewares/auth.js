@@ -9,19 +9,18 @@ const {
 
 
 const verifyToken = (req, res, next) => {
-  const token = req.header('x-access-token')
-  const sqlTokenBlackList = "SELECT token FROM blacklist_token WHERE token = $1"
-  db.query(sqlTokenBlackList, [token], (err, results) => {
-    if (err) return onFailed(res, 500, "Token Invalid")
-    if (results.rows.length > 0) return onFailed(res, 400, "Token Expired, You need to login first!")
-
-    jwt.verify(token, SECRET_KEY, (err, decoded) => {
-      if (err) return onFailed(res, 400, "Token Invalid, You need to login first!", err)
+  const token = req.header("x-access-token")
+  const checkBlacklistToken = "SELECT * FROM public.blacklist_token WHERE token = $1"
+  db.query(checkBlacklistToken, [token], (err, res) => {
+    if (err) return onFailed(res, 500, "Internal sserver error", err)
+    if (res.rows.length > 0) onFailed(res, 401, "Invalid Token, You need to login first!", err)
+    jwt.verify(token, SECRET_KEY, (err, decode) => {
+      if (err) return onFailed(res, 401, "Invalid Token, You need to login first!")
       const {
         id,
         email,
         role
-      } = decoded
+      } = decode
       req.userInfo = {
         id,
         email,

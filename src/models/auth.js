@@ -6,6 +6,7 @@ const {
   SECRET_KEY
 } = process.env
 
+
 const registerUserModel = (body) => {
   return new Promise((resolve, reject) => {
     const {
@@ -13,46 +14,47 @@ const registerUserModel = (body) => {
       password,
       phone
     } = body
-    const checkEmail = "SELECT * FROM public.users WHERE email = $1"
-    db.query(checkEmail, [email], (err, res) => {
+    const checkEmailSQL = "SELECT * FROM public.users WHERE email = $1"
+    db.query(checkEmailSQL, [email], (err, res) => {
       if (err) return reject({
-        message: "Internar Server Error",
+        message: "Internal Server Error",
         status: 500,
         err
       })
       if (email === "" || password === "" || phone === "") return reject({
         message: "Field email/password/phone is required!",
-        status: 428,
+        status: 400,
         err
       })
       if (!email.includes("@gmail.com") && !email.includes("@yahoo.com") && !email.includes("@mail.com")) return reject({
-        message: "Input email isnt valid",
-        status: 401,
+        message: "Input email is invalid!",
+        status: 400,
         err
       })
-      if (res.rows.length > 0) return reject({
+      if (res.rowCount > 0) return reject({
         message: "Email has already exists!",
         status: 409,
         err
       })
-      const sql = "INSERT INTO public.users(phone, email, password) VALUES($1, $2, $3) RETURNING email, phone"
       bcrypt
         .hash(password, 10, (err, hashed) => {
           if (err) return reject({
-            message: "Invalid hashing password!",
+            message: "Failed to hashing password",
             status: 500,
             err
           })
-          db.query(sql, [phone, email, hashed], (err, res) => {
+          const registerSQL = "INSERT INTO public.users(phone, email, password) VALUES($1, $2, $3) RETURNING email, phone"
+          db.query(registerSQL, [phone, email, hashed], (err, res) => {
             if (err) return reject({
-              message: "Register failed",
-              status: 400,
+              message: "Register user failed",
+              status: 500,
               err
             })
             return resolve({
-              message: "Register success",
+              message: "Register successful",
               status: 201,
-              data: res.rows[0]
+              data: res.rows[0],
+              total: res.rowCount
             })
           })
         })
@@ -69,13 +71,13 @@ const loginUserModel = (body) => {
     const getEmail = "SELECT * FROM public.users WHERE email = $1"
     db.query(getEmail, [email], (err, res) => {
       if (err) return reject({
-        message: "User not found!",
-        status: 404,
+        message: "User not found",
+        status: 500,
         err
       })
-      if (res.rows.length === 0) return reject({
-        message: "User not found!",
-        status: 403,
+      if (res.rows.length > 1) return reject({
+        message: "User not found",
+        status: 404,
         err
       })
       const user = res.rows[0]
@@ -83,7 +85,7 @@ const loginUserModel = (body) => {
       bcrypt
         .compare(password, hashedPass, (err, resCompare) => {
           if (err) return reject({
-            message: "Internal server bad",
+            message: "Internal Server Error",
             status: 500,
             err
           })
@@ -104,19 +106,19 @@ const loginUserModel = (body) => {
             last_name: user.last_name,
             email: user.email,
           }
-          const limit = {
+          const expiredSign = {
             expiresIn: "10h"
           }
-          jwt.sign(payload, SECRET_KEY, limit, (err, token) => {
+          jwt.sign(payload, SECRET_KEY, expiredSign, (err, token) => {
             if (err) return reject({
-              message: "Sign token failed",
+              message: "Sign payload error",
               status: 500,
               err
             })
             return resolve({
-              data: res.rows,
-              message: token,
-              status: 200
+              message: "Sign payload success",
+              status: 200,
+              data: token
             })
           })
         })
