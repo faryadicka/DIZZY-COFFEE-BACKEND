@@ -12,21 +12,27 @@ const getProductsModel = (query) => {
     } = query
     let sql = "SELECT p.id, p.name, p.price as price, p.start_hour as time, p.image, c.category FROM public.products p JOIN public.category c on p.category_id = c.id "
     let value = []
-    if (name) {
-      value.push(name)
-      sql += "WHERE lower(p.name) LIKE lower('%' || $1 || '%')"
+    if(name || category) {
+      if(sort) {
+        value.push(name, category)
+      sql += "WHERE lower(p.name) LIKE lower('%' || $1 || '%') OR c.id = $2 ORDER BY " + sort + " " + order
+      }
     }
-    if (category) {
-      value.push(category)
-      sql += "WHERE c.id = $1"
-    }
-    if (minPrice && maxPrice) {
+     if (minPrice && maxPrice) {
       value.push(minPrice, maxPrice)
       sql += "WHERE p.price BETWEEN $1 AND $2"
     }
-    if (sort) {
-      sql += "ORDER BY " + sort + " " + order
-    }
+    // if (name) {
+    //   value.push(name)
+    //   sql += "WHERE lower(p.name) LIKE lower('%' || $1 || '%')"
+    // }
+    // if (category) {
+    //   value.push(category)
+    //   sql += "WHERE c.id = $1"
+    // }
+    // if (sort) {
+    //   sql += "ORDER BY " + sort + " " + order
+    // }
     console.log(sql)
     db.query(sql, value, (err, res) => {
       if (err) return reject({
