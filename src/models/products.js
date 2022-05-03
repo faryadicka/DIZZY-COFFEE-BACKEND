@@ -10,17 +10,20 @@ const getProductsModel = (query) => {
       maxPrice,
       minPrice
     } = query
-    let sql = "SELECT p.id, p.name, p.price as price, p.start_hour as time, p.image, c.category FROM public.products p JOIN public.category c on p.category_id = c.id "
+    let sql = "SELECT p.id, p.name as name, p.price as price, p.start_hour as time, p.image, c.category FROM public.products p JOIN public.category c on p.category_id = c.id "
     let value = []
-    if(name || category) {
-      if(sort) {
-        value.push(name, category)
-      sql += "WHERE lower(p.name) LIKE lower('%' || $1 || '%') OR c.id = $2 ORDER BY " + sort + " " + order
-      }
-    }
      if (minPrice && maxPrice) {
       value.push(minPrice, maxPrice)
       sql += "WHERE p.price BETWEEN $1 AND $2"
+    }
+    if(category || name){
+      value.push(category, name)
+      sql += "WHERE c.id = $1 OR lower(p.name) LIKE lower('%' || $2 || '%')"
+    }
+    if (sort) {
+      if(order) {
+        sql += "ORDER BY " + sort + " " + order
+      }
     }
     // if (name) {
     //   value.push(name)
@@ -29,9 +32,6 @@ const getProductsModel = (query) => {
     // if (category) {
     //   value.push(category)
     //   sql += "WHERE c.id = $1"
-    // }
-    // if (sort) {
-    //   sql += "ORDER BY " + sort + " " + order
     // }
     console.log(sql)
     db.query(sql, value, (err, res) => {
