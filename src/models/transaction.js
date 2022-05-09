@@ -9,10 +9,14 @@ const insertTransactionModel = (body) => {
       sizeId,
       productsId,
       usersId,
-      totalId
+      total,
+      subtotal,
+      shipping,
+      taxAndFees,
+      updatedAt
     } = body
-    const sql = "INSERT INTO public.transactions(product_name, quantity, payment_methods_id, size_id, products_id, users_id, total_id)VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *"
-    db.query(sql, [productName, quantity, paymentMethodsId, sizeId, productsId, usersId, totalId], (err, res) => {
+    const sql = "INSERT INTO public.transactions(product_name, quantity, payment_methods_id, size_id, products_id, users_id, total, subtotal, shipping, tax_and_fees, updated_at)VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *"
+    db.query(sql, [productName, quantity, paymentMethodsId, sizeId, productsId, usersId, total,subtotal, shipping, taxAndFees, updatedAt], (err, res) => {
       if (err) return reject({
         message: "Insert data failed",
         status: 404,
@@ -29,7 +33,7 @@ const insertTransactionModel = (body) => {
 
 const getAllTransactionModel = () => {
   return new Promise((resolve, reject) => {
-    let sql = "SELECT t.id, p.name, t.quantity, p.price, s.size, m.pay_method, pt.subtotal, pt.tax_and_fees, pt.shipping, pt.total, u.display_name, u.address, u.phone FROM public.transactions t JOIN public.products p ON t.products_id = p.id JOIN public.users u ON t.users_id = u.id JOIN public.payment_methods m ON t.payment_methods_id = m.id JOIN public.total pt ON t.total_id = pt.id JOIN public.size s ON t.size_id = s.id"
+    let sql = "SELECT t.id, p.name, t.quantity, p.price, s.size, m.pay_method, t.subtotal, t.tax_and_fees, t.shipping, t.total, u.display_name, u.address, u.phone FROM public.transactions t JOIN public.products p ON t.products_id = p.id JOIN public.users u ON t.users_id = u.id JOIN public.payment_methods m ON t.payment_methods_id = m.id JOIN public.size s ON t.size_id = s.id"
     db.query(sql, (err, res) => {
       if (err) return reject({
         message: "Data not found",
@@ -84,9 +88,13 @@ const updateTransactionModel = (body, params) => {
       sizeId,
       productsId,
       usersId,
-      totalId
+      total,
+      subtotal,
+      shipping,
+      taxAndFees,
+      updatedAt
     } = body
-    let sql = "UPDATE public.transactions SET quantity=$2, payment_methods_id=$3, size_id=$4, products_id=$5, users_id=$6, total_id=$7 "
+    let sql = "UPDATE public.transactions SET quantity=$2, payment_methods_id=$3, size_id=$4, products_id=$5, users_id=$6, total=$7, subtotal=$8, shipping=$9, tax_and_fees=$10, updated_at=$11 "
     let value = []
     if (productName) {
       value.push(productName, id)
@@ -112,9 +120,25 @@ const updateTransactionModel = (body, params) => {
       value.push(usersId)
       sql += "user_id=$1 WHERE id=$2 RETURNING *"
     }
-    if (totalId) {
-      value.push(totalId)
-      sql += "total_id=$1 WHERE id=$2 RETURNING *"
+    if (total) {
+      value.push(total)
+      sql += "total=$1 WHERE id=$2 RETURNING *"
+    }
+    if (subtotal) {
+      value.push(subtotal)
+      sql += "subtotal=$1 WHERE id=$2 RETURNING *"
+    }
+    if (shipping) {
+      value.push(shipping)
+      sql += "shipping=$1 WHERE id=$2 RETURNING *"
+    }
+    if (taxAndFees) {
+      value.push(taxAndFees)
+      sql += "tax_and_fees=$1 WHERE id=$2 RETURNING *"
+    }
+    if (updatedAt) {
+      value.push(updatedAt)
+      sql += "upgrade_at=$1 WHERE id=$2 RETURNING *"
     }
     db.query(sql, value, (err, res) => {
       if (err) return reject({
