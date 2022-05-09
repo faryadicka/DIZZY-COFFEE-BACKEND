@@ -6,7 +6,7 @@ const checkRoleAdmin = (req, res, next) => {
   const {
     role
   } = req.userInfo
-  if (role !== "admin") return onFailed(res, 401, "You're no an admin!")
+  if (role !== "admin") return onFailed(res, 401, "You're not an admin!")
   next()
 }
 
