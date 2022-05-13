@@ -6,10 +6,13 @@ const {
   deletePromoControl
 } = require("../controllers/promos")
 
+const {verifyToken} = require("../middlewares/auth")
+const {roleAdmin} = require("../middlewares/authRole")
+
 Router
-  .post("/", insertPromoControl)
+  .post("/", verifyToken, roleAdmin, insertPromoControl)
   .get("/", getPromosControl)
-  .patch("/:id", updatePromoControl)
-  .delete("/:id", deletePromoControl)
+  .patch("/:id", verifyToken, roleAdmin, updatePromoControl)
+  .delete("/:id", verifyToken, roleAdmin, deletePromoControl)
 
 module.exports = Router

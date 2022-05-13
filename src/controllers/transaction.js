@@ -7,7 +7,8 @@ const {
 } = require("../models/transaction")
 const {
   onSuccess,
-  onFailed
+  onFailed,
+  pagination
 } = require("../helpers/response")
 
 const insertTransactionControl = async (req, res) => {
@@ -16,10 +17,9 @@ const insertTransactionControl = async (req, res) => {
     const {
       message,
       data,
-      err,
       status
     } = result
-    onSuccess(res, status, message, err, data)
+    onSuccess(res, status, message, data)
   } catch (error) {
     const {
       message,
@@ -32,15 +32,18 @@ const insertTransactionControl = async (req, res) => {
 
 const getAllTransactionControl = async (req, res) => {
   try {
-    const result = await getAllTransactionModel()
+    const {query} = req
+    const result = await getAllTransactionModel(query)
     const {
-      total,
+      limit,
+      currentPage,
       data,
       message,
       status,
-      err
+      totalData,
+      totalPage
     } = result
-    onSuccess(res, status, message, err, data, total)
+    pagination(res, req, {query, limit, currentPage, data, message, status, totalData, totalPage})
   } catch (error) {
     const {
       message,
@@ -77,9 +80,8 @@ const updateTransactionControl = async (req, res) => {
       data,
       message,
       status,
-      err
     } = result
-    onSuccess(res, status, message, err, data)
+    onSuccess(res, status, message, data)
   } catch (error) {
     const {
       message,
@@ -97,9 +99,8 @@ const deleteTransactionControl = async (req, res) => {
       data,
       message,
       status,
-      err
     } = result
-    onSuccess(res, status, message, err, data)
+    onSuccess(res, status, message, data)
   } catch (error) {
     const {
       message,

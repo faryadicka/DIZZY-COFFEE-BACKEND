@@ -1,3 +1,4 @@
+const Router = require("express").Router()
 const {
   insertTransactionControl,
   getAllTransactionControl,
@@ -6,13 +7,14 @@ const {
   getTransactionDetailControl
 } = require("../controllers/transaction")
 
-const Router = require("express").Router()
+const {roleAdmin} = require("../middlewares/authRole")
+const {verifyToken} = require("../middlewares/auth")
 
 Router
-  .post("/", insertTransactionControl)
+  .post("/", verifyToken, roleAdmin,insertTransactionControl)
   .get("/", getAllTransactionControl)
-  .get("/detailtransaction/:id", getTransactionDetailControl)
-  .patch("/:id", updateTransactionControl)
-  .delete("/:id", deleteTransactionControl)
+  .get("/:id", getTransactionDetailControl)
+  .patch("/:id", verifyToken, roleAdmin, updateTransactionControl)
+  .delete("/:id", verifyToken, roleAdmin, deleteTransactionControl)
 
 module.exports = Router

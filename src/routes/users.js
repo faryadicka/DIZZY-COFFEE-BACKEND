@@ -1,20 +1,18 @@
 const Router = require("express").Router()
 const {
-  insertUserControl,
+  // insertUserControl,
   getAllUsersControl,
   getDetailUserControl,
   updateUserControl
 } = require("../controllers/users")
-
-const {
-  InsertUser
-} = require("../middlewares/validation")
-Router
+const { verifyToken } = require("../middlewares/auth")
+const { roleAdmin } = require("../middlewares/authRole")
+const { imageUpload } = require("../middlewares/multer")
 
 Router
-  .post("/", InsertUser, insertUserControl)
+  // .post("/", InsertUser, insertUserControl)
   .get("/", getAllUsersControl)
   .get("/:id", getDetailUserControl)
-  .patch("/:id", updateUserControl)
+  .patch("/:id", verifyToken, roleAdmin, imageUpload, updateUserControl)
 
 module.exports = Router

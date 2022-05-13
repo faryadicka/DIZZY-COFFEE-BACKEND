@@ -1,5 +1,5 @@
 const {
-  insertUserModel,
+  // insertUserModel,
   getAllUsersModel,
   getDetailUserModel,
   updateUserModel
@@ -9,24 +9,24 @@ const {
   onFailed
 } = require("../helpers/response")
 
-const insertUserControl = (req, res) => {
-  insertUserModel(req.body)
-    .then(({
-      message,
-      data,
-      status,
-      err
-    }) => {
-      onSuccess(res, status, message, err, data)
-    })
-    .catch(({
-      message,
-      status,
-      err
-    }) => {
-      onFailed(res, status, message, err)
-    })
-}
+// const insertUserControl = (req, res) => {
+//   insertUserModel(req.body, req.file)
+//     .then(({
+//       message,
+//       data,
+//       status,
+//       err
+//     }) => {
+//       onSuccess(res, status, message, err, data)
+//     })
+//     .catch(({
+//       message,
+//       status,
+//       err
+//     }) => {
+//       onFailed(res, status, message, err)
+//     })
+// }
 
 const getAllUsersControl = (req, res) => {
   getAllUsersModel()
@@ -68,7 +68,7 @@ const getDetailUserControl = (req, res) => {
 }
 
 const updateUserControl = (req, res) => {
-  updateUserModel(req.body, req.params)
+  updateUserModel(req.body, req.params, req.file)
     .then(({
       message,
       status,
@@ -87,7 +87,7 @@ const updateUserControl = (req, res) => {
 }
 
 module.exports = {
-  insertUserControl,
+  // insertUserControl,
   getAllUsersControl,
   getDetailUserControl,
   updateUserControl

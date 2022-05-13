@@ -14,13 +14,24 @@ validate.InsertProduct = (req, res, next) => {
   next()
 }
 
-validate.InsertUser = (req, res, next) => {
+validate.register = (req, res, next) => {
   const {
     body
   } = req
-  const bodyKeysAvailable = ["display", "address", "phone", "image", "birthdate", "gender", "firstName", "lastName", "updated", "email", "password"]
+  const bodyKeysActive = ["phone", "email", "password"]
   const bodyKeysFind = Object.keys(body)
-  const bodyKeysFilter = bodyKeysAvailable.filter((item) => !bodyKeysFind.includes(item)).length == 0 ? true : false
+  const bodyKeysFilter = bodyKeysActive.filter((item) => !bodyKeysFind.includes(item)).length == 0 ? true : false
+  console.log(bodyKeysFilter)
+  if (!bodyKeysFilter) return onFailed(res, 400, "Input body invalid!")
+
+  next()
+}
+
+validate.login = (req, res, next) => {
+  const {body} = req
+  const bodyKeysActive = ["email", "password"]
+  const bodyKeysFind = Object.keys(body)
+  const bodyKeysFilter = bodyKeysActive.filter((item) => !bodyKeysFind.includes(item)).length == 0 ? true : false
   console.log(bodyKeysFilter)
   if (!bodyKeysFilter) return onFailed(res, 400, "Input body invalid!")
 

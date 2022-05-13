@@ -1,7 +1,7 @@
 require("dotenv").config()
 const express = require("express")
-// const bodyParser = require("body-parser")
 const morgan = require("morgan")
+const cors = require("cors")
 const db = require("./src/config/db")
 const mainRoute = require("./src/routes/index")
 const PORT = 5000
@@ -16,6 +16,7 @@ app.use(express.urlencoded({
 app.use(express.json())
 // Morgan
 app.use(morgan(":method :url :status :res[content-length] - :response-time ms"))
+app.use(cors())
 
 
 db.connect()
@@ -25,7 +26,7 @@ db.connect()
     app.use("/api", mainRoute)
     //Error Handling When URL is Wrong
     app.use((req, res) => {
-      res.status(404).send({
+      res.status(403).send({
         message: "URL is wrong!"
       })
     })

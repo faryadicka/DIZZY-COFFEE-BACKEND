@@ -1,7 +1,6 @@
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 const db = require("../config/db")
-const {v4: uuidV4} = require("uuid")
 
 const {
   SECRET_KEY
@@ -15,7 +14,6 @@ const registerUserModel = (body) => {
       password,
       phone
     } = body
-    const id = uuidV4()
     const checkEmailSQL = "SELECT * FROM public.users WHERE email = $1"
     db.query(checkEmailSQL, [email], (err, res) => {
       if (err) return reject({
@@ -45,8 +43,8 @@ const registerUserModel = (body) => {
             status: 500,
             err
           })
-          const registerSQL = "INSERT INTO public.users(id, phone, email, password) VALUES($1, $2, $3, $4) RETURNING email, phone"
-          db.query(registerSQL, [id, phone, email, hashed], (err, res) => {
+          const registerSQL = "INSERT INTO public.users(phone, email, password) VALUES($1, $2, $3) RETURNING email, phone"
+          db.query(registerSQL, [phone, email, hashed], (err, res) => {
             if (err) return reject({
               message: "Register user failed",
               status: 500,
@@ -106,6 +104,7 @@ const loginUserModel = (body) => {
             first_name: user.first_name,
             last_name: user.last_name,
             email: user.email,
+            role: user.role
           }
           const expiredSign = {
             expiresIn: "10h"
@@ -119,7 +118,10 @@ const loginUserModel = (body) => {
             return resolve({
               message: "Sign payload success",
               status: 200,
-              data: token
+              data: {
+                email,
+                token,
+              }
             })
           })
         })

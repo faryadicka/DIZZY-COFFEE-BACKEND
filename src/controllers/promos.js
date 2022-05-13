@@ -7,7 +7,8 @@ const {
 
 const {
   onSuccess,
-  onFailed
+  onFailed,
+  pagination
 } = require("../helpers/response")
 
 const insertPromoControl = (req, res) => {
@@ -30,15 +31,19 @@ const insertPromoControl = (req, res) => {
 }
 
 const getPromosControl = (req, res) => {
-  getPromosModel(req.query)
+  const { query } = req
+  getPromosModel(query)
     .then(({
+      limit,
+      query,
       message,
       status,
-      err,
       data,
-      total
+      totalData,
+      totalPage,
+      currentPage
     }) => {
-      onSuccess(res, status, message, err, data, total)
+      pagination(res, req, {message, status, data, totalData, totalPage, query, limit, currentPage})
     })
     .catch(({
       message,

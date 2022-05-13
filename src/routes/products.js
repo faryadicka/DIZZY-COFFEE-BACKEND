@@ -12,9 +12,9 @@ const {
 const {
   verifyToken
 } = require("../middlewares/auth")
-const {
-  checkRoleAdmin
-} = require("../middlewares/authRole")
+const {roleAdmin} = require("../middlewares/authRole")
+const {imageUpload} = require("../middlewares/multer")
+
 
 const {
   InsertProduct
@@ -23,9 +23,9 @@ Router
   .get("/", getProductsControl)
   .get("/favorite", getFavoriteProductControl)
   .get("/detailproduct/:id", getProductDetailControl)
-  .post("/", checkRoleAdmin, verifyToken, InsertProduct, insertProductControl)
-  .patch("/:id", checkRoleAdmin, verifyToken, updateProductControl)
-  .delete("/:id", checkRoleAdmin, verifyToken, verifyToken, deleteProductControl)
+  .post("/", verifyToken, roleAdmin, imageUpload, InsertProduct, insertProductControl)
+  .patch("/:id", verifyToken, roleAdmin, imageUpload, updateProductControl)
+  .delete("/:id", verifyToken, roleAdmin, deleteProductControl)
 
 
 module.exports = Router
