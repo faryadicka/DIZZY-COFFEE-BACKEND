@@ -7,12 +7,12 @@ const {
 } = require("../controllers/users")
 const { verifyToken } = require("../middlewares/auth")
 const { roleAdmin } = require("../middlewares/authRole")
-const { imageUpload } = require("../middlewares/multer")
+const imageUpload = require("../middlewares/multer")
 
 Router
   // .post("/", InsertUser, insertUserControl)
   .get("/", getAllUsersControl)
   .get("/:id", getDetailUserControl)
-  .patch("/:id", verifyToken, roleAdmin, imageUpload, updateUserControl)
+  .patch("/:id", verifyToken, roleAdmin, imageUpload.single("image"), updateUserControl)
 
 module.exports = Router

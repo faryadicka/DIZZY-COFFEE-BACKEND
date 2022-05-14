@@ -1,6 +1,6 @@
 const db = require("../config/db")
 
-const insertPromoModel = (body) => {
+const insertPromoModel = (body, file) => {
   return new Promise((resolve, reject) => {
     const {
       discount,
@@ -10,10 +10,11 @@ const insertPromoModel = (body) => {
       updatedAt,
       coupon,
       sizeId,
-      productId
+      productId,
     } = body
-    const sql = "INSERT INTO public.promos (discount, description, available_start, available_end, updated_at, coupon, size_id, products_id) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *"
-    db.query(sql, [discount, description, availableStart, availableEnd, updatedAt, coupon, sizeId, productId], (err, res) => {
+    const image = file ? file.path.replace("public", "").replace(/\\/g, "/") : null
+    const sql = "INSERT INTO public.promos (discount, description, available_start, available_end, updated_at, coupon, size_id, products_id, image) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *"
+    db.query(sql, [discount, description, availableStart, availableEnd, updatedAt, coupon, sizeId, productId, image], (err, res) => {
       if (err) return reject({
         message: "Insert data failed",
         status: 500,
@@ -81,7 +82,7 @@ const getPromosModel = (query) => {
   })
 }
 
-const updatePromoModel = (body, params) => {
+const updatePromoModel = (body, params, file) => {
   return new Promise((resolve, reject) => {
     const {
       id
@@ -96,41 +97,9 @@ const updatePromoModel = (body, params) => {
       sizeId,
       productId
     } = body
-    let sql = "UPDATE public.promos SET "
-    let value = []
-    if (productId) {
-      value.push(productId, id)
-      sql += "products_id=$1 WHERE id= $2 RETURNING *"
-    }
-    if (discount) {
-      value.push(discount, id)
-      sql += "discount=$1 WHERE id= $2 RETURNING *"
-    }
-    if (description) {
-      value.push(description, id)
-      sql += "description=$1 WHERE id= $2 RETURNING *"
-    }
-    if (availableStart) {
-      value.push(availableStart, id)
-      sql += "available_start=$1 WHERE id= $2 RETURNING *"
-    }
-    if (availableEnd) {
-      value.push(availableEnd, id)
-      sql += "available_end=$1 WHERE id= $2 RETURNING *"
-    }
-    if (updatedAt) {
-      value.push(updatedAt, id)
-      sql += "updated_at=$1 WHERE id= $2 RETURNING *"
-    }
-    if (coupon) {
-      value.push(coupon, id)
-      sql += "coupon=$1 WHERE id= $2 RETURNING *"
-    }
-    if (sizeId) {
-      value.push(sizeId, id)
-      sql += "size_id=$1 WHERE id= $2 RETURNING *"
-    }
-    db.query(sql, value, (err, res) => {
+    const image = file ? file.path.replace("public", "").replace(/\\/g, "/") : null
+    let sql = "UPDATE public.promos SET products_id=COALESCE($1, products_id), discount=COALESCE($2, discount), description=COALESCE($3, description), available_start=COALESCE($4, available_start), available_end=COALESCE($5, available_end), updated_at=COALESCE($6, updated_at), coupon=COALESCE($7, coupon), size_id=COALESCE($8, size_id), image=COALESCE($9, image),WHERE id= $10 RETURNING *"
+    db.query(sql, [productId, discount,description, availableStart, availableEnd, updatedAt, coupon, sizeId, image, id], (err, res) => {
       if (err) return reject({
         message: "Update failed",
         status: 403,

@@ -55,7 +55,7 @@ const getPromosControl = (req, res) => {
 }
 
 const updatePromoControl = (req, res) => {
-  updatePromoModel(req.body, req.params)
+  updatePromoModel(req.body, req.params, req.file)
     .then(({
       message,
       status,
