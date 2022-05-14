@@ -8,11 +8,12 @@ const {
 
 const {verifyToken} = require("../middlewares/auth")
 const {roleAdmin} = require("../middlewares/authRole")
+const {imageUpload} = require("../middlewares/multer")
 
 Router
-  .post("/", verifyToken, roleAdmin, insertPromoControl)
+  .post("/", verifyToken, roleAdmin, imageUpload, insertPromoControl)
   .get("/", getPromosControl)
-  .patch("/:id", verifyToken, roleAdmin, updatePromoControl)
+  .patch("/:id", verifyToken, roleAdmin, imageUpload, updatePromoControl)
   .delete("/:id", verifyToken, roleAdmin, deletePromoControl)
 
 module.exports = Router

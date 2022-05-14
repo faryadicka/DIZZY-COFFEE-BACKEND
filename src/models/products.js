@@ -147,7 +147,7 @@ const updateProductModel = (body, params, file) => {
     } = params
     const image = file ? file.path.replace("public", "").replace(/\\/g, "/") : null
     let sql = "UPDATE public.products SET name=COALESCE($1, name ), price=COALESCE($2, price ),description=COALESCE($3, description ), start_hour=COALESCE($4, start_hour ), end_hour=COALESCE($5, end_hour ), updated_at=COALESCE($6, updated_at ), category_id=COALESCE($7, category_id), delivery_methods_id=COALESCE($8, delivery_methods_id ), size_id=COALESCE($9, size_id), delivery_info=COALESCE($10, delivery_info ), image=COALESCE($11, image) WHERE id=$12 RETURNING *"
-    db.query(sql, [name, price, description, start, end, updated, categoryId, deliveryMethodsId, sizeId, deliveryInfo, image, id], (err, res) => {
+    db.query(sql, [name, price, description, start, end, updated, categoryId, deliveryMethodsId, sizeId, deliveryInfo, image, Number(id)], (err, res) => {
       if (err) return reject({
         message: "Updated failed",
         status: 403,

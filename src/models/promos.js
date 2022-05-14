@@ -98,7 +98,8 @@ const updatePromoModel = (body, params, file) => {
       productId
     } = body
     const image = file ? file.path.replace("public", "").replace(/\\/g, "/") : null
-    let sql = "UPDATE public.promos SET products_id=COALESCE($1, products_id), discount=COALESCE($2, discount), description=COALESCE($3, description), available_start=COALESCE($4, available_start), available_end=COALESCE($5, available_end), updated_at=COALESCE($6, updated_at), coupon=COALESCE($7, coupon), size_id=COALESCE($8, size_id), image=COALESCE($9, image),WHERE id= $10 RETURNING *"
+    console.log(discount, image, id)
+    let sql = "UPDATE public.promos SET products_id=COALESCE($1, products_id), discount=COALESCE($2, discount), description=COALESCE($3, description), available_start=COALESCE($4, available_start), available_end=COALESCE($5, available_end), updated_at=COALESCE($6, updated_at), coupon=COALESCE($7, coupon), size_id=COALESCE($8, size_id), image=COALESCE($9, image) WHERE id= $10 RETURNING *"
     db.query(sql, [productId, discount,description, availableStart, availableEnd, updatedAt, coupon, sizeId, image, id], (err, res) => {
       if (err) return reject({
         message: "Update failed",
