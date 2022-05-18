@@ -15,35 +15,35 @@ const getProductsModel = (query) => {
     const offset = (Number(page) - 1) * Number(limit)
     let sql = "SELECT p.id, p.name as name, p.price as price, p.start_hour as time, p.image, c.category FROM public.products p JOIN public.category c on p.category_id = c.id "
     let value = []
-     if (minPrice && maxPrice && page) {
-      if(limit) {
+    if (minPrice && maxPrice && page) {
+      if (limit) {
         value.push(minPrice, maxPrice, limit, offset)
-      sql += "WHERE price BETWEEN $1 AND $2 LIMIT $3 OFFSET $4"
+        sql += "WHERE price BETWEEN $1 AND $2 LIMIT $3 OFFSET $4"
       }
     }
-    if(category && page && !name) {
-      if(limit) {
+    if (category && page && !name) {
+      if (limit) {
         value.push(category, Number(limit), offset)
-      sql += "WHERE c.id = $1 LIMIT $2 OFFSET $3"
+        sql += "WHERE c.id = $1 LIMIT $2 OFFSET $3"
       }
     }
-    if(name && page && !category) {
-      if(limit) {
+    if (name && page && !category) {
+      if (limit) {
         value.push(name, Number(limit), offset)
-      sql += "WHERE lower(p.name) LIKE lower('%' || $1 || '%') LIMIT $2 OFFSET $3"
+        sql += "WHERE lower(p.name) LIKE lower('%' || $1 || '%') LIMIT $2 OFFSET $3"
       }
     }
-    if(category && name && page) {
+    if (category && name && page) {
       value.push(category, name, Number(limit), offset)
       sql += "WHERE c.id = $1 AND lower(p.name) LIKE lower('%' || $2 || '%') LIMIT $3 OFFSET $4"
     }
     if (sort) {
-      if(order) {
+      if (order) {
         sql += " ORDER BY " + sort + " " + order
       }
     }
-    if(page && !name && !category && !maxPrice && !minPrice) {
-      if(limit) {
+    if (page && !name && !category && !maxPrice && !minPrice) {
+      if (limit) {
         value.push(Number(limit), offset)
         sql += " LIMIT $1 OFFSET $2"
       }
@@ -51,22 +51,31 @@ const getProductsModel = (query) => {
     console.log(sql)
     db.query(sql, value, (err, res) => {
       db.query("SELECT COUNT(*) AS total FROM public.products", (err, total) => {
-        const totalData = Number(total.rows[0]["total"])
-        const response = {
-          query,
-          limit,
-          data: res.rows,
-          message: "List of products",
-          status: 200,
-          totalData,
-          currentPage: Number(page),
-        }
-        if(err) return reject({
+        db.query("SELECT COUNT(*) AS total FROM public.products p join category c on p.category_id = c.id WHERE c.id = $1", [category], (err, totalCategory) => {
+          const totalData = Number(total.rows[0]["total"])
+          const totalDataCategory = Number(totalCategory.rows[0]["total"])
+          console.log(totalDataCategory)
+          const response = {
+            query,
+            limit,
+            data: res.rows,
+            message: "List of products",
+            status: 200,
+            totalData: category ? totalDataCategory : totalData,
+            currentPage: Number(page),
+          }
+          if (err) return reject({
+            message: "Serverl Internal error",
+            status: 500,
+            err
+          })
+          return resolve(response)
+        })
+        if (err) return reject({
           message: "Serverl Internal error",
           status: 500,
           err
         })
-        return resolve(response)
       })
       if (err) return reject({
         message: "Data not found",
