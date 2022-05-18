@@ -17,7 +17,7 @@ helper.onFailed = (res, status, message, err) => {
 }
 
 helper.pagination = (res, req, response) => {
-  const {query, data, totalData, totalPage, currentPage, limit, message, status} = response
+  const {query, data, totalData, currentPage, limit, message, status} = response
 
   const total = Math.ceil(totalData/limit)
   let {page} = req.query
@@ -30,14 +30,14 @@ helper.pagination = (res, req, response) => {
       queryString += `&${key}=${query[key]}`
     }
   })
-  const prevLink = page > 1 ? `${path}=${page - 1}${queryString}` : null
-  const nextLink = page < total ? `${path}=${page + 1}${queryString}` : null
+  const prevLink = page !== 1 ? `${path}=${page - 1}${queryString}` : null
+  const nextLink = page !== total ? `${path}=${page + 1}${queryString}` : null
 
   const resultsPrint = {
     message,
     data,
-    totalData: total,
-    totalPage,
+    totalData,
+    totalPage: total,
     currentPage,
     prevLink,
     nextLink

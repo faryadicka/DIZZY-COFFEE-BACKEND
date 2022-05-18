@@ -15,9 +15,11 @@ const getProductsModel = (query) => {
     const offset = (Number(page) - 1) * Number(limit)
     let sql = "SELECT p.id, p.name as name, p.price as price, p.start_hour as time, p.image, c.category FROM public.products p JOIN public.category c on p.category_id = c.id "
     let value = []
-     if (minPrice && maxPrice) {
-      value.push(minPrice, maxPrice)
-      sql += "WHERE p.price BETWEEN $1 AND $2"
+     if (minPrice && maxPrice && page) {
+      if(limit) {
+        value.push(minPrice, maxPrice, limit, offset)
+      sql += "WHERE price BETWEEN $1 AND $2 LIMIT $3 OFFSET $4"
+      }
     }
     if(category && page && !name) {
       if(limit) {
@@ -40,17 +42,16 @@ const getProductsModel = (query) => {
         sql += " ORDER BY " + sort + " " + order
       }
     }
-    if(page && !name && !category) {
+    if(page && !name && !category && !maxPrice && !minPrice) {
       if(limit) {
         value.push(Number(limit), offset)
-        sql += "LIMIT $1 OFFSET $2"
+        sql += " LIMIT $1 OFFSET $2"
       }
     }
     console.log(sql)
     db.query(sql, value, (err, res) => {
       db.query("SELECT COUNT(*) AS total FROM public.products", (err, total) => {
         const totalData = Number(total.rows[0]["total"])
-        const totalPage = Math.ceil(totalData/limit)
         const response = {
           query,
           limit,
@@ -58,7 +59,6 @@ const getProductsModel = (query) => {
           message: "List of products",
           status: 200,
           totalData,
-          totalPage,
           currentPage: Number(page),
         }
         if(err) return reject({
@@ -113,6 +113,7 @@ const insertProductModel = (body, file) => {
     const keyUpload = file
     const image = keyUpload.path.replace("public", "").replace(/\\/g, "/")
     const sql = "INSERT INTO public.products(name, price ,image, description, start_hour, end_hour, updated_at, category_id, delivery_methods_id, size_id ,delivery_info) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *"
+    console.log(sql)
     db.query(sql, [name, price, image, description, start, end, updated, categoryId, deliveryMethodsId, sizeId, deliveryInfo], (err, res) => {
       if (err) return reject({
         message: "Insert product failed",

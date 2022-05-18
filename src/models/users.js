@@ -33,20 +33,36 @@ const db = require("../config/db")
 //   })
 // }
 
-const getAllUsersModel = () => {
+const getAllUsersModel = (query) => {
   return new Promise((resolve, reject) => {
-    const sql = "SELECT id, display_name, address, phone, image_profile, birthdate, gender, first_name, last_name, email FROM public.users"
-    db.query(sql, (err, res) => {
+    const {page, limit} = query
+    const offset = (Number(page) - 1) * Number(limit)
+    const sql = "SELECT id, display_name, address, phone, image_profile, birthdate, gender, first_name, last_name, email FROM public.users LIMIT $1 OFFSET $2"
+    db.query(sql, [limit, offset], (err, res) => {
+      db.query("SELECT COUNT(*) AS total FROM public.users", (err, total) => {
+        const totalData = Number(total.rows[0]["total"])
+        const totalPage = Math.ceil(res.rowCount/limit)
+        const response = {
+          query,
+          limit,
+          data: res.rows,
+          message: "List of products",
+          status: 200,
+          totalData,
+          totalPage,
+          currentPage: Number(page),
+        }
+        if (err) return reject({
+          message: "Server Internal Error",
+          status: 500,
+          err
+        })
+        return resolve(response)
+      })
       if (err) return reject({
-        message: "Data not found",
+        message: "Servel internal Error",
         status: 500,
         err
-      })
-      return resolve({
-        message: "List of data users",
-        status: 200,
-        data: res.rows,
-        total: res.rowCount
       })
     })
   })

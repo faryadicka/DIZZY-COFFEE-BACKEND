@@ -55,7 +55,6 @@ const getPromosModel = (query) => {
     db.query(sql, value, (err, res) => {
       db.query("SELECT COUNT(*) AS total FROM public.promos", (err, total) => {
         const totalData = Number(total.rows[0]["total"])
-        const totalPage = Math.ceil(totalData/limit)
         const response = {
           query,
           limit,
@@ -63,7 +62,6 @@ const getPromosModel = (query) => {
           status: 200,
           data: res.rows,
           totalData,
-          totalPage,
           currentPage: Number(page)
         }
         if(err) return reject({

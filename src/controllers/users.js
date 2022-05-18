@@ -6,7 +6,8 @@ const {
 } = require("../models/users")
 const {
   onSuccess,
-  onFailed
+  onFailed,
+  pagination
 } = require("../helpers/response")
 
 // const insertUserControl = (req, res) => {
@@ -29,15 +30,18 @@ const {
 // }
 
 const getAllUsersControl = (req, res) => {
-  getAllUsersModel()
+  const {query} = req
+  getAllUsersModel(query)
     .then(({
+      data,
+      limit,
       message,
       status,
-      total,
-      data,
-      err
+      totalData,
+      totalPage,
+      currentPage
     }) => {
-      onSuccess(res, status, message, err, data, total)
+      pagination(res, req, {query, data, totalData, totalPage, currentPage, limit, message, status})
     })
     .catch(({
       message,

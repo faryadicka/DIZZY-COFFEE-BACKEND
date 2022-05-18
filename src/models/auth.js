@@ -96,20 +96,14 @@ const loginUserModel = (body) => {
           })
           const payload = {
             id: user.id,
-            display_name: user.display_name,
-            address: user.address,
             phone: user.phone,
-            birthdate: user.birthdate,
-            gender: user.gender,
-            first_name: user.first_name,
-            last_name: user.last_name,
             email: user.email,
             role: user.role_id
           }
-          const expiredSign = {
+          const expiredPayload = {
             expiresIn: "10h"
           }
-          jwt.sign(payload, SECRET_KEY, expiredSign, (err, token) => {
+          jwt.sign(payload, SECRET_KEY, expiredPayload, (err, token) => {
             if (err) return reject({
               message: "Sign payload error",
               status: 500,

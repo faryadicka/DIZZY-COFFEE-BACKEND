@@ -38,7 +38,6 @@ const getAllTransactionModel = (query) => {
     db.query(sql, [Number(limit), offset], (err, res) => {
       db.query("SELECT COUNT(*) AS total FROM public.transactions", (err, total) => {
         const totalData = Number(total.rows[0]["total"])
-        const totalPage = Math.ceil(totalData/limit)
         const response = {
           query,
           limit,
@@ -47,7 +46,6 @@ const getAllTransactionModel = (query) => {
           message: "List of transactions",
           status: 200,
           totalData,
-          totalPage
         }
         if(err) return reject({
           message: "Server internal error",

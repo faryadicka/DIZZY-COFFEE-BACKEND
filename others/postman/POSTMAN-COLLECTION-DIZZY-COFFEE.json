@@ -12,74 +12,69 @@
 					"name": "CREATE PRODUCT",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "{{TOKEN}}",
+								"type": "default"
+							}
+						],
 						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"type": "file",
+									"src": []
+								},
 								{
 									"key": "name",
-									"value": "Cappocino",
-									"description": "VARCHAR",
+									"value": "",
 									"type": "default"
 								},
 								{
 									"key": "price",
-									"value": "35000",
-									"description": "INTEGER",
-									"type": "default"
-								},
-								{
-									"key": "image",
-									"value": "-",
-									"description": "TEXT",
+									"value": "",
 									"type": "default"
 								},
 								{
 									"key": "description",
-									"value": "CapPucino adalah minuman khas Italia yang dibuat dari espreso dan susu, tetapi referensi lain juga ada yang menyebutkan bahwa kapucino berawal dari biji biji kopi tentara Turki yang tertinggal setelah peperangan yang di pimpin oleh Kara Mustapha Pasha di Wina, Austria melawan tentara gabungan Polandia-Germania.",
-									"description": "TEXT",
+									"value": "",
 									"type": "default"
 								},
 								{
 									"key": "start",
-									"value": "08:00:00",
-									"description": "HH:MM:SS",
+									"value": "",
 									"type": "default"
 								},
 								{
 									"key": "end",
-									"value": "13:00:00",
-									"description": "HH:MM:SS",
+									"value": "",
 									"type": "default"
 								},
 								{
 									"key": "updated",
-									"value": "now()",
-									"description": "YYYY-MM-DD HH:MM:SS",
+									"value": "",
 									"type": "default"
 								},
 								{
 									"key": "categoryId",
-									"value": "1",
-									"description": "INTEGER",
+									"value": "",
 									"type": "default"
 								},
 								{
 									"key": "deliveryMethodsId",
-									"value": "1",
-									"description": "INTEGER",
+									"value": "",
 									"type": "default"
 								},
 								{
 									"key": "sizeId",
-									"value": "1",
-									"description": "INTEGER",
+									"value": "",
 									"type": "default"
 								},
 								{
 									"key": "deliveryInfo",
 									"value": "",
-									"description": "TEXT",
 									"type": "default"
 								}
 							]
@@ -103,13 +98,54 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{HOST}}/api/products",
+							"raw": "{{HOST}}/api/products?page&limit",
 							"host": [
 								"{{HOST}}"
 							],
 							"path": [
 								"api",
 								"products"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": null
+								},
+								{
+									"key": "limit",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET FAVORITE PRODUCTS",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}/api/products/favorite?page&limit",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"products",
+								"favorite"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": null,
+									"description": "INTEGER/NUMBER"
+								},
+								{
+									"key": "limit",
+									"value": null,
+									"description": "INTEGER/NUMBER"
+								}
 							]
 						}
 					},
@@ -141,12 +177,12 @@
 					"response": []
 				},
 				{
-					"name": "GET PRODUCT BY NAME",
+					"name": "GET PRODUCT BY FILTER AND SEARCH",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{HOST}}/api/products?name=Cappocino",
+							"raw": "{{HOST}}/api/products?page=1&limit=3&name=a",
 							"host": [
 								"{{HOST}}"
 							],
@@ -156,8 +192,37 @@
 							],
 							"query": [
 								{
+									"key": "category",
+									"value": "1",
+									"description": "NUMBER(1=COFFEE/2=NON-COFFEE/3=FOODS)",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "name",
+									"description": "VARCHAR(COULUMN NAME)",
+									"disabled": true
+								},
+								{
+									"key": "order",
+									"value": "asc",
+									"description": "VARCHAR(ASC/DESC)",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"description": "NUMBER"
+								},
+								{
+									"key": "limit",
+									"value": "3",
+									"description": "NUMBER"
+								},
+								{
 									"key": "name",
-									"value": "Cappocino"
+									"value": "a",
+									"description": "VARCHAR"
 								}
 							]
 						}
@@ -170,7 +235,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{HOST}}/api/products?category=foods",
+							"raw": "{{HOST}}/api/products?category=2",
 							"host": [
 								"{{HOST}}"
 							],
@@ -181,8 +246,8 @@
 							"query": [
 								{
 									"key": "category",
-									"value": "foods",
-									"description": "VARCHAR(COFEE/NON-COFFEE/FOODS)"
+									"value": "2",
+									"description": "VARCHAR ( 1 =COFFEE / 2 = NON-COFFEE / 3 = FOODS)"
 								}
 							]
 						}
@@ -220,12 +285,19 @@
 					"response": []
 				},
 				{
-					"name": "SORT PRODUCT TIME & PRICE",
+					"name": "SORT PRODUCT BY TIME & PRICE",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
 						"url": {
-							"raw": "{{HOST}}/api/products?sort=p.start_hour&order=desc",
+							"raw": "{{HOST}}/api/products?sort=time&order=desc",
 							"host": [
 								"{{HOST}}"
 							],
@@ -236,7 +308,7 @@
 							"query": [
 								{
 									"key": "sort",
-									"value": "p.start_hour",
+									"value": "time",
 									"description": "VARCHAR(COLUMN NAME)"
 								},
 								{
@@ -253,84 +325,81 @@
 					"name": "UPDATE PRODUCT",
 					"request": {
 						"method": "PATCH",
-						"header": [],
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "{{TOKEN}}",
+								"type": "default"
+							}
+						],
 						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
+							"mode": "formdata",
+							"formdata": [
 								{
 									"key": "name",
-									"value": "Americano",
+									"value": "",
 									"description": "VARCHAR",
 									"type": "default"
 								},
 								{
 									"key": "price",
-									"value": "35000",
+									"value": "",
 									"description": "INTEGER",
-									"type": "default",
-									"disabled": true
-								},
-								{
-									"key": "image",
-									"value": "-",
-									"description": "TEXT",
-									"type": "default",
-									"disabled": true
+									"type": "default"
 								},
 								{
 									"key": "description",
-									"value": "-",
+									"value": "",
 									"description": "TEXT",
-									"type": "default",
-									"disabled": true
+									"type": "default"
 								},
 								{
 									"key": "start",
-									"value": "now()",
+									"value": "",
 									"description": "HH:MM:SS",
-									"type": "default",
-									"disabled": true
+									"type": "default"
 								},
 								{
 									"key": "end",
-									"value": "now()",
+									"value": "",
 									"description": "HH:MM:SS",
-									"type": "default",
-									"disabled": true
+									"type": "default"
 								},
 								{
-									"key": "updated",
-									"value": "now()",
-									"description": "YYYY-MM-DD HH:MM:SS",
-									"type": "default",
-									"disabled": true
+									"key": "update",
+									"value": "",
+									"description": "YYYY-MM-DD  HH:MM:SS / now()",
+									"type": "default"
 								},
 								{
 									"key": "categoryId",
-									"value": "1",
-									"description": "INTEGER",
-									"type": "default",
-									"disabled": true
+									"value": "",
+									"description": "INTEGER(1/2/3 => COFFEE/NON-COFFEE/FOODS)",
+									"type": "default"
 								},
 								{
 									"key": "deliveryMethodsId",
-									"value": "2",
-									"description": "INTEGER",
-									"type": "default",
-									"disabled": true
+									"value": "",
+									"description": "INTEGER(1/2/3 => Home Delivery/Dine In/Take Away)",
+									"type": "default"
 								},
 								{
 									"key": "sizeId",
-									"value": "2",
-									"description": "INTEGER",
-									"type": "default",
-									"disabled": true
+									"value": "",
+									"description": "INTEGER(1/2/3 => R/L/M)",
+									"type": "default"
 								},
 								{
 									"key": "deliveryInfo",
-									"value": "-",
+									"value": "",
 									"description": "TEXT",
 									"type": "default"
+								},
+								{
+									"key": "image",
+									"description": "TEXT",
+									"type": "file",
+									"src": "/C:/Users/Ferry Aryadicka/Downloads/americano.jpg"
 								}
 							]
 						},
@@ -347,7 +416,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "1"
+									"value": "20"
 								}
 							]
 						}
@@ -385,105 +454,16 @@
 			"name": "USERS CRU",
 			"item": [
 				{
-					"name": "CREATE USERS",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "display",
-									"value": "Perry Aryadicka",
-									"description": "VARCHAR",
-									"type": "default"
-								},
-								{
-									"key": "address",
-									"value": "Subang, Jawabarat.",
-									"description": "VARCHAR",
-									"type": "default"
-								},
-								{
-									"key": "phone",
-									"value": "08923456789",
-									"description": "VARCHAR",
-									"type": "default"
-								},
-								{
-									"key": "image",
-									"value": "-",
-									"description": "TEXT",
-									"type": "default"
-								},
-								{
-									"key": "birthdate",
-									"value": "now()",
-									"description": "YYYY-MM-DD",
-									"type": "default"
-								},
-								{
-									"key": "gender",
-									"value": "Laki-laki",
-									"description": "VARCHAR",
-									"type": "default"
-								},
-								{
-									"key": "firstName",
-									"value": "Perry",
-									"description": "VARCHAR",
-									"type": "default"
-								},
-								{
-									"key": "lastName",
-									"value": "Aryadicka",
-									"description": "VARCHAR",
-									"type": "default"
-								},
-								{
-									"key": "updated",
-									"value": "now()",
-									"description": "YYYY-MM-DD HH:MM:SS",
-									"type": "default"
-								},
-								{
-									"key": "username",
-									"value": "faryadicka",
-									"description": "VARCHAR",
-									"type": "default"
-								},
-								{
-									"key": "email",
-									"value": "faryadicka@outlook.com",
-									"description": "VARCHAR",
-									"type": "default"
-								},
-								{
-									"key": "password",
-									"value": "12345",
-									"description": "VARCHAR",
-									"type": "default"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{HOST}}/api/users",
-							"host": [
-								"{{HOST}}"
-							],
-							"path": [
-								"api",
-								"users"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "GET ALL USERS",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "{{TOKEN}}",
+								"type": "default"
+							}
+						],
 						"url": {
 							"raw": "{{HOST}}/api/users",
 							"host": [
@@ -526,34 +506,41 @@
 					"name": "UPDATE USER",
 					"request": {
 						"method": "PATCH",
-						"header": [],
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "{{TOKEN}}",
+								"type": "default"
+							}
+						],
 						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"description": "JPG/PNG",
+									"type": "file",
+									"src": "/C:/Users/Ferry Aryadicka/Downloads/AVATAR.png",
+									"disabled": true
+								},
 								{
 									"key": "display",
-									"value": "Ferry Aryadicka",
+									"value": "",
 									"description": "VARCHAR",
-									"type": "default"
+									"type": "default",
+									"disabled": true
 								},
 								{
 									"key": "address",
-									"value": "Purbalingga, Jawatengah.",
-									"description": "VARCHAR",
+									"value": "",
+									"description": "TEXT",
 									"type": "default",
 									"disabled": true
 								},
 								{
 									"key": "phone",
-									"value": "08931241257",
+									"value": "",
 									"description": "VARCHAR",
-									"type": "default",
-									"disabled": true
-								},
-								{
-									"key": "image",
-									"value": "-",
-									"description": "TEXT",
 									"type": "default",
 									"disabled": true
 								},
@@ -566,48 +553,42 @@
 								},
 								{
 									"key": "gender",
-									"value": "Laki-laki",
-									"description": "VARCHAR",
+									"value": "",
+									"description": "VARVHAR",
 									"type": "default",
 									"disabled": true
 								},
 								{
 									"key": "firstName",
-									"value": "Ferry",
+									"value": "",
 									"description": "VARCHAR",
-									"type": "default"
+									"type": "default",
+									"disabled": true
 								},
 								{
 									"key": "lastName",
-									"value": "Aryadicka",
+									"value": "",
 									"description": "VARCHAR",
 									"type": "default",
 									"disabled": true
 								},
 								{
 									"key": "updated",
-									"value": "now()",
-									"description": "YYYY-MM-DD HH:MM:SS",
-									"type": "default",
-									"disabled": true
-								},
-								{
-									"key": "username",
-									"value": "faryadicka",
-									"description": "VARCHAR",
+									"value": "",
+									"description": "YYYY-MM-DD HH:MM:SS / now()",
 									"type": "default",
 									"disabled": true
 								},
 								{
 									"key": "email",
-									"value": "faryadicka@outlook.com",
+									"value": "",
 									"description": "VARCHAR",
 									"type": "default",
 									"disabled": true
 								},
 								{
 									"key": "password",
-									"value": "4321",
+									"value": "",
 									"description": "VARCHAR",
 									"type": "default",
 									"disabled": true
@@ -627,7 +608,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": ""
+									"value": "1"
 								}
 							]
 						}
@@ -647,12 +628,6 @@
 						"body": {
 							"mode": "urlencoded",
 							"urlencoded": [
-								{
-									"key": "name",
-									"value": "Coffe Whipped Cream",
-									"description": "VARCHAR",
-									"type": "default"
-								},
 								{
 									"key": "discount",
 									"value": "10",
@@ -700,6 +675,12 @@
 									"value": "2",
 									"description": "INTEGER",
 									"type": "default"
+								},
+								{
+									"key": "productId",
+									"value": "20",
+									"description": "INTEGER",
+									"type": "default"
 								}
 							]
 						},
@@ -723,7 +704,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{HOST}}/api/promos/",
+							"raw": "{{HOST}}/api/promos/?page=1&limit=2",
 							"host": [
 								"{{HOST}}"
 							],
@@ -734,9 +715,12 @@
 							],
 							"query": [
 								{
-									"key": "name",
-									"value": "hazel",
-									"disabled": true
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "2"
 								}
 							]
 						}
@@ -749,19 +733,26 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{HOST}}/api/promos/search?coupon=",
+							"raw": "{{HOST}}/api/promos?coupon=CIL10RMDN&page=1&limit=2",
 							"host": [
 								"{{HOST}}"
 							],
 							"path": [
 								"api",
-								"promos",
-								"search"
+								"promos"
 							],
 							"query": [
 								{
 									"key": "coupon",
-									"value": ""
+									"value": "CIL10RMDN"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "2"
 								}
 							]
 						}
@@ -772,62 +763,59 @@
 					"name": "UPDATE PROMO",
 					"request": {
 						"method": "PATCH",
-						"header": [],
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "{{TOKEN}}",
+								"type": "default"
+							}
+						],
 						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
+							"mode": "formdata",
+							"formdata": [
 								{
-									"key": "name",
-									"value": "Americano",
-									"description": "VARCHAR",
-									"type": "default"
+									"key": "image",
+									"type": "file",
+									"src": []
 								},
 								{
 									"key": "discount",
-									"value": "30",
-									"description": "INTEGER",
+									"value": "",
 									"type": "default"
 								},
 								{
-									"key": "description",
-									"value": "-",
-									"description": "TEXT",
+									"key": "desciption",
+									"value": "",
 									"type": "default"
 								},
 								{
 									"key": "availableStart",
-									"value": "now()",
-									"description": "YYYY-MM-DD HH:MM:SS",
+									"value": "",
 									"type": "default"
 								},
 								{
 									"key": "availableEnd",
-									"value": "2022-04-20 01:00:00",
-									"description": "YYYY-MM-DD HH:MM:SS",
+									"value": "",
 									"type": "default"
 								},
 								{
-									"key": "updatedAt",
-									"value": "now()",
-									"description": "YYYY-MM-DD HH:MM:SS / now()",
-									"type": "default"
-								},
-								{
-									"key": "normalPrice",
-									"value": "24000",
-									"description": "INTEGER",
+									"key": "updateAt",
+									"value": "",
 									"type": "default"
 								},
 								{
 									"key": "coupon",
-									"value": "AMRCN30RG",
-									"description": "VARCHAR",
+									"value": "",
 									"type": "default"
 								},
 								{
 									"key": "sizeId",
-									"value": "2",
-									"description": "INTEGER",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "productId",
+									"value": "",
 									"type": "default"
 								}
 							]
@@ -845,7 +833,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": ""
+									"value": "10"
 								}
 							]
 						}
@@ -892,13 +880,13 @@
 							"urlencoded": [
 								{
 									"key": "productName",
-									"value": "Chicken Fire Wings",
+									"value": "Creamy Ice Latte",
 									"description": "VARHCHAR",
 									"type": "default"
 								},
 								{
 									"key": "quantity",
-									"value": "2",
+									"value": "1",
 									"description": "INTEGER",
 									"type": "default"
 								},
@@ -916,20 +904,42 @@
 								},
 								{
 									"key": "productsId",
-									"value": "1",
+									"value": "20",
 									"description": "INTEGER",
 									"type": "default"
 								},
 								{
 									"key": "usersId",
-									"value": "1",
+									"value": "",
 									"description": "INTEGER",
 									"type": "default"
 								},
 								{
-									"key": "totalId",
+									"key": "total",
 									"value": "",
 									"description": "INTEGER",
+									"type": "default"
+								},
+								{
+									"key": "subtotal",
+									"value": "",
+									"description": "INTEGER",
+									"type": "default"
+								},
+								{
+									"key": "shipping",
+									"value": "",
+									"description": "INTEGER",
+									"type": "default"
+								},
+								{
+									"key": "taxAndFees",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "updatedAt",
+									"value": "",
 									"type": "default"
 								}
 							]
@@ -993,9 +1003,29 @@
 									"type": "default"
 								},
 								{
-									"key": "totalId",
+									"key": "total",
 									"value": "",
 									"description": "INTEGER",
+									"type": "default"
+								},
+								{
+									"key": "subtotal",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "shipping",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "taxAndFees",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "updatedAt",
+									"value": "",
 									"type": "default"
 								}
 							]
@@ -1022,11 +1052,34 @@
 				},
 				{
 					"name": "GET ALL TRANSACTION",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "faryadicka98@gmail.com",
+									"type": "default"
+								},
+								{
+									"key": "password",
+									"value": "12345",
+									"type": "default"
+								},
+								{
+									"key": "phone",
+									"value": "08988232087",
+									"type": "default"
+								}
+							]
+						},
 						"url": {
-							"raw": "{{HOST}}/api/transactions/",
+							"raw": "{{HOST}}/api/transactions/?page=1&limit=2",
 							"host": [
 								"{{HOST}}"
 							],
@@ -1034,6 +1087,16 @@
 								"api",
 								"transactions",
 								""
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "2"
+								}
 							]
 						}
 					},
@@ -1057,7 +1120,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": ""
+									"value": "1"
 								}
 							]
 						}
@@ -1084,6 +1147,84 @@
 									"key": "id",
 									"value": ""
 								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "AUTH USERS",
+			"item": [
+				{
+					"name": "REGISTER USER",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "faryadicka98@gmail.com",
+									"type": "default"
+								},
+								{
+									"key": "password",
+									"value": "12345",
+									"type": "default"
+								},
+								{
+									"key": "phone",
+									"value": "08988232087",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{HOST}}/api/auth/register",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LOGIN USER",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "faryadicka98@gmail.com",
+									"type": "default"
+								},
+								{
+									"key": "password",
+									"value": "12345",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{HOST}}/api/auth/login",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
 							]
 						}
 					},
