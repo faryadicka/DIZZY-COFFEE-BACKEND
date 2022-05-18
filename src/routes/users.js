@@ -13,6 +13,6 @@ Router
   // .post("/", InsertUser, insertUserControl)
   .get("/", getAllUsersControl)
   .get("/:id", getDetailUserControl)
-  .patch("/:id", verifyToken, roleAdmin, imageUpload, updateUserControl)
+  .patch("/:id",verifyToken, roleAdmin, imageUpload, updateUserControl)
 
 module.exports = Router
