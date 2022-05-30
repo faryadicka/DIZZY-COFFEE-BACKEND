@@ -15,7 +15,7 @@ const {
 } = require("../helpers/response")
 
 const getProductsControl = (req, res) => {
-  const {query} = req
+  const { query } = req
   getProductsModel(query)
     .then(({
       data,
@@ -26,7 +26,7 @@ const getProductsControl = (req, res) => {
       totalPage,
       currentPage
     }) => {
-      pagination(res, req, {query, data, totalData, totalPage, currentPage, limit, message, status})
+      pagination(res, req, { query, data, totalData, totalPage, currentPage, limit, message, status })
     })
     .catch(({
       err,
@@ -38,14 +38,18 @@ const getProductsControl = (req, res) => {
 }
 
 const getFavoriteProductControl = (req, res) => {
-  getFavoriteProductModel()
+  const { query } = req
+  getFavoriteProductModel(query)
     .then(({
       data,
-      total,
+      limit,
       message,
       status,
+      totalData,
+      totalPage,
+      currentPage
     }) => {
-      onSuccess(res, status, message, data, total)
+      pagination(res, req, { query, data, totalData, totalPage, currentPage, limit, message, status })
     })
     .catch(({
       err,
