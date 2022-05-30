@@ -15,7 +15,7 @@ const insertTransactionModel = (body) => {
       updatedAt
     } = body
     const sql = "INSERT INTO public.transactions(quantity, payment_methods_id, size_id, products_id, users_id, total, subtotal, shipping, tax_and_fees, updated_at)VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *"
-    db.query(sql, [quantity, paymentMethodsId, sizeId, productsId, usersId, total,subtotal, shipping, taxAndFees, updatedAt], (err, res) => {
+    db.query(sql, [quantity, paymentMethodsId, sizeId, productsId, usersId, total, subtotal, shipping, taxAndFees, updatedAt], (err, res) => {
       if (err) return reject({
         message: "Insert data failed",
         status: 403,
@@ -32,9 +32,9 @@ const insertTransactionModel = (body) => {
 
 const getAllTransactionModel = (query) => {
   return new Promise((resolve, reject) => {
-    const {page = 1, limit = 3} = query
+    const { page = 1, limit = 3 } = query
     const offset = (Number(page) - 1) * Number(limit)
-    let sql = "SELECT t.id, p.name, t.quantity, p.price, s.size, m.pay_method, t.subtotal, t.tax_and_fees, t.shipping, t.total, u.display_name, u.address, u.phone FROM public.transactions t JOIN public.products p ON t.products_id = p.id JOIN public.users u ON t.users_id = u.id JOIN public.payment_methods m ON t.payment_methods_id = m.id JOIN public.size s ON t.size_id = s.id LIMIT $1 OFFSET $2"
+    let sql = "SELECT t.id, p.name, t.quantity, p.price, s.size, m.pay_method, t.subtotal, t.tax_and_fees, t.shipping, t.total, u.display_name, u.address, u.phone, p.image FROM public.transactions t JOIN public.products p ON t.products_id = p.id JOIN public.users u ON t.users_id = u.id JOIN public.payment_methods m ON t.payment_methods_id = m.id JOIN public.size s ON t.size_id = s.id LIMIT $1 OFFSET $2"
     db.query(sql, [Number(limit), offset], (err, res) => {
       db.query("SELECT COUNT(*) AS total FROM public.transactions", (err, total) => {
         const totalData = Number(total.rows[0]["total"])
@@ -47,7 +47,7 @@ const getAllTransactionModel = (query) => {
           status: 200,
           totalData,
         }
-        if(err) return reject({
+        if (err) return reject({
           message: "Server internal error",
           status: 500,
           err
