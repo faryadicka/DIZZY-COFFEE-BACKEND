@@ -70,6 +70,11 @@ const loginUserModel = (body) => {
     } = body
     const getEmail = "SELECT * FROM public.users WHERE email = $1"
     db.query(getEmail, [email], (err, res) => {
+      if (email === "" || password === "") return reject({
+        message: "Field email or password is required",
+        status: 400,
+        err
+      })
       if (err) return reject({
         message: "User not found",
         status: 500,
