@@ -5,6 +5,6 @@ const { validateCreateUsers, validateLogin } = require("../middlewares/validatio
 
 Router
   .post("/register", checkDuplicate, validateCreateUsers, registerUserControl)
-  .post("/login", validateLogin, loginAuthControl)
+  .post("/login", loginAuthControl)
 
 module.exports = Router

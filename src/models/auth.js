@@ -56,7 +56,7 @@ const registerUserModel = (body) => {
 }
 
 const getPasswordForCompare = (email) => {
-  return new Promise((resovle, reject) => {
+  return new Promise((resolve, reject) => {
     const getEmail = "SELECT * FROM public.users WHERE email = $1"
     db.query(getEmail, [email], (err, res) => {
       if (err) return reject({
