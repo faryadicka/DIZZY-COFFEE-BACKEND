@@ -12,8 +12,8 @@ const {
 const {
   verifyToken
 } = require("../middlewares/auth")
-const {roleAdmin} = require("../middlewares/authRole")
-const {imageUpload} = require("../middlewares/multer")
+const { roleAdmin } = require("../middlewares/authRole")
+const { imageUpload } = require("../middlewares/multer")
 
 
 // const {
@@ -22,7 +22,7 @@ const {imageUpload} = require("../middlewares/multer")
 Router
   .get("/", getProductsControl)
   .get("/favorite", getFavoriteProductControl)
-  .get("/detailproduct/:id", getProductDetailControl)
+  .get("/detail/:id", getProductDetailControl)
   .post("/", verifyToken, roleAdmin, imageUpload, insertProductControl)
   .patch("/:id", verifyToken, roleAdmin, imageUpload, updateProductControl)
   .delete("/:id", verifyToken, roleAdmin, deleteProductControl)
