@@ -1,3 +1,4 @@
+const { getEmailUser } = require("../models/auth")
 const {
   onFailed
 } = require("../helpers/response")
@@ -14,15 +15,18 @@ validate.InsertProduct = (req, res, next) => {
   next()
 }
 
-validate.login = (req, res, next) => {
-  const { body } = req
-  const bodyKeysActive = ["email", "password"]
-  const bodyKeysFind = Object.keys(body)
-  const bodyKeysFilter = bodyKeysActive.filter((item) => !bodyKeysFind.includes(item)).length == 0 ? true : false
-  console.log(bodyKeysFilter)
-  if (!bodyKeysFilter) return onFailed(res, 400, "Input body invalid!")
-
-  next()
+validate.checkDuplicate = (req, res, next) => {
+  const { email } = req.body
+  getEmailUser(email).then((res) => {
+    if (res.rowCount !== 0) {
+      return onFailed(res, 409, "email is already use")
+    }
+    next()
+  })
+    .catch(() => {
+      onFailed(res, 409, "email is already use");
+    });
 }
+
 
 module.exports = validate

@@ -22,6 +22,7 @@ app.use(cors())
 db.connect()
   .then(() => {
     console.log("DB Connected!")
+    app.use(express.static("public"));
     // Route
     app.use("/api", mainRoute)
     //Error Handling When URL is Wrong

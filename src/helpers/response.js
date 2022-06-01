@@ -1,7 +1,7 @@
 const helper = {}
 
 helper.onSuccess = (res, status, message, data, total, meta) => {
-  res.status(status).send({
+  res.status(status).json({
     message,
     total,
     data,
@@ -10,23 +10,23 @@ helper.onSuccess = (res, status, message, data, total, meta) => {
 }
 
 helper.onFailed = (res, status, message, err) => {
-  res.status(status).send({
+  res.status(status).json({
     message,
     err
   })
 }
 
 helper.pagination = (res, req, response) => {
-  const {query, data, totalData, currentPage, limit, message, status} = response
+  const { query, data, totalData, currentPage, limit, message, status } = response
 
-  const total = Math.ceil(totalData/limit)
-  let {page} = req.query
+  const total = Math.ceil(totalData / limit)
+  let { page } = req.query
   page = parseInt(page)
   const path = `http://${req.get("host") + req.baseUrl + req.path}?page`
   let queryString = ""
 
   Object.keys(query).forEach((key) => {
-    if(key !== "page") {
+    if (key !== "page") {
       queryString += `&${key}=${query[key]}`
     }
   })

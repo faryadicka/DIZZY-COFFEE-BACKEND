@@ -6,6 +6,21 @@ const {
   SECRET_KEY
 } = process.env
 
+const getEmailUser = (email) => {
+  return new Promise((resolve, reject) => {
+    const sqlQuery = "SELECT * FROM public.users WHERE email = $1"
+    db.query(sqlQuery, [email]).then((res) => {
+      resolve(res)
+    })
+      .catch((err) => {
+        if (err) return reject({
+          message: "Internal Server Error",
+          status: 500,
+          err
+        })
+      })
+  })
+}
 
 const registerUserModel = (body) => {
   return new Promise((resolve, reject) => {
@@ -14,53 +29,48 @@ const registerUserModel = (body) => {
       password,
       phone
     } = body
-    const checkEmailSQL = "SELECT * FROM public.users WHERE email = $1"
-    db.query(checkEmailSQL, [email], (err, res) => {
-      if (err) return reject({
-        message: "Internal Server Error",
-        status: 500,
-        err
-      })
-      if (email === "" || password === "" || phone === "") return reject({
-        message: "Field email or password or phone is required!",
-        status: 400,
-        err
-      })
-      if (!email.includes("@gmail.com") && !email.includes("@yahoo.com") && !email.includes("@mail.com")) return reject({
-        message: "Input email is invalid!",
-        status: 400,
-        err
-      })
-      if (res.rowCount > 0) return reject({
-        message: "Email has already exists!",
-        status: 409,
-        err
-      })
-      bcrypt
-        .hash(password, 10, (err, hashed) => {
+    bcrypt
+      .hash(password, 10, (err, hashed) => {
+        if (err) return reject({
+          message: "Failed to hashing password",
+          status: 500,
+          err
+        })
+        const registerSQL = "INSERT INTO public.users(phone, email, password) VALUES($1, $2, $3) RETURNING email, phone"
+        db.query(registerSQL, [phone, email, hashed], (err, res) => {
           if (err) return reject({
-            message: "Failed to hashing password",
+            message: "Register user failed",
             status: 500,
             err
           })
-          const registerSQL = "INSERT INTO public.users(phone, email, password) VALUES($1, $2, $3) RETURNING email, phone"
-          db.query(registerSQL, [phone, email, hashed], (err, res) => {
-            if (err) return reject({
-              message: "Register user failed",
-              status: 500,
-              err
-            })
-            return resolve({
-              message: "Register successful",
-              status: 201,
-              data: res.rows[0],
-              total: res.rowCount
-            })
+          return resolve({
+            message: "Register successful",
+            status: 201,
+            data: res.rows[0],
+            total: res.rowCount
           })
         })
-    })
+      })
   })
 }
+
+// const getPassbyUserEmail = (email) => {
+//   return new Promise((resolve, reject) => {
+//     const sqlQuery = "SELECT password FROM public.users WHERE email = $1"
+//     db.query(sqlQuery, [email]).then((res) => {
+//       if (res.rows.length > 1) return reject({
+//         message: "User not found",
+//         status: 404,
+//       })
+//     }).catch((err) => {
+//       if (err) return reject({
+//         message: "Internal Server Error",
+//         status: 500,
+//         err
+//       })
+//     })
+//   })
+// }
 
 const loginUserModel = (body) => {
   return new Promise((resolve, reject) => {
@@ -70,13 +80,8 @@ const loginUserModel = (body) => {
     } = body
     const getEmail = "SELECT * FROM public.users WHERE email = $1"
     db.query(getEmail, [email], (err, res) => {
-      if (email === "" || password === "") return reject({
-        message: "Field email or password is required",
-        status: 400,
-        err
-      })
       if (err) return reject({
-        message: "User not found",
+        message: "internal server error",
         status: 500,
         err
       })
@@ -145,8 +150,65 @@ const logoutUserModel = (token) => {
     })
   })
 }
+
 module.exports = {
+  getEmailUser,
   registerUserModel,
   loginUserModel,
   logoutUserModel,
 }
+
+// const registerUserModel = (body) => {
+//   return new Promise((resolve, reject) => {
+//     const {
+//       email,
+//       password,
+//       phone
+//     } = body
+//     const checkEmailSQL = "SELECT * FROM public.users WHERE email = $1"
+//     db.query(checkEmailSQL, [email], (err, res) => {
+//       if (err) return reject({
+//         message: "Internal Server Error",
+//         status: 500,
+//         err
+//       })
+//       if (email === "" || password === "" || phone === "") return reject({
+//         message: "Field email or password or phone is required!",
+//         status: 400,
+//         err
+//       })
+//       if (!email.includes("@gmail.com") && !email.includes("@yahoo.com") && !email.includes("@mail.com")) return reject({
+//         message: "Input email is invalid!",
+//         status: 400,
+//         err
+//       })
+//       if (res.rowCount > 0) return reject({
+//         message: "Email has already exists!",
+//         status: 409,
+//         err
+//       })
+//       bcrypt
+//         .hash(password, 10, (err, hashed) => {
+//           if (err) return reject({
+//             message: "Failed to hashing password",
+//             status: 500,
+//             err
+//           })
+//           const registerSQL = "INSERT INTO public.users(phone, email, password) VALUES($1, $2, $3) RETURNING email, phone"
+//           db.query(registerSQL, [phone, email, hashed], (err, res) => {
+//             if (err) return reject({
+//               message: "Register user failed",
+//               status: 500,
+//               err
+//             })
+//             return resolve({
+//               message: "Register successful",
+//               status: 201,
+//               data: res.rows[0],
+//               total: res.rowCount
+//             })
+//           })
+//         })
+//     })
+//   })
+// }
