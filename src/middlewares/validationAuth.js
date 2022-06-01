@@ -7,7 +7,7 @@ const validateLogin = [
     const error = validationResult(req);
     if (!error.isEmpty()) {
       return res.status(400).json({
-        msg: 'Login failed!',
+        message: 'Login failed!',
         error: error.array(),
       });
     }
@@ -23,7 +23,7 @@ const validateCreateUsers = [
     const error = validationResult(req);
     if (!error.isEmpty()) {
       return res.status(400).json({
-        msg: 'email, password, and phone number invalid',
+        message: 'field email, password, and phone number is require',
       });
     }
     next();

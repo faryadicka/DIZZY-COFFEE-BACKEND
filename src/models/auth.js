@@ -1,10 +1,11 @@
 const bcrypt = require("bcrypt")
-const jwt = require("jsonwebtoken")
+const { resolve } = require("path")
+// const jwt = require("jsonwebtoken")
 const db = require("../config/db")
 
-const {
-  SECRET_KEY
-} = process.env
+// const {
+//   SECRET_KEY
+// } = process.env
 
 const getEmailUser = (email) => {
   return new Promise((resolve, reject) => {
@@ -54,91 +55,32 @@ const registerUserModel = (body) => {
   })
 }
 
-// const getPassbyUserEmail = (email) => {
-//   return new Promise((resolve, reject) => {
-//     const sqlQuery = "SELECT password FROM public.users WHERE email = $1"
-//     db.query(sqlQuery, [email]).then((res) => {
-//       if (res.rows.length > 1) return reject({
-//         message: "User not found",
-//         status: 404,
-//       })
-//     }).catch((err) => {
-//       if (err) return reject({
-//         message: "Internal Server Error",
-//         status: 500,
-//         err
-//       })
-//     })
-//   })
-// }
-
-const loginUserModel = (body) => {
-  return new Promise((resolve, reject) => {
-    const {
-      email,
-      password
-    } = body
+const getPasswordForCompare = (email) => {
+  return new Promise((resovle, reject) => {
     const getEmail = "SELECT * FROM public.users WHERE email = $1"
     db.query(getEmail, [email], (err, res) => {
       if (err) return reject({
-        message: "internal server error",
+        message: "Server Intternal error",
         status: 500,
         err
       })
-      if (res.rows.length > 1) return reject({
+      if (res.rows.length < 1) return reject({
         message: "User not found",
         status: 404,
         err
       })
-      const user = res.rows[0]
-      const hashedPass = user.password
-      bcrypt
-        .compare(password, hashedPass, (err, resCompare) => {
-          if (err) return reject({
-            message: "Internal Server Error",
-            status: 500,
-            err
-          })
-          if (!resCompare) return reject({
-            message: "Password is wrong!",
-            status: 401,
-            err
-          })
-          const payload = {
-            id: user.id,
-            phone: user.phone,
-            email: user.email,
-            role: user.role_id
-          }
-          const expiredPayload = {
-            expiresIn: "10h"
-          }
-          jwt.sign(payload, SECRET_KEY, expiredPayload, (err, token) => {
-            if (err) return reject({
-              message: "Sign payload error",
-              status: 500,
-              err
-            })
-            return resolve({
-              message: "Sign payload success",
-              status: 200,
-              data: {
-                email,
-                token,
-              }
-            })
-          })
-        })
+      resolve(res.rows[0])
     })
   })
 }
+
 
 const logoutUserModel = (token) => {
   return new Promise((resolve, reject) => {
     const sql = "INSERT INTO public.blacklist_token(token) VALUES($1)"
     db.query(sql, [token], (err, res) => {
       if (err) return reject({
-        message: "Server Bab Internal",
+        message: "Internal Server Error",
         status: 500,
         err
       })
@@ -154,9 +96,70 @@ const logoutUserModel = (token) => {
 module.exports = {
   getEmailUser,
   registerUserModel,
-  loginUserModel,
   logoutUserModel,
+  getPasswordForCompare
 }
+
+// const loginUserModel = (body) => {
+//   return new Promise((resolve, reject) => {
+//     const {
+//       email,
+//       password
+//     } = body
+//     const getEmail = "SELECT * FROM public.users WHERE email = $1"
+//     db.query(getEmail, [email], (err, res) => {
+//       if (err) return reject({
+//         message: "internal server error",
+//         status: 500,
+//         err
+//       })
+//       if (res.rows.length < 1) return reject({
+//         message: "User not found",
+//         status: 404,
+//         err
+//       })
+//       const user = res.rows[0]
+//       const hashedPass = user.password
+//       bcrypt
+//         .compare(password, hashedPass, (err, resCompare) => {
+//           if (err) return reject({
+//             message: "Internal Server Error",
+//             status: 500,
+//             err
+//           })
+//           if (!resCompare) return reject({
+//             message: "Password is wrong!",
+//             status: 401,
+//             err
+//           })
+//           const payload = {
+//             id: user.id,
+//             phone: user.phone,
+//             email: user.email,
+//             role: user.role_id
+//           }
+//           const expiredPayload = {
+//             expiresIn: "10h"
+//           }
+//           jwt.sign(payload, SECRET_KEY, expiredPayload, (err, token) => {
+//             if (err) return reject({
+//               message: "Sign payload error",
+//               status: 500,
+//               err
+//             })
+//             return resolve({
+//               message: "Sign payload success",
+//               status: 200,
+//               data: {
+//                 email,
+//                 token,
+//               }
+//             })
+//           })
+//         })
+//     })
+//   })
+// }
 
 // const registerUserModel = (body) => {
 //   return new Promise((resolve, reject) => {
