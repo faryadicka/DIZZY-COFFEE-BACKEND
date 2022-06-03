@@ -7,14 +7,14 @@ const {
   getTransactionDetailControl
 } = require("../controllers/transaction")
 
-const {roleAdmin} = require("../middlewares/authRole")
-const {verifyToken} = require("../middlewares/auth")
+const { roleAdmin } = require("../middlewares/authRole")
+const { verifyToken } = require("../middlewares/auth")
 
 Router
-  .post("/", verifyToken, roleAdmin,insertTransactionControl)
-  .get("/", getAllTransactionControl)
+  .post("/", verifyToken, insertTransactionControl)
+  .get("/", verifyToken, getAllTransactionControl)
   .get("/:id", getTransactionDetailControl)
   .patch("/:id", verifyToken, roleAdmin, updateTransactionControl)
-  .delete("/:id", verifyToken, roleAdmin, deleteTransactionControl)
+  .delete("/:id", verifyToken, deleteTransactionControl)
 
 module.exports = Router

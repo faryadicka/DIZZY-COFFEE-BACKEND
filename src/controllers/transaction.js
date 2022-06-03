@@ -12,8 +12,9 @@ const {
 } = require("../helpers/response")
 
 const insertTransactionControl = async (req, res) => {
+  const { id } = req.userInfo
   try {
-    const result = await insertTransactionModel(req.body)
+    const result = await insertTransactionModel(req.body, id)
     const {
       message,
       data,
@@ -32,8 +33,9 @@ const insertTransactionControl = async (req, res) => {
 
 const getAllTransactionControl = async (req, res) => {
   try {
-    const {query} = req
-    const result = await getAllTransactionModel(query)
+    const { id } = req.userInfo
+    const { query } = req
+    const result = await getAllTransactionModel(query, id)
     const {
       limit,
       currentPage,
@@ -43,7 +45,7 @@ const getAllTransactionControl = async (req, res) => {
       totalData,
       totalPage
     } = result
-    pagination(res, req, {query, limit, currentPage, data, message, status, totalData, totalPage})
+    pagination(res, req, { query, limit, currentPage, data, message, status, totalData, totalPage })
   } catch (error) {
     const {
       message,
