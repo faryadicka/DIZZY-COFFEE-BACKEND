@@ -143,14 +143,12 @@ const insertProductModel = (body, file) => {
       end,
       updated,
       categoryId,
-      deliveryMethodsId,
-      sizeId,
       deliveryInfo,
     } = body;
     const keyUpload = file;
     const image = keyUpload.path.replace("public", "").replace(/\\/g, "/");
     const sql =
-      "INSERT INTO public.products(name, price ,image, description, start_hour, end_hour, updated_at, category_id, delivery_methods_id, size_id ,delivery_info) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *";
+      "INSERT INTO public.products(name, price ,image, description, start_hour, end_hour, updated_at, category_id,delivery_info) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *";
     console.log(sql);
     db.query(
       sql,
@@ -163,8 +161,6 @@ const insertProductModel = (body, file) => {
         end,
         updated,
         categoryId,
-        deliveryMethodsId,
-        sizeId,
         deliveryInfo,
       ],
       (err, res) => {
