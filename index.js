@@ -1,6 +1,5 @@
 require("dotenv").config()
 const express = require("express")
-const morgan = require("morgan")
 const cors = require("cors")
 const db = require("./src/config/db")
 const mainRoute = require("./src/routes/index")
@@ -19,7 +18,10 @@ db.connect()
     // parse application/RAW JSON
     app.use(express.json())
     // Morgan
-    app.use(morgan(":method :url :status :res[content-length] - :response-time ms"))
+    if (process.env.MORGAN_PACKAGE !== "production") {
+      const morgan = require("morgan")
+      app.use(morgan(":method :url :status :res[content-length] - :response-time ms"))
+    }
     app.use(cors())
     app.use(express.static("public"));
     // Route
