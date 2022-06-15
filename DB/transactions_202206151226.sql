@@ -1,0 +1,6 @@
+INSERT INTO public.transactions (quantity,payment_methods,"size",products_id,users_id,total,subtotal,shipping,tax_and_fees,created_at,updated_at,id,category_id,delivery_methods,"time",address,phone,deleted_at) VALUES
+	 (2,'Bank','Regular',19,34,'88400','68000','13600','6800','2022-06-04 20:27:30.530378',NULL,31,NULL,'Dine in','7 AM','Kedungwuluh','08123445666',NULL),
+	 (2,'Card','Regular',19,34,'88400','68000','13600','6800','2022-06-09 21:43:03.051841',NULL,33,NULL,'Door Delivery','7 AM','KP. SINDANGSARI, RT031/RW009, KELURAHAN KALIJATI BARAT, KECAMATAN KALIJATI, KABUPATEN SUBANG, JAWA BARAT.','08988232087',NULL),
+	 (3,'COD','Regular',20,34,'136500','105000','21000','10500','2022-06-03 21:03:29.086391',NULL,29,NULL,'Dine in','7 AM','Jln.yuk','08988232087','2022-06-13 16:25:35.697984'),
+	 (1,'Bank','Regular',19,34,'44200','34000','6800','3400','2022-06-03 21:11:02.315252',NULL,30,NULL,'Dine in','','Jln.yuk','08988232087','2022-06-13 16:57:43.076065'),
+	 (3,'Card','Regular',23,34,'117000','90000','18000','9000','2022-06-14 10:54:12.67035',NULL,34,NULL,'Dine in','7 AM','KP. SINDANGSARI, RT031/RW009, KELURAHAN KALIJATI BARAT, KECAMATAN KALIJATI, KABUPATEN SUBANG, JAWA BARAT.','08988232087',NULL);

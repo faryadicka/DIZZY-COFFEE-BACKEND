@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt")
-const { resolve } = require("path")
+// const { resolve } = require("path")
 // const jwt = require("jsonwebtoken")
 const db = require("../config/db")
 

@@ -5,16 +5,16 @@ const getProductsModel = (query) => {
     const {
       name,
       order = "desc",
-      sort,
+      sort = "name",
       category,
       maxPrice,
       minPrice,
       page = 1,
-      limit = 3,
+      limit = 12,
     } = query;
     const offset = (Number(page) - 1) * Number(limit);
     let sql =
-      "SELECT p.id, p.name as name, p.price as price, p.start_hour as time, p.image, c.category FROM public.products p JOIN public.category c on p.category_id = c.id ";
+      "SELECT p.id, p.name as name, p.price as price, p.start_hour as time, p.image, c.category as category FROM public.products p JOIN public.category c on p.category_id = c.id ";
     let totalSql =
       "SELECT COUNT(p.id) AS total FROM public.products p join category c on p.category_id = c.id ";
     let value = [];
@@ -25,32 +25,34 @@ const getProductsModel = (query) => {
         sql += "WHERE price BETWEEN $1 AND $2 LIMIT $3 OFFSET $4";
       }
     }
-    if (category && page && !name) {
-      if (limit) {
+    if (category && page && sort && !name) {
+      if (limit || order) {
         value.push(category, Number(limit), offset);
         totalValue.push(category);
-        sql += "WHERE c.id = $1 LIMIT $2 OFFSET $3";
+        sql += "WHERE c.id = $1 ORDER BY " + sort + " " + order + " LIMIT $2 OFFSET $3";
         totalSql += "WHERE c.id = $1";
       }
     }
-    if (name && page && !category) {
-      if (limit) {
+    if (name && page && sort && !category) {
+      if (limit || order) {
         value.push(name, Number(limit), offset);
         totalValue.push(name);
         sql +=
-          "WHERE lower(p.name) LIKE lower('%' || $1 || '%') LIMIT $2 OFFSET $3";
+          "WHERE lower(p.name) LIKE lower('%' || $1 || '%') ORDER BY " + sort + " " + order + " LIMIT $2 OFFSET $3";
         totalSql += "WHERE lower(p.name) LIKE lower('%' || $1 || '%')";
       }
     }
-    if (category && name && page) {
-      value.push(category, name, Number(limit), offset);
-      totalValue.push(category, name);
-      sql +=
-        "WHERE c.id = $1 AND lower(p.name) LIKE lower('%' || $2 || '%') LIMIT $3 OFFSET $4";
-      totalSql +=
-        "WHERE c.id = $1 AND lower(p.name) LIKE lower('%' || $2 || '%')";
+    if (category && name && page && sort) {
+      if (limit || order) {
+        value.push(category, name, Number(limit), offset);
+        totalValue.push(category, name);
+        sql +=
+          "WHERE c.id = $1 AND lower(p.name) LIKE lower('%' || $2 || '%') ORDER BY " + sort + " " + order + " LIMIT $3 OFFSET $4";
+        totalSql +=
+          "WHERE c.id = $1 AND lower(p.name) LIKE lower('%' || $2 || '%')";
+      }
     }
-    if (sort) {
+    if (sort && !category && !name && !maxPrice && !minPrice) {
       if (order) {
         sql += " ORDER BY " + sort + " " + order;
       }
@@ -61,11 +63,11 @@ const getProductsModel = (query) => {
         sql += " LIMIT $1 OFFSET $2";
       }
     }
-    console.log(totalSql);
+    console.log(sql);
     db.query(sql, value, (err, res) => {
       db.query(totalSql, totalValue, (err, total) => {
         console.log(total)
-        const totalData = Number(total.rows[0]["total"]);
+        const totalData = Number(total.rows[0]["total"]) || [];
         const response = {
           query,
           limit,
@@ -97,7 +99,7 @@ const getFavoriteProductModel = (query) => {
   return new Promise((resolve, reject) => {
     const {
       page = 1,
-      limit = 3
+      limit = 12
     } = query
     const offset = (Number(page) - 1) * Number(limit);
     let sql =

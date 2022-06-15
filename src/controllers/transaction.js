@@ -1,7 +1,8 @@
 const {
   insertTransactionModel,
   getAllTransactionModel,
-  updateTransactionModel,
+  // updateTransactionModel,
+  softDeleteTransactionModel,
   deleteTransactionModel,
   getTransactionDetailModel
 } = require("../models/transaction")
@@ -75,9 +76,9 @@ const getTransactionDetailControl = async (req, res) => {
   }
 }
 
-const updateTransactionControl = async (req, res) => {
+const softDeleteTransactionControl = async (req, res) => {
   try {
-    const result = await updateTransactionModel(req.body, req.params)
+    const result = await softDeleteTransactionModel(req.params)
     const {
       data,
       message,
@@ -93,6 +94,25 @@ const updateTransactionControl = async (req, res) => {
     onFailed(res, status, message, err)
   }
 }
+
+// const updateTransactionControl = async (req, res) => {
+//   try {
+//     const result = await updateTransactionModel(req.body, req.params)
+//     const {
+//       data,
+//       message,
+//       status,
+//     } = result
+//     onSuccess(res, status, message, data)
+//   } catch (error) {
+//     const {
+//       message,
+//       status,
+//       err
+//     } = error
+//     onFailed(res, status, message, err)
+//   }
+// }
 
 const deleteTransactionControl = async (req, res) => {
   try {
@@ -115,7 +135,8 @@ const deleteTransactionControl = async (req, res) => {
 module.exports = {
   insertTransactionControl,
   getAllTransactionControl,
-  updateTransactionControl,
+  // updateTransactionControl,
+  softDeleteTransactionControl,
   deleteTransactionControl,
   getTransactionDetailControl
 }

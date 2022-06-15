@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "startDev": "nodemon index.js",
-    "startEslint": "npx eslint index.js"
+    "startEslint": "npx eslint index.js",
+    "start": "nodemon index.js"
   },
   "keywords": [
     "API"

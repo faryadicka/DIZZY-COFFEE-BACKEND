@@ -69,6 +69,7 @@ const loginAuthControl = async (req, res) => {
     onSuccess(res, 200, "Login Success!", {
       email,
       token,
+      role: data.role_id
     })
   } catch (error) {
     console.log(error, "err")
