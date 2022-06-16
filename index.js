@@ -25,7 +25,7 @@ db.connect()
 
     // install CORS
     const corsOptions = {
-      origin: ["http://127.0.0.1:5000", "http://localhost:3000"],
+      origin: ["https://dizzycoffeeshop.netlify.app", "https://dizzy-coffeeshop.herokuapp.com"],
       methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
       allowedHeaders: ["content-type", "x-access-token"],
     }
