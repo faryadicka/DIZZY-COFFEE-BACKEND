@@ -27,7 +27,7 @@ db.connect()
     const corsOptions = {
       origin: ["http://127.0.0.1:5000", "http://localhost:3000"],
       methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
-      allowedHeaders: ["Content-Type", "Authorization"],
+      allowedHeaders: ["content-type", "x-access-token"],
     }
     app.use(cors(corsOptions))
     app.use(express.static("public"));
