@@ -22,7 +22,14 @@ db.connect()
       const morgan = require("morgan")
       app.use(morgan(":method :url :status :res[content-length] - :response-time ms"))
     }
-    app.use(cors())
+
+    // install CORS
+    const corsOptions = {
+      origin: ["http://127.0.0.1:5000", "http://localhost:3000"],
+      methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
+      allowedHeaders: ["Content-Type", "Authorization"],
+    }
+    app.use(cors(corsOptions))
     app.use(express.static("public"));
     // Route
 

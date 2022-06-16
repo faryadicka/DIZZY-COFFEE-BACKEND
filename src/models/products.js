@@ -63,10 +63,10 @@ const getProductsModel = (query) => {
         sql += " LIMIT $1 OFFSET $2";
       }
     }
-    console.log(sql);
+    // console.log(sql);
     db.query(sql, value, (err, res) => {
       db.query(totalSql, totalValue, (err, total) => {
-        console.log(total)
+        // console.log(total)
         const totalData = Number(total.rows[0]["total"]) || [];
         const response = {
           query,
@@ -143,14 +143,13 @@ const insertProductModel = (body, file) => {
       description,
       start,
       end,
-      updated,
       categoryId,
       deliveryInfo,
     } = body;
     const keyUpload = file;
     const image = keyUpload.path.replace("public", "").replace(/\\/g, "/");
     const sql =
-      "INSERT INTO public.products(name, price ,image, description, start_hour, end_hour, updated_at, category_id,delivery_info) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *";
+      "INSERT INTO public.products(name, price ,image, description, start_hour, end_hour, category_id, delivery_info) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *";
     console.log(sql);
     db.query(
       sql,
@@ -161,20 +160,19 @@ const insertProductModel = (body, file) => {
         description,
         start,
         end,
-        updated,
         categoryId,
         deliveryInfo,
       ],
       (err, res) => {
         if (err)
           return reject({
-            message: "Insert product failed",
+            message: "Create product failed",
             status: 403,
             err,
           });
         return resolve({
           data: res.rows[0],
-          message: "Insert product success",
+          message: "Create product success",
           status: 200,
         });
       }
