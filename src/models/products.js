@@ -29,7 +29,12 @@ const getProductsModel = (query) => {
       if (limit || order) {
         value.push(category, Number(limit), offset);
         totalValue.push(category);
-        sql += "WHERE c.id = $1 ORDER BY " + sort + " " + order + " LIMIT $2 OFFSET $3";
+        sql +=
+          "WHERE c.id = $1 ORDER BY " +
+          sort +
+          " " +
+          order +
+          " LIMIT $2 OFFSET $3";
         totalSql += "WHERE c.id = $1";
       }
     }
@@ -38,7 +43,11 @@ const getProductsModel = (query) => {
         value.push(name, Number(limit), offset);
         totalValue.push(name);
         sql +=
-          "WHERE lower(p.name) LIKE lower('%' || $1 || '%') ORDER BY " + sort + " " + order + " LIMIT $2 OFFSET $3";
+          "WHERE lower(p.name) LIKE lower('%' || $1 || '%') ORDER BY " +
+          sort +
+          " " +
+          order +
+          " LIMIT $2 OFFSET $3";
         totalSql += "WHERE lower(p.name) LIKE lower('%' || $1 || '%')";
       }
     }
@@ -47,7 +56,11 @@ const getProductsModel = (query) => {
         value.push(category, name, Number(limit), offset);
         totalValue.push(category, name);
         sql +=
-          "WHERE c.id = $1 AND lower(p.name) LIKE lower('%' || $2 || '%') ORDER BY " + sort + " " + order + " LIMIT $3 OFFSET $4";
+          "WHERE c.id = $1 AND lower(p.name) LIKE lower('%' || $2 || '%') ORDER BY " +
+          sort +
+          " " +
+          order +
+          " LIMIT $3 OFFSET $4";
         totalSql +=
           "WHERE c.id = $1 AND lower(p.name) LIKE lower('%' || $2 || '%')";
       }
@@ -97,14 +110,12 @@ const getProductsModel = (query) => {
 
 const getFavoriteProductModel = (query) => {
   return new Promise((resolve, reject) => {
-    const {
-      page = 1,
-      limit = 12
-    } = query
+    const { page = 1, limit = 12 } = query;
     const offset = (Number(page) - 1) * Number(limit);
     let sql =
       "SELECT p.id, p.name, p.price, p.image, COUNT(*) AS total FROM public.transactions t JOIN public.products p ON t.products_id = p.id GROUP BY p.id, p.name, p.price, p.image ORDER BY total DESC LIMIT $1 OFFSET $2";
-    let totalSql = "select COUNT(*) as total from (SELECT COUNT(*) as total from public.transactions t join public.products p on t.products_id = p.id group by p.name) as favorite"
+    let totalSql =
+      "select COUNT(*) as total from (SELECT COUNT(*) as total from public.transactions t join public.products p on t.products_id = p.id group by p.name) as favorite";
     db.query(sql, [limit, offset], (err, res) => {
       db.query(totalSql, (err, total) => {
         const totalData = Number(total.rows[0]["total"]);
@@ -124,7 +135,7 @@ const getFavoriteProductModel = (query) => {
             err,
           });
         return resolve(response);
-      })
+      });
       if (err)
         return reject({
           message: "Product no found",
@@ -137,15 +148,8 @@ const getFavoriteProductModel = (query) => {
 
 const insertProductModel = (body, file) => {
   return new Promise((resolve, reject) => {
-    const {
-      name,
-      price,
-      description,
-      start,
-      end,
-      categoryId,
-      deliveryInfo,
-    } = body;
+    const { name, price, description, start, end, categoryId, deliveryInfo } =
+      body;
     const keyUpload = file;
     const image = keyUpload.path.replace("public", "").replace(/\\/g, "/");
     const sql =
@@ -153,16 +157,7 @@ const insertProductModel = (body, file) => {
     console.log(sql);
     db.query(
       sql,
-      [
-        name,
-        price,
-        image,
-        description,
-        start,
-        end,
-        categoryId,
-        deliveryInfo,
-      ],
+      [name, price, image, description, start, end, categoryId, deliveryInfo],
       (err, res) => {
         if (err)
           return reject({
@@ -190,8 +185,6 @@ const updateProductModel = (body, params, file) => {
       end,
       updated,
       categoryId,
-      deliveryMethodsId,
-      sizeId,
       deliveryInfo,
     } = body;
     const { id } = params;
@@ -199,43 +192,24 @@ const updateProductModel = (body, params, file) => {
       ? file.path.replace("public", "").replace(/\\/g, "/")
       : null;
     let sql =
-      "UPDATE public.products SET name=COALESCE($1, name ), price=COALESCE($2, price ),description=COALESCE($3, description ), start_hour=COALESCE($4, start_hour ), end_hour=COALESCE($5, end_hour ), updated_at=COALESCE($6, updated_at ), category_id=COALESCE($7, category_id), delivery_methods_id=COALESCE($8, delivery_methods_id ), size_id=COALESCE($9, size_id), delivery_info=COALESCE($10, delivery_info ), image=COALESCE($11, image) WHERE id=$12 RETURNING *";
-    db.query(
-      sql,
-      [
-        name,
-        price,
-        description,
-        start,
-        end,
-        updated,
-        categoryId,
-        deliveryMethodsId,
-        sizeId,
-        deliveryInfo,
-        image,
-        Number(id),
-      ],
-      (err, res) => {
-        if (err)
-          return reject({
-            message: "Updated failed",
-            status: 403,
-            err,
-          });
-        if (res.rowCount === 0)
-          return reject({
-            message: "Id product not found",
-            status: 403,
-            err,
-          });
-        return resolve({
-          data: res.rows[0],
-          message: "Updated data success!",
-          status: 200,
-        });
-      }
-    );
+      "UPDATE public.products SET name=COALESCE($1, name ), price=COALESCE($2, price ),description=COALESCE($3, description ), start_hour=COALESCE($4, start_hour ), end_hour=COALESCE($5, end_hour ), updated_at=COALESCE($6, updated_at ), category_id=COALESCE($7, category_id), delivery_info=COALESCE($8, delivery_info ), image=COALESCE($9, image) WHERE id=$10 RETURNING *";
+    db.query(sql, [name, price, description, start, end, updated, categoryId, deliveryInfo, image, id], (err, res) => {
+      if (err) return reject({
+        message: "Internal server error",
+        status: 500,
+        err,
+      })
+      if (res.rowCount === 0) return reject({
+        message: "Id product not found",
+        status: 403,
+        err
+      })
+      return resolve({
+        data: res.rows[0],
+        message: "Updated data success!",
+        status: 200,
+      })
+    })
   });
 };
 

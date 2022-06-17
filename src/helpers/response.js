@@ -9,7 +9,7 @@ helper.onSuccess = (res, status, message, data, total, meta) => {
   })
 }
 
-helper.onFailed = (res, status, message, err) => {
+helper.onFailed = (res, status = 500, message, err) => {
   res.status(status).json({
     message,
     err

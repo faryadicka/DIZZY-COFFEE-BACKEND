@@ -60,9 +60,8 @@ const updateUserControl = (req, res) => {
       message,
       status,
       data,
-      err
     }) => {
-      onSuccess(res, status, message, err, data)
+      onSuccess(res, status, message, data)
     })
     .catch(({
       message,
