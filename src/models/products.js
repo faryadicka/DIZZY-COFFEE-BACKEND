@@ -162,14 +162,14 @@ const insertProductModel = (body, file) => {
         if (image === null) {
           return reject({
             message: "You have to upload a picture!",
-            status: 500,
+            status: 400,
             err,
           });
         }
         if (err)
           return reject({
             message: "Create product failed",
-            status: 403,
+            status: 500,
             err,
           });
         return resolve({
