@@ -243,7 +243,7 @@ const getProductDetailModel = (params) => {
   return new Promise((resolve, reject) => {
     const { id } = params;
     let sql =
-      "SELECT id, name, price, image, description, delivery_info FROM public.products WHERE id=$1";
+      "SELECT id, name, price, image, description, delivery_info, start_hour, end_hour FROM public.products WHERE id=$1";
     db.query(sql, [id], (err, res) => {
       if (err)
         return reject({
