@@ -10,6 +10,6 @@ const { imageUpload } = require("../middlewares/multer")
 Router
   .get("/", getAllUsersControl)
   .get("/profile", verifyToken, getDetailUserControl)
-  .patch("/profile", verifyToken, imageUpload, updateUserControl)
+  .patch("/profile", verifyToken, imageUpload("image"), updateUserControl)
 
 module.exports = Router

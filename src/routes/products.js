@@ -23,8 +23,8 @@ Router
   .get("/", getProductsControl)
   .get("/favorite", getFavoriteProductControl)
   .get("/detail/:id", getProductDetailControl)
-  .post("/", verifyToken, roleAdmin, imageUpload, insertProductControl)
-  .patch("/:id", verifyToken, roleAdmin, imageUpload, updateProductControl)
+  .post("/", verifyToken, roleAdmin, imageUpload("image"), insertProductControl)
+  .patch("/:id", verifyToken, roleAdmin, imageUpload("image"), updateProductControl)
   .delete("/:id", verifyToken, roleAdmin, deleteProductControl)
 
 
