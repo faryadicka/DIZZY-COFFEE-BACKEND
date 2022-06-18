@@ -148,23 +148,30 @@ const getFavoriteProductModel = (query) => {
 
 const insertProductModel = (body, file) => {
   return new Promise((resolve, reject) => {
-    const { name, price, description, start, end, categoryId, deliveryInfo } =
+    const { name, price, description, start, end, categoryId } =
       body;
-    const keyUpload = file;
-    const image = keyUpload.path.replace("public", "").replace(/\\/g, "/");
+    const image = file ? file.path.replace("public", "").replace(/\\/g, "/") : null
     const sql =
-      "INSERT INTO public.products(name, price ,image, description, start_hour, end_hour, category_id, delivery_info) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *";
+      "INSERT INTO public.products(name, price ,image, description, start_hour, end_hour, category_id) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *";
     console.log(sql);
     db.query(
       sql,
-      [name, price, image, description, start, end, categoryId, deliveryInfo],
+      [name, price, image, description, start, end, categoryId],
       (err, res) => {
+        console.log()
         if (err)
           return reject({
             message: "Create product failed",
             status: 403,
             err,
           });
+        if (res.rows[0].image === null) {
+          return reject({
+            message: "You have to upload a picture!",
+            status: 500,
+            err,
+          });
+        }
         return resolve({
           data: res.rows[0],
           message: "Create product success",

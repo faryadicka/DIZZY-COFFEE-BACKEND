@@ -1,6 +1,6 @@
 const helper = {}
 
-helper.onSuccess = (res, status, message, data, total, meta) => {
+helper.onSuccess = (res, status = 200, message, data, total, meta) => {
   res.status(status).json({
     message,
     total,
