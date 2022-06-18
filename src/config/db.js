@@ -4,11 +4,11 @@ const {
 } = psql
 
 
-const databse = new Pool({
+const database = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: {
     rejectUnauthorized: false
   }
 })
 
-module.exports = databse
+module.exports = database
