@@ -36,26 +36,9 @@ exports.imageUpload = (key) => {
       if (err) {
         if (err === "INVALID_EXTENTION") return onFailed(res, 500, "ONLY ALLOWED EXTENTION JPG OR PNG", err)
         if (err === "LIMIT_FILE_SZIE") return onFailed(res, 500, "Image size too large, allowed size is 2MB", err)
-        return onFailed(res, 500, "Internal Sever Errors")
+        return onFailed(res, 500, "Internal Sever Errors", err)
       }
       next()
     })
   }
 }
-
-
-// const upload = multer(data).single("image")
-// const imageUpload = (req, res, next) => {
-//   upload(req, res, (error) => {
-//     if (error) {
-//       console.log(error)
-//       if (error == "INVALID_EXTENTION") return onFailed(res, 500, "ONLY ALLOWED EXTENTION JPG OR PNG")
-//       if (error.code === "LIMIT_FILE_SIZE") return onFailed(res, 500, "Image size too large, allowed size is 2MB")
-//       if (error.code === "ENOENT") return onFailed(res, 500, "No such file")
-//       return onFailed(res, 500, "Internal Sever Errors")
-//     }
-//     next()
-//   })
-// }
-
-// module.exports = { imageUpload }
