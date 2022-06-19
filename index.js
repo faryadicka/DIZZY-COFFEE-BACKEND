@@ -29,7 +29,6 @@ db.connect()
       origin: allowedOrigins,
       methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS", "PUT"],
       allowedHeaders: ["content-type", "x-access-token"],
-      Credential: true
     }
     app.use(cors(corsOptions))
     app.use(express.static("public"));
