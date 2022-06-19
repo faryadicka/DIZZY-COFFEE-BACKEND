@@ -38,12 +38,12 @@ const getPromosModel = (query) => {
       limit = 3
     } = query
     const offset = (Number(page) - 1) * Number(limit)
-    let sql = "SELECT products_name, normal_price, coupon ,discount, description, available_start, available_end, image FROM public.promos "
+    let sql = "SELECT id, products_name, normal_price, coupon ,discount, description, available_start, available_end, image FROM public.promos "
     let value = []
     if (coupon && page) {
       if (limit) {
         value.push(coupon, limit, offset)
-        sql = "SELECT products_name, normal_price, coupon ,discount, description, available_start, available_end, image FROM public.promos WHERE lower(coupon) like lower('%'|| $1 ||'%') LIMIT $2 OFFSET $3 "
+        sql = "SELECT id, products_name, normal_price, coupon ,discount, description, available_start, available_end, image FROM public.promos WHERE lower(coupon) like lower('%'|| $1 ||'%') LIMIT $2 OFFSET $3 "
       }
     }
     if (page && !coupon) {
@@ -93,13 +93,13 @@ const updatePromoModel = (body, params, file) => {
       availableEnd,
       updatedAt = Date.now(),
       coupon,
-      sizeId,
-      productId
+      normalPrice,
+      productName
     } = body
     const image = file ? file.path.replace("public", "").replace(/\\/g, "/") : null
     console.log(discount, image, id)
     let sql = "UPDATE public.promos SET product_name=COALESCE($1, product_name), discount=COALESCE($2, discount), description=COALESCE($3, description), available_start=COALESCE($4, available_start), available_end=COALESCE($5, available_end), updated_at=COALESCE($6, updated_at), coupon=COALESCE($7, coupon), normal_price=COALESCE($8, normal_price), image=COALESCE($9, image) WHERE id= $10 RETURNING *"
-    db.query(sql, [productId, discount, description, availableStart, availableEnd, updatedAt, coupon, sizeId, image, id], (err, res) => {
+    db.query(sql, [productName, discount, description, availableStart, availableEnd, updatedAt, coupon, normalPrice, image, id], (err, res) => {
       if (err) return reject({
         message: "Update failed",
         status: 403,
