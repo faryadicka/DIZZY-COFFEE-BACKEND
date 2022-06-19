@@ -119,7 +119,7 @@ const deletePromoModel = (params) => {
     const {
       id
     } = params
-    const sql = "DELETE FROM public.promos id=$1 RETURNING *"
+    const sql = "DELETE FROM public.promos WHERE id=$1 RETURNING *"
     db.query(sql, [id], (err, res) => {
       if (err) return reject({
         message: "Delete promo failed",
