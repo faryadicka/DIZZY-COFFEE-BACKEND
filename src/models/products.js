@@ -79,7 +79,7 @@ const getProductsModel = (query) => {
     // console.log(sql);
     db.query(sql, value, (err, res) => {
       db.query(totalSql, totalValue, (err, total) => {
-        // console.log(total)
+        console.log(res)
         const totalData = Number(total.rows[0]["total"]) || [];
         const response = {
           query,
@@ -118,6 +118,7 @@ const getFavoriteProductModel = (query) => {
       "select COUNT(*) as total from (SELECT COUNT(*) as total from public.transactions t join public.products p on t.products_id = p.id group by p.name) as favorite";
     db.query(sql, [limit, offset], (err, res) => {
       db.query(totalSql, (err, total) => {
+        console.log(res)
         const totalData = Number(total.rows[0]["total"]);
         const response = {
           query,
@@ -192,15 +193,15 @@ const updateProductModel = (body, params, file) => {
       end,
       updated,
       categoryId,
-      deliveryInfo,
     } = body;
     const { id } = params;
     const image = file
       ? file.path.replace("public", "").replace(/\\/g, "/")
       : null;
     let sql =
-      "UPDATE public.products SET name=COALESCE($1, name ), price=COALESCE($2, price ),description=COALESCE($3, description ), start_hour=COALESCE($4, start_hour ), end_hour=COALESCE($5, end_hour ), updated_at=COALESCE($6, updated_at ), category_id=COALESCE($7, category_id), delivery_info=COALESCE($8, delivery_info ), image=COALESCE($9, image) WHERE id=$10 RETURNING *";
-    db.query(sql, [name, price, description, start, end, updated, categoryId, deliveryInfo, image, id], (err, res) => {
+      "UPDATE public.products SET name=COALESCE($1, name ), price=COALESCE($2, price ),description=COALESCE($3, description ), start_hour=COALESCE($4, start_hour ), end_hour=COALESCE($5, end_hour ), updated_at=COALESCE($6, updated_at ), category_id=COALESCE($7, category_id),  image=COALESCE($8, image) WHERE id=$9 RETURNING *";
+    db.query(sql, [name, price, description, start, end, updated, categoryId, image, id], (err, res) => {
+      console.log(err)
       if (err) return reject({
         message: "Internal server error",
         status: 500,
