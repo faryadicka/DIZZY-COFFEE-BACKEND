@@ -12,14 +12,13 @@ const {
 } = require("../helpers/response")
 
 const insertPromoControl = (req, res) => {
-  insertPromoModel(req.body)
+  insertPromoModel(req.body, req.file)
     .then(({
       message,
       status,
-      err,
       data
     }) => {
-      onSuccess(res, status, message, err, data)
+      onSuccess(res, status, message, data)
     })
     .catch(({
       message,
@@ -43,7 +42,7 @@ const getPromosControl = (req, res) => {
       totalPage,
       currentPage
     }) => {
-      pagination(res, req, {message, status, data, totalData, totalPage, query, limit, currentPage})
+      pagination(res, req, { message, status, data, totalData, totalPage, query, limit, currentPage })
     })
     .catch(({
       message,
