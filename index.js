@@ -24,13 +24,14 @@ db.connect()
     }
 
     // install CORS
-    // const allowedOrigins = ["https://dizzy-coffeeshop.herokuapp.com", "https://dizzycoffeeshop.netlify.app", "http://localhost:3000"]
-    // const corsOptions = {
-    //   origin: allowedOrigins,
-    //   methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
-    //   allowedHeaders: ["content-type", "x-access-token"],
-    // }
-    app.use(cors())
+    const allowedOrigins = ["http://localhost:3000", "https://dizzycoffeeshop.netlify.app"]
+    const corsOptions = {
+      origin: allowedOrigins,
+      methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS", "PUT"],
+      allowedHeaders: ["content-type", "x-access-token"],
+      Credential: true
+    }
+    app.use(cors(corsOptions))
     app.use(express.static("public"));
     // Route
 
