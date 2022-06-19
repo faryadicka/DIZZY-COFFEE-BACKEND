@@ -16,12 +16,12 @@ const insertPromoModel = (body, file) => {
     const sql = "INSERT INTO public.promos (discount, description, available_start, available_end, updated_at, coupon, normal_price, image, products_name) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *"
     db.query(sql, [discount, description, availableStart, availableEnd, updatedAt, coupon, normalPrice, image, productName], (err, res) => {
       if (err) return reject({
-        message: "Insert data failed",
+        message: "Create promo failed, all fields must be filled!",
         status: 500,
         err
       })
       return resolve({
-        message: "Insert data success",
+        message: "Create promo success",
         status: 200,
         data: res.rows[0]
       })
@@ -97,7 +97,7 @@ const updatePromoModel = (body, params, file) => {
     } = body
     const image = file ? file.path.replace("public", "").replace(/\\/g, "/") : null
     console.log(discount, image, id)
-    let sql = "UPDATE public.promos SET products_name=COALESCE($1, products_name), discount=COALESCE($2, discount), description=COALESCE($3, description), available_start=COALESCE($4, available_start), available_end=COALESCE($5, available_end), updated_at=COALESCE($6, updated_at), coupon=COALESCE($7, coupon), normal_price=COALESCE($8, normal_price), image=COALESCE($9, image) WHERE id= $10 RETURNING *"
+    let sql = "UPDATE public.promos SET products_name=COALESCE($1, products_name), discount=COALESCE($2, discount), description=COALESCE($3, description), available_start=COALESCE($4, ''), available_end=COALESCE($5, ''), updated_at=COALESCE($6, updated_at), coupon=COALESCE($7, coupon), normal_price=COALESCE($8, normal_price), image=COALESCE($9, image) WHERE id= $10 RETURNING *"
     db.query(sql, [productName, discount, description, availableStart, availableEnd, updatedAt, coupon, normalPrice, image, id], (err, res) => {
       console.log(err)
       if (err) return reject({
