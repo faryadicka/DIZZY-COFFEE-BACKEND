@@ -9,13 +9,12 @@ const insertPromoModel = (body, file) => {
       availableEnd,
       updatedAt,
       coupon,
-      sizeId,
-      productId,
+      normalPrice,
       productName
     } = body
     const image = file ? file.path.replace("public", "").replace(/\\/g, "/") : null
-    const sql = "INSERT INTO public.promos (discount, description, available_start, available_end, updated_at, coupon, size_id, products_id, image, products_name) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *"
-    db.query(sql, [discount, description, availableStart, availableEnd, updatedAt, coupon, sizeId, productId, image, productName], (err, res) => {
+    const sql = "INSERT INTO public.promos (discount, description, available_start, available_end, updated_at, coupon, normal_price, image, products_name) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *"
+    db.query(sql, [discount, description, availableStart, availableEnd, updatedAt, coupon, normalPrice, image, productName], (err, res) => {
       if (err) return reject({
         message: "Insert data failed",
         status: 500,
