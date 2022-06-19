@@ -24,8 +24,17 @@ db.connect()
     }
 
     // install CORS
+    const allowedOrigins = ["https://dizzycoffeeshop.netlify.app", "http://localhost:3000"]
     const corsOptions = {
-      origin: ["*", "https://dizzycoffeeshop.netlify.app", "http://localhost:3000"],
+      origin: function (origin, cb) {
+        if (!origin) return cb(null, true)
+        if (allowedOrigins.indexOf(origin) === -1) {
+          let message = 'The CORS policy for this site does not ' +
+            'allow access from the specified Origin.';
+          return cb(new Error(message), false);
+        }
+        return cb(null, true)
+      },
       methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
       allowedHeaders: ["content-type", "x-access-token"],
     }
