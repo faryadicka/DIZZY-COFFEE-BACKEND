@@ -38,12 +38,12 @@ const getPromosModel = (query) => {
       limit = 3
     } = query
     const offset = (Number(page) - 1) * Number(limit)
-    let sql = "SELECT p.id, pr.name, p.discount, pr.price, p.coupon FROM public.promos p JOIN public.size s ON p.size_id = s.id JOIN public.products pr ON p.products_id = pr.id "
+    let sql = "SELECT products_name, normal_price, coupon ,discount, description, available_start, available_end, image FROM public.promos "
     let value = []
     if (coupon && page) {
       if (limit) {
         value.push(coupon, limit, offset)
-        sql = "SELECT p.id, pr.name, p.discount, p.description, p.available_start, p.available_end, pr.price, p.coupon, s.size FROM public.promos p JOIN public.size s ON p.size_id = s.id JOIN public.products pr ON p.products_id = pr.id WHERE lower(p.coupon) like lower('%'|| $1 ||'%') LIMIT $2 OFFSET $3 "
+        sql = "SELECT products_name, normal_price, coupon ,discount, description, available_start, available_end, image FROM public.promos WHERE lower(coupon) like lower('%'|| $1 ||'%') LIMIT $2 OFFSET $3 "
       }
     }
     if (page && !coupon) {
@@ -91,14 +91,14 @@ const updatePromoModel = (body, params, file) => {
       description,
       availableStart,
       availableEnd,
-      updatedAt,
+      updatedAt = Date.now(),
       coupon,
       sizeId,
       productId
     } = body
     const image = file ? file.path.replace("public", "").replace(/\\/g, "/") : null
     console.log(discount, image, id)
-    let sql = "UPDATE public.promos SET products_id=COALESCE($1, products_id), discount=COALESCE($2, discount), description=COALESCE($3, description), available_start=COALESCE($4, available_start), available_end=COALESCE($5, available_end), updated_at=COALESCE($6, updated_at), coupon=COALESCE($7, coupon), size_id=COALESCE($8, size_id), image=COALESCE($9, image) WHERE id= $10 RETURNING *"
+    let sql = "UPDATE public.promos SET product_name=COALESCE($1, product_name), discount=COALESCE($2, discount), description=COALESCE($3, description), available_start=COALESCE($4, available_start), available_end=COALESCE($5, available_end), updated_at=COALESCE($6, updated_at), coupon=COALESCE($7, coupon), normal_price=COALESCE($8, normal_price), image=COALESCE($9, image) WHERE id= $10 RETURNING *"
     db.query(sql, [productId, discount, description, availableStart, availableEnd, updatedAt, coupon, sizeId, image, id], (err, res) => {
       if (err) return reject({
         message: "Update failed",
