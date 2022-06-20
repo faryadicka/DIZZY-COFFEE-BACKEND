@@ -118,7 +118,7 @@ const getFavoriteProductModel = (query) => {
       "select COUNT(*) as total from (SELECT COUNT(*) as total from public.transactions t join public.products p on t.products_id = p.id group by p.name) as favorite";
     db.query(sql, [limit, offset], (err, res) => {
       db.query(totalSql, (err, total) => {
-        console.log(res)
+        // console.log(res)
         const totalData = Number(total.rows[0]["total"]);
         const response = {
           query,
@@ -155,7 +155,7 @@ const insertProductModel = (body, file) => {
     const image = file ? file.path : null
     const sql =
       "INSERT INTO public.products(name, price ,image, description, start_hour, end_hour, category_id) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *";
-    console.log(file);
+    // console.log(file);
     db.query(
       sql,
       [name, price, image, description, start, end, categoryId],
