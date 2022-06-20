@@ -151,7 +151,8 @@ const insertProductModel = (body, file) => {
   return new Promise((resolve, reject) => {
     const { name, price, description, start, end, categoryId } =
       body;
-    const image = file ? file.path.replace("public", "").replace(/\\/g, "/") : null
+    // const image = file ? file.path.replace("public", "").replace(/\\/g, "/") : null
+    const image = file ? file.path : null
     const sql =
       "INSERT INTO public.products(name, price ,image, description, start_hour, end_hour, category_id) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *";
     console.log(file);

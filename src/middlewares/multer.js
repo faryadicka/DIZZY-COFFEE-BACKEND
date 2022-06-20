@@ -1,17 +1,35 @@
+const cloudinary = require("cloudinary").v2
+const { CloudinaryStorage } = require("multer-storage-cloudinary")
 const multer = require("multer")
 const path = require("path")
 const { onFailed } = require("../helpers/response")
 
-const imageStorage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "./public/image")
-  },
-  filename: (req, file, cb) => {
-    const suffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`
-    const fileName = `${file.fieldname}-${suffix}${path.extname(file.originalname)}`
-    cb(null, fileName)
+// const {
+//   CLOUD_NAME,
+//   CLOUD_KEY,
+//   CLOUD_SECRET,
+// } = process.env;
+
+// let storage;
+
+
+const cloudinaryStorage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: 'dizzy/uploads',
   }
 })
+
+// const imageStorage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, "./public/image")
+//   },
+//   filename: (req, file, cb) => {
+//     const suffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`
+//     const fileName = `${file.fieldname}-${suffix}${path.extname(file.originalname)}`
+//     cb(null, fileName)
+//   }
+// })
 
 const limits = {
   fileSize: 2e6
@@ -26,7 +44,7 @@ const imageFilter = (req, file, cb) => {
 
 exports.imageUpload = (key) => {
   const upload = multer({
-    storage: imageStorage,
+    storage: cloudinaryStorage,
     limits,
     fileFilter: imageFilter
   }).single(key)

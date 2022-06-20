@@ -3,6 +3,7 @@ const express = require("express")
 const cors = require("cors")
 const db = require("./src/config/db")
 const mainRoute = require("./src/routes/index")
+const cloudConfig = require("./src/config/cloudinary")
 const PORT = process.env.PORT || 5000
 
 
@@ -22,6 +23,9 @@ db.connect()
       const morgan = require("morgan")
       app.use(morgan(":method :url :status :res[content-length] - :response-time ms"))
     }
+
+    //Cloudinary
+    app.use(cloudConfig)
 
     // install CORS
     const corsOptions = {
