@@ -5,13 +5,20 @@ const db = require("./src/config/db")
 const mainRoute = require("./src/routes/index")
 const cloudConfig = require("./src/config/cloudinary")
 const PORT = process.env.PORT || 5000
-
+//Create app express
+const app = express()
+// install CORS
+const corsOptions = {
+  // origin: ["http://192.168.43.191:3000", "http://localhost:3000", "https://dizzycoffeeshop.netlify.app"],
+  origin: "http://localhost:3000",
+  methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS", "PUT"],
+  allowedHeaders: ["content-type", "x-access-token"],
+}
+app.use(cors(corsOptions))
 
 db.connect()
   .then(() => {
     console.log("DB Connected!")
-    //Create app express
-    const app = express()
     // parse application/x-www-form-urlencoded
     app.use(express.urlencoded({
       extended: false
@@ -26,15 +33,6 @@ db.connect()
 
     //Cloudinary
     app.use(cloudConfig)
-
-    // install CORS
-    const corsOptions = {
-      // origin: ["http://192.168.43.191:3000", "http://localhost:3000", "https://dizzycoffeeshop.netlify.app"],
-      origin: "http://localhost:3000",
-      methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS", "PUT"],
-      allowedHeaders: ["content-type", "x-access-token"],
-    }
-    app.use(cors(corsOptions))
     app.use(express.static("public"));
     // Route
 
