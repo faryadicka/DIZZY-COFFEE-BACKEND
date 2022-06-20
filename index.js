@@ -5,12 +5,7 @@ const db = require("./src/config/db")
 const mainRoute = require("./src/routes/index")
 const cloudConfig = require("./src/config/cloudinary")
 const PORT = process.env.PORT || 5000
-// install CORS
-// const corsOptions = {
-//   origin: ["http://192.168.43.191:3000", "http://localhost:3000", "https://dizzycoffeeshop.netlify.app"],
-//   methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS", "PUT"],
-//   allowedHeaders: ["content-type", "x-access-token"],
-// }
+
 
 db.connect()
   .then(() => {
@@ -34,18 +29,23 @@ db.connect()
     app.use(express.static("public"));
     // Route
 
-
     //CORS
-    app.use(cors())
+    // install CORS
+    const corsOptions = {
+      origin: ["http://192.168.43.191:3000", "http://localhost:3000", "https://dizzycoffeeshop.netlify.app"],
+      methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS", "PUT"],
+      allowedHeaders: ["content-type", "x-access-token"],
+    }
+    app.use(cors(corsOptions))
 
-    app.use(function (req, res, next) {
-      res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-      res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-      res.setHeader('Access-Control-Allow-Headers', 'x-access-token,content-type');
-      res.setHeader('Access-Control-Allow-Credentials', true);
+    // app.use(function (req, res, next) {
+    //   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+    //   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    //   res.setHeader('Access-Control-Allow-Headers', 'x-access-token,content-type');
+    //   res.setHeader('Access-Control-Allow-Credentials', true);
 
-      next();
-    });
+    //   next();
+    // });
     app.use("/api", mainRoute)
     //Error Handling When URL is Wrong
     app.use((req, res) => {
