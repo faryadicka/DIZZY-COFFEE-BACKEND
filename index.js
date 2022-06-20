@@ -8,13 +8,21 @@ const PORT = process.env.PORT || 5000
 //Create app express
 const app = express()
 // install CORS
-const corsOptions = {
-  // origin: ["http://192.168.43.191:3000", "http://localhost:3000", "https://dizzycoffeeshop.netlify.app"],
-  origin: "http://localhost:3000",
-  methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS", "PUT"],
-  allowedHeaders: ["content-type", "x-access-token"],
-}
-app.use(cors(corsOptions))
+// const corsOptions = {
+//   origin: ["http://192.168.43.191:3000", "http://localhost:3000", "https://dizzycoffeeshop.netlify.app"],
+//   methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS", "PUT"],
+//   allowedHeaders: ["content-type", "x-access-token"],
+// }
+app.use(cors())
+
+app.use(function (req, res, next) {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'x-access-token,content-type');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+
+  next();
+});
 
 db.connect()
   .then(() => {
