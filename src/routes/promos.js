@@ -14,7 +14,7 @@ const { imageUpload } = require("../middlewares/multer")
 Router
   .post("/", verifyToken, roleAdmin, imageUpload("image"), insertPromoControl)
   .get("/", verifyToken, getPromosControl)
-  .get(":id", verifyToken, getPromoByIdControl)
+  .get("/:id", verifyToken, getPromoByIdControl)
   .patch("/:id", verifyToken, roleAdmin, imageUpload("image"), updatePromoControl)
   .delete("/:id", verifyToken, roleAdmin, deletePromoControl)
 
