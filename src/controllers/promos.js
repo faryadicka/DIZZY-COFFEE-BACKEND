@@ -2,7 +2,8 @@ const {
   insertPromoModel,
   getPromosModel,
   updatePromoModel,
-  deletePromoModel
+  deletePromoModel,
+  getPromoByIdModel
 } = require("../models/promos")
 
 const {
@@ -91,9 +92,29 @@ const deletePromoControl = (req, res) => {
     })
 }
 
+const getPromoByIdControl = (req, res) => {
+  getPromoByIdModel(req.params)
+    .then(({
+      message,
+      status,
+      err,
+      data
+    }) => {
+      onSuccess(res, status, message, err, data)
+    })
+    .catch(({
+      message,
+      status,
+      err
+    }) => {
+      onFailed(res, status, message, err)
+    })
+}
+
 module.exports = {
   insertPromoControl,
   getPromosControl,
   updatePromoControl,
-  deletePromoControl
+  deletePromoControl,
+  getPromoByIdControl
 }
