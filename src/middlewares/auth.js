@@ -9,7 +9,7 @@ const {
 
 
 const verifyToken = (req, res, next) => {
-  const token = req.header("x-access-token")
+  const token = req.header ? req.header("x-access-token") : ""
   const checkBlacklistToken = "SELECT * FROM public.blacklist_token WHERE token = $1"
   db.query(checkBlacklistToken, [token], (err, res) => {
     if (err) return onFailed(res, 500, "Internal server error", err)
