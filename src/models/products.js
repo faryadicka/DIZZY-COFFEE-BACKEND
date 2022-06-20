@@ -196,9 +196,7 @@ const updateProductModel = (body, params, file) => {
       categoryId,
     } = body;
     const { id } = params;
-    const image = file
-      ? file.path.replace("public", "").replace(/\\/g, "/")
-      : null;
+    const image = file ? file.path : null
     let sql =
       "UPDATE public.products SET name=COALESCE($1, name ), price=COALESCE($2, price ),description=COALESCE($3, description ), start_hour=COALESCE($4, start_hour ), end_hour=COALESCE($5, end_hour ), updated_at=COALESCE($6, updated_at ), category_id=COALESCE($7, category_id),  image=COALESCE($8, image) WHERE id=$9 RETURNING *";
     db.query(sql, [name, price, description, start, end, updated, categoryId, image, id], (err, res) => {

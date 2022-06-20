@@ -12,7 +12,7 @@ const insertPromoModel = (body, file) => {
       normalPrice,
       productName
     } = body
-    const image = file ? file.path.replace("public", "").replace(/\\/g, "/") : null
+    const image = file ? file.path : null
     const sql = "INSERT INTO public.promos (discount, description, available_start, available_end, updated_at, coupon, normal_price, image, products_name) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *"
     db.query(sql, [discount, description, availableStart, availableEnd, updatedAt, coupon, normalPrice, image, productName], (err, res) => {
       if (err) return reject({
@@ -119,7 +119,7 @@ const updatePromoModel = (body, params, file) => {
       productName
     } = body
     console.log(body)
-    const image = file ? file.path.replace("public", "").replace(/\\/g, "/") : null
+    const image = file ? file.path : null
     console.log(discount, image, id)
     let sql = "UPDATE public.promos SET products_name=COALESCE($1, products_name), discount=COALESCE($2, discount), description=COALESCE($3, description), available_start=COALESCE($4, available_start), available_end=COALESCE($5, available_end), coupon=COALESCE($6, coupon), normal_price=COALESCE($7, normal_price), image=COALESCE($8, image), updated_at= now() WHERE id= $9 RETURNING *"
     db.query(sql, [productName, discount, description, availableStart, availableEnd, coupon, normalPrice, image, id], (err, res) => {
