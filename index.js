@@ -31,24 +31,12 @@ db.connect()
 
     //CORS
     // install CORS
-    const originList = ["http://localhost:3000", "https://dizzycoffeeshop.netlify.app", "::1"];
-
-    const corsOption = {
-      origin: (origin, callback) => {
-        if (originList.includes(origin) || !origin) return callback(null, true);
-        return callback(new Error("Forbidden Origin"));
-      },
-      optionsSuccessStatus: 200,
-      methods: ["OPTIONS", "GET", "POST", "PATCH", "DELETE"],
-    };
-
-    app.use(cors(corsOption));
-    // const corsOptions = {
-    //   origin: ['http://192.168.43.191:3000', 'http://localhost:3000', 'https://dizzycoffeeshop.netlify.app'],
-    //   methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS', 'PUT'],
-    //   allowedHeader: ['Content-Type', 'x-access-token']
-    // }
-    // app.use(cors(corsOptions))
+    const corsOptions = {
+      origin: ['http://192.168.43.191:3000', 'http://localhost:3000', 'https://dizzycoffeeshop.netlify.app'],
+      methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS', 'PUT'],
+      allowedHeader: ['Content-Type', 'x-access-token']
+    }
+    app.use(cors(corsOptions))
 
     // app.use(function (req, res, next) {
     //   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
