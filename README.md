@@ -51,7 +51,7 @@ $ npm install
 | MORGAN_PACKAGE   | "production" |
 | SECRET_KEY       | "YOUR SECRET KEY"           |
 
-## 🐎 Run The Project
+ - Run The Project
 
 ```
 $ npm run startDev
