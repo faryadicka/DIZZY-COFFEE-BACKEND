@@ -32,7 +32,7 @@ db.connect()
     //CORS
     // install CORS
     const corsOptions = {
-      origin: "*",
+      origin: ["*", "http:localhost:3000", "//dizzycoffeeshop.netlify.app"],
       methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS', 'PUT'],
       allowedHeader: ['Content-Type', 'x-access-token'],
       credentials: true
