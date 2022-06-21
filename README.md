@@ -48,7 +48,7 @@ $ npm install
 | CLOUD_API_SECRET | "YOUR API SECRET"           |
 | CLOUD_NAME       | "YOUR CLOUD NAME"           |
 | DATABASE_URL     | "YOUR DATABASE URL"         |
-| MORGAN_PACKAGE   | "YOUR MORGAN PACAKGE VALUE" |
+| MORGAN_PACKAGE   | "production" |
 | SECRET_KEY       | "YOUR SECRET KEY"           |
 
 ## 🐎 Run The Project
