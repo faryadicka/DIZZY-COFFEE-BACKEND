@@ -10,7 +10,7 @@
 
 <br/>
 
-[![bcrypt](https://img.shields.io/badge/bcrypt-5.0.1-purple)](https://www.npmjs.com/package/bcrypt) [![cloudinary](https://img.shields.io/badge/cloudinary-1.30.0-purple)](https://www.npmjs.com/package/cloudinary) [![cors](https://img.shields.io/badge/cors-2.8.5-purple)](https://www.npmjs.com/package/cors) [![dotenv](https://img.shields.io/badge/dotenv-16.0.0-purple)](https://www.npmjs.com/package/dotenv) [![express](https://img.shields.io/badge/express-4.17.3-purple)](https://www.npmjs.com/package/express) [![jsonwebtoken](https://img.shields.io/badge/jsonwebtoken-8.5.1-purple)](https://www.npmjs.com/package/jsonwebtoken) [![multer](https://img.shields.io/badge/multer-1.4.4-purple)](https://www.npmjs.com/package/multer) [![multer](https://img.shields.io/badge/multer-1.4.4-purple)](https://www.npmjs.com/package/multer) [![pg](https://img.shields.io/badge/pg-8.7.3-purple)](https://www.npmjs.com/package/pg) [![pg](https://img.shields.io/badge/pg-8.7.3-purple)](https://www.npmjs.com/package/pg)
+[![bcrypt](https://img.shields.io/badge/bcrypt-5.0.1-purple)](https://www.npmjs.com/package/bcrypt) [![cloudinary](https://img.shields.io/badge/cloudinary-1.30.0-purple)](https://www.npmjs.com/package/cloudinary) [![cors](https://img.shields.io/badge/cors-2.8.5-purple)](https://www.npmjs.com/package/cors) [![dotenv](https://img.shields.io/badge/dotenv-16.0.0-purple)](https://www.npmjs.com/package/dotenv) [![express](https://img.shields.io/badge/express-4.17.3-purple)](https://www.npmjs.com/package/express) [![jsonwebtoken](https://img.shields.io/badge/jsonwebtoken-8.5.1-purple)](https://www.npmjs.com/package/jsonwebtoken) [![multer](https://img.shields.io/badge/multer-1.4.4-purple)](https://www.npmjs.com/package/multer) [![pg](https://img.shields.io/badge/pg-8.7.3-purple)](https://www.npmjs.com/package/pg) [![pg](https://img.shields.io/badge/pg-8.7.3-purple)](https://www.npmjs.com/package/pg)
 
 <br/>
 
@@ -21,22 +21,26 @@
 - Clone This Repo
 
 ```
-git clone https://github.com/faryadicka/dizzy-coffeeshop-be
+$ git clone https://github.com/faryadicka/dizzy-coffeeshop-be
 ```
 
 - Go To Folder Repo
 
 ```
-cd dizzy-coffeeshop-be
+$ cd dizzy-coffeeshop-be
 ```
 
 - Install Module
 
 ```
-npm install <package-name>
+$ npm install 
 ```
 
-- Type `npm run startDev` To Start The Project
+- To Start The Project
+
+```
+$ npm run startDev
+```
 
 <br/>
 
