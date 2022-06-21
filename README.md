@@ -16,6 +16,10 @@
 
 </div>
 
+## 🖊️ Description
+
+Dizzy coffee shop website is a service for order food and beverages. Customer can simply register, login, see products, order, see order history, edit their profile, etc.
+
 ## 📌 How To Install?
 
 - Clone This Repo
@@ -33,16 +37,29 @@ $ cd dizzy-coffeeshop-be
 - Install Module
 
 ```
-$ npm install 
+$ npm install
 ```
 
-- To Start The Project
+## ㊙️ Set up .env
+
+| KEYWORD          | VALUE                       |
+| ---------------- | --------------------------- |
+| CLOUD_API_KEY    | "YOUR API KEY"              |
+| CLOUD_API_SECRET | "YOUR API SECRET"           |
+| CLOUD_NAME       | "YOUR CLOUD NAME"           |
+| DATABASE_URL     | "YOUR DATABASE URL"         |
+| MORGAN_PACKAGE   | "YOUR MORGAN PACAKGE VALUE" |
+| SECRET_KEY       | "YOUR SECRET KEY"           |
+
+## 🐎 Run The Project
 
 ```
 $ npm run startDev
 ```
 
 <br/>
+
+## 🚋 Route
 
 | Endpoint               |         Method         | Info         | Remark                        |
 | ---------------------- | :--------------------: | :----------- | :---------------------------- |
