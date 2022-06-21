@@ -15,6 +15,13 @@ const insertPromoModel = (body, file) => {
     const image = file ? file.path : null
     const sql = "INSERT INTO public.promos (discount, description, available_start, available_end, updated_at, coupon, normal_price, image, products_name) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *"
     db.query(sql, [discount, description, availableStart, availableEnd, updatedAt, coupon, normalPrice, image, productName], (err, res) => {
+      if (image === null) {
+        return reject({
+          message: "You have to upload a picture!",
+          status: 400,
+          err,
+        });
+      }
       if (err) return reject({
         message: "Create promo failed, all fields must be filled!",
         status: 500,
