@@ -68,8 +68,8 @@ $ npm run startDev
 | /api/transactions      |      `POST` `GET`      | Transactions | History of Orders             |
 | /api/transactions/:id  | `PATCH` `DELETE` `GET` | Transactions | History of Orders             |
 | /api/products          |      `GET` `POST`      | Products     | Products manage               |
-| /api/products/:id      | `GET` `PATCH` `DELETE` | Producs      | Products manage               |
-| /api/products/favorite |         `GET`          | Producs      | Products favorite             |
+| /api/products/:id      | `GET` `PATCH` `DELETE` | Products      | Products manage               |
+| /api/products/favorite |         `GET`          | Products      | Products favorite             |
 | /api/promos            |      `GET` `POST`      | Promos       | Promos manage                 |
 | /api/promos/:id        | `GET` `PATCH` `DELETE` | Promos       | Promos manage                 |
 
