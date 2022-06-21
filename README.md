@@ -40,7 +40,7 @@ $ cd dizzy-coffeeshop-be
 $ npm install
 ```
 
-## ㊙️ Set up .env
+- Set up .env
 
 | KEYWORD          | VALUE                       |
 | ---------------- | --------------------------- |
