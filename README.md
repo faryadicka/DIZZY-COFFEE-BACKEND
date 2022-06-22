@@ -40,7 +40,7 @@ $ cd dizzy-coffeeshop-be
 $ npm install
 ```
 
-## ㊙️ Set up .env
+- Set up .env
 
 | KEYWORD          | VALUE                       |
 | ---------------- | --------------------------- |
@@ -48,10 +48,10 @@ $ npm install
 | CLOUD_API_SECRET | "YOUR API SECRET"           |
 | CLOUD_NAME       | "YOUR CLOUD NAME"           |
 | DATABASE_URL     | "YOUR DATABASE URL"         |
-| MORGAN_PACKAGE   | "YOUR MORGAN PACAKGE VALUE" |
+| MORGAN_PACKAGE   | "production" |
 | SECRET_KEY       | "YOUR SECRET KEY"           |
 
-## 🐎 Run The Project
+ - Run The Project
 
 ```
 $ npm run startDev
@@ -68,8 +68,8 @@ $ npm run startDev
 | /api/transactions      |      `POST` `GET`      | Transactions | History of Orders             |
 | /api/transactions/:id  | `PATCH` `DELETE` `GET` | Transactions | History of Orders             |
 | /api/products          |      `GET` `POST`      | Products     | Products manage               |
-| /api/products/:id      | `GET` `PATCH` `DELETE` | Producs      | Products manage               |
-| /api/products/favorite |         `GET`          | Producs      | Products favorite             |
+| /api/products/:id      | `GET` `PATCH` `DELETE` | Products      | Products manage               |
+| /api/products/favorite |         `GET`          | Products      | Products favorite             |
 | /api/promos            |      `GET` `POST`      | Promos       | Promos manage                 |
 | /api/promos/:id        | `GET` `PATCH` `DELETE` | Promos       | Promos manage                 |
 
