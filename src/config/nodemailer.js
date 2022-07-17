@@ -31,6 +31,7 @@ const sendPasswordConfirmation = async (name, email, confirmCode) => {
   </ul>
   <h5>Click the link below to proceed to the next step, thank you.</h5>
   <h5><a href=${CLIENT_URL}/auth/forgot/${confirmCode}>Click here to reset your password</a></h5>
+  <p>If you are mobile user please copy this code for reset ${confirmCode} </p>
   </div>
   `;
 
