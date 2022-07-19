@@ -1,14 +1,17 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const generator = require("generate-password");
+// const generator = require("generate-password");
 const {
   registerUserModel,
   loginUserModel,
   getPasswordForCompare,
+  resetPasswordModel,
 } = require("../models/auth");
 const { sendPasswordConfirmation } = require("../config/nodemailer");
-
 const { onFailed, onSuccess } = require("../helpers/response");
+var confirmOTP = Math.random();
+confirmOTP = confirmOTP * 1000000;
+confirmOTP = parseInt(confirmOTP);
 
 const registerUserControl = async (req, res) => {
   try {
@@ -64,17 +67,32 @@ const loginAuthControl = async (req, res) => {
 
 const forgotPassword = async (req, res) => {
   try {
-    // const { name } = req.userInfo;
     const { email } = req.body;
-    const confirmCode = generator.generate({
-      length: 7,
-      numbers: true,
-    });
-    await sendPasswordConfirmation(email, email, confirmCode);
+    // const confirmCode = generator.generate({
+    //   length: 7,
+    //   numbers: true,
+    // });
+    await sendPasswordConfirmation(email, email, confirmOTP);
     onSuccess(res, 200, "Please check your email for password confirmation");
   } catch (error) {
     const { message, status } = error;
     onFailed(res, status ? status : 500, message, error);
+  }
+};
+
+const resetPasswordControl = async (req, res) => {
+  try {
+    const { newPassword, otp, email } = req.body;
+    console.log("ConfirmOtp :", confirmOTP);
+    console.log("otp :", Number(otp));
+    if (Number(otp) !== confirmOTP)
+      return onFailed(res, 401, "OTP code invalid!", "NOT MATCH");
+    const result = await resetPasswordModel(newPassword, Number(otp), email);
+    const { message, status, data } = result;
+    onSuccess(res, status, message, data);
+  } catch (error) {
+    const { message, status, err } = error;
+    onFailed(res, status, message, err);
   }
 };
 
@@ -83,4 +101,5 @@ module.exports = {
   loginUserControl,
   loginAuthControl,
   forgotPassword,
+  resetPasswordControl,
 };

@@ -1,7 +1,7 @@
-const bcrypt = require("bcrypt")
+const bcrypt = require("bcrypt");
 // const { resolve } = require("path")
 // const jwt = require("jsonwebtoken")
-const db = require("../config/db")
+const db = require("../config/db");
 
 // const {
 //   SECRET_KEY
@@ -9,96 +9,127 @@ const db = require("../config/db")
 
 const getEmailUser = (email) => {
   return new Promise((resolve, reject) => {
-    const sqlQuery = "SELECT * FROM public.users WHERE email = $1"
-    db.query(sqlQuery, [email]).then((res) => {
-      resolve(res)
-    })
-      .catch((err) => {
-        if (err) return reject({
-          message: "Internal Server Error",
-          status: 500,
-          err
-        })
+    const sqlQuery = "SELECT * FROM public.users WHERE email = $1";
+    db.query(sqlQuery, [email])
+      .then((res) => {
+        resolve(res);
       })
-  })
-}
+      .catch((err) => {
+        if (err)
+          return reject({
+            message: "Internal Server Error",
+            status: 500,
+            err,
+          });
+      });
+  });
+};
 
 const registerUserModel = (body) => {
   return new Promise((resolve, reject) => {
-    const {
-      email,
-      password,
-      phone
-    } = body
-    bcrypt
-      .hash(password, 10, (err, hashed) => {
-        if (err) return reject({
+    const { email, password, phone } = body;
+    bcrypt.hash(password, 10, (err, hashed) => {
+      if (err)
+        return reject({
           message: "Failed to hashing password",
           status: 500,
-          err
-        })
-        const registerSQL = "INSERT INTO public.users(phone, email, password) VALUES($1, $2, $3) RETURNING email, phone"
-        db.query(registerSQL, [phone, email, hashed], (err, res) => {
-          if (err) return reject({
+          err,
+        });
+      const registerSQL =
+        "INSERT INTO public.users(phone, email, password) VALUES($1, $2, $3) RETURNING email, phone";
+      db.query(registerSQL, [phone, email, hashed], (err, res) => {
+        if (err)
+          return reject({
             message: "Register user failed",
             status: 500,
-            err
-          })
-          return resolve({
-            message: "Register successful",
-            status: 201,
-            data: res.rows[0],
-            total: res.rowCount
-          })
-        })
-      })
-  })
-}
+            err,
+          });
+        return resolve({
+          message: "Register successful",
+          status: 201,
+          data: res.rows[0],
+          total: res.rowCount,
+        });
+      });
+    });
+  });
+};
 
 const getPasswordForCompare = (email) => {
   return new Promise((resolve, reject) => {
-    const getEmail = "SELECT * FROM public.users WHERE email = $1"
+    const getEmail = "SELECT * FROM public.users WHERE email = $1";
     db.query(getEmail, [email], (err, res) => {
-      if (err) return reject({
-        message: "Server Intternal error",
-        status: 500,
-        err
-      })
-      if (res.rows.length < 1) return reject({
-        message: "User not found",
-        status: 404,
-        err
-      })
-      resolve(res.rows[0])
-    })
-  })
-}
-
+      if (err)
+        return reject({
+          message: "Server Intternal error",
+          status: 500,
+          err,
+        });
+      if (res.rows.length < 1)
+        return reject({
+          message: "User not found",
+          status: 404,
+          err,
+        });
+      resolve(res.rows[0]);
+    });
+  });
+};
 
 const logoutUserModel = (token) => {
   return new Promise((resolve, reject) => {
-    const sql = "INSERT INTO public.blacklist_token(token) VALUES($1)"
+    const sql = "INSERT INTO public.blacklist_token(token) VALUES($1)";
     db.query(sql, [token], (err, res) => {
-      if (err) return reject({
-        message: "Internal Server Error",
-        status: 500,
-        err
-      })
+      if (err)
+        return reject({
+          message: "Internal Server Error",
+          status: 500,
+          err,
+        });
       return resolve({
         message: "You have been logged out",
         status: 200,
-        data: res
-      })
-    })
-  })
-}
+        data: res,
+      });
+    });
+  });
+};
+
+const resetPasswordModel = (newPassword, otp, email) => {
+  return new Promise((resolve, reject) => {
+    bcrypt.hash(newPassword, 10, (err, hashed) => {
+      if (err)
+        return reject({
+          message: "Failed to hashing password",
+          status: 500,
+          err,
+        });
+      const sql =
+        "UPDATE public.users SET password = $1, otp = $2  WHERE email = $3 RETURNING *";
+      db.query(sql, [hashed, otp, email], (err, res) => {
+        if (err)
+          return reject({
+            message: "Update user failed",
+            status: 500,
+            err,
+          });
+        return resolve({
+          data: res.rows[0],
+          message: "Reset password success",
+          status: 200,
+        });
+      });
+    });
+  });
+};
 
 module.exports = {
   getEmailUser,
   registerUserModel,
   logoutUserModel,
-  getPasswordForCompare
-}
+  getPasswordForCompare,
+  resetPasswordModel,
+};
 
 // const loginUserModel = (body) => {
 //   return new Promise((resolve, reject) => {

@@ -3,6 +3,7 @@ const {
   registerUserControl,
   loginAuthControl,
   forgotPassword,
+  resetPasswordControl,
 } = require("../controllers/auth");
 const { checkDuplicate } = require("../middlewares/validation");
 const { validateCreateUsers } = require("../middlewares/validationAuth");
@@ -14,6 +15,7 @@ Router.post(
   registerUserControl
 )
   .post("/login", loginAuthControl)
-  .post("/forgot", forgotPassword);
+  .post("/forgot", forgotPassword)
+  .patch("/reset-password", resetPasswordControl);
 
 module.exports = Router;
