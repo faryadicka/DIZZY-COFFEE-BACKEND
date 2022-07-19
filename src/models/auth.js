@@ -105,7 +105,7 @@ const resetPasswordModel = (newPassword, otp, email) => {
           err,
         });
       const sql =
-        "UPDATE public.users SET password = $1, otp = $2  WHERE email = $3 RETURNING *";
+        "UPDATE public.users SET password = $1, otp = $2  WHERE email = $3 RETURNING email, phone";
       db.query(sql, [hashed, otp, email], (err, res) => {
         if (err)
           return reject({
