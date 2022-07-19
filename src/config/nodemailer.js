@@ -22,16 +22,16 @@ const sendPasswordConfirmation = async (name, email, confirmCode) => {
       },
     });
     let html = `<div>
-  <h4>Dizzy Coffee Forgot Password Confirmation</h4>
-  <h5>Hi, ${name}</h5>
-  <h5>Here is your account detail :</h5>
+  <h5>Dizzy Coffee Forgot Password Confirmation</h5>
+  <h6>Hi, ${name}</h6>
+  <h6>Here is your account detail :</h6>
   <ul>
-    <h5>Name : ${name}</h5>
-    <h5>Email : ${email}</h5>
+    <h6>Name : ${name}</h6>
+    <h6>Email : ${email}</h6>
   </ul>
-  <h5>Click the link below to proceed to the next step, thank you.</h5>
-  <h5><a href=${CLIENT_URL}/auth/forgot/${confirmCode}>Click here to reset your password</a></h5>
-  <p>If you are mobile user please copy this code for reset ${confirmCode} </p>
+  <p>Click the link below to proceed to the next step, thank you.</p>
+  <p><a href=${CLIENT_URL}/auth/forgot/${confirmCode}>Click here</a></p>
+  <p>If you are mobile user please copy this code for reset <strong>${confirmCode}</strong> </p>
   </div>
   `;
 
