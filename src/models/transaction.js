@@ -59,7 +59,7 @@ const getAllTransactionModel = (query, id) => {
     const { page = 1, limit = 3 } = query;
     const offset = (Number(page) - 1) * Number(limit);
     let sql =
-      "select t.id, p.name, p.price, t.size, t.payment_methods, u.display_name, u.phone, u.address, p.image, t.status from public.transactions t join public.users u on t.users_id = u.id left join public.products p on t.products_id = p.id where t.users_id = $1 AND t.status <> deleted LIMIT $2 OFFSET $3";
+      "select t.id, p.name, p.price, t.size, t.payment_methods, u.display_name, u.phone, u.address, p.image, t.status from public.transactions t join public.users u on t.users_id = u.id left join public.products p on t.products_id = p.id where t.users_id = $1 AND t.status <> 'deleted' LIMIT $2 OFFSET $3";
     db.query(sql, [Number(id), Number(limit), offset], (err, res) => {
       db.query(
         "SELECT COUNT(*) AS total FROM public.transactions WHERE users_id = $1",
