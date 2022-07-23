@@ -10,7 +10,7 @@ const getProductsModel = (query) => {
       maxPrice,
       minPrice,
       page = 1,
-      limit = 12,
+      limit,
     } = query;
     const offset = (Number(page) - 1) * Number(limit);
     let sql =
