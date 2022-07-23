@@ -121,12 +121,10 @@ const getTransactionDetailModel = (params) => {
   });
 };
 
-const softDeleteTransactionModel = (params) => {
+const softDeleteTransactionModel = (id) => {
   return new Promise((resolve, reject) => {
-    const { id } = params;
-    // const { deleted = Date.now() } = body
     const sql =
-      "UPDATE public.transactions SET deleted_at=now() WHERE id=$1 RETURNING deleted_at";
+      "UPDATE public.transactions SET deleted_at=now(), status='deleted' WHERE users_id=$1 RETURNING deleted_at, status";
     db.query(sql, [id], (err, res) => {
       if (err)
         return reject({
