@@ -126,7 +126,7 @@ const softDeleteTransactionModel = (id, body) => {
     const { idTransaction } = body;
     const sql =
       "UPDATE public.transactions SET deleted_at=now(), status='deleted' WHERE users_id=$1 AND id=$2 RETURNING deleted_at, status";
-    db.query(sql, [id, idTransaction], (err, res) => {
+    db.query(sql, [id, Number(idTransaction)], (err, res) => {
       if (err)
         return reject({
           message: "Delete failed",
