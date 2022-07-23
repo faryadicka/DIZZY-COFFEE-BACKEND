@@ -121,11 +121,12 @@ const getTransactionDetailModel = (params) => {
   });
 };
 
-const softDeleteTransactionModel = (id) => {
+const softDeleteTransactionModel = (id, body) => {
   return new Promise((resolve, reject) => {
+    const { idTransaction } = body;
     const sql =
-      "UPDATE public.transactions SET deleted_at=now(), status='deleted' WHERE users_id=$1 RETURNING deleted_at, status";
-    db.query(sql, [id], (err, res) => {
+      "UPDATE public.transactions SET deleted_at=now(), status='deleted' WHERE users_id=$1 AND id=$2 RETURNING deleted_at, status";
+    db.query(sql, [id, idTransaction], (err, res) => {
       if (err)
         return reject({
           message: "Delete failed",
@@ -245,7 +246,6 @@ module.exports = {
   insertTransactionModel,
   getAllTransactionModel,
   getTransactionDetailModel,
-  // updateTransactionModel,
   deleteTransactionModel,
   softDeleteTransactionModel,
 };
