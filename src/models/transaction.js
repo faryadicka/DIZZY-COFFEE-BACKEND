@@ -56,7 +56,7 @@ const insertTransactionModel = (body, id) => {
 
 const getAllTransactionModel = (query, id) => {
   return new Promise((resolve, reject) => {
-    const { page = 1, limit = 3 } = query;
+    const { page = 1, limit } = query;
     const offset = (Number(page) - 1) * Number(limit);
     let sql =
       "select t.id, p.name, p.price, t.size, t.payment_methods, u.display_name, u.phone, u.address, p.image, t.status from public.transactions t join public.users u on t.users_id = u.id left join public.products p on t.products_id = p.id where t.users_id = $1 AND t.status <> 'deleted' LIMIT $2 OFFSET $3";
