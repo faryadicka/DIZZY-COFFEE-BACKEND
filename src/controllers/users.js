@@ -4,6 +4,7 @@ const {
   getDetailUserModel,
   updateUserModel,
   resetPasswordModel,
+  updatePasswordModel,
 } = require("../models/users");
 const { onSuccess, onFailed, pagination } = require("../helpers/response");
 
@@ -61,9 +62,23 @@ const resetPasswordController = (req, res) => {
     });
 };
 
+const updatePasswordControl = async (req, res) => {
+  try {
+    const { id } = req.userInfo;
+    const { newPassword } = req.body;
+    const result = await updatePasswordModel(newPassword, id);
+    const { message, status, data } = result;
+    onSuccess(res, status, message, data);
+  } catch (error) {
+    const { message, status, err } = error;
+    onFailed(res, status, message, err);
+  }
+};
+
 module.exports = {
   getAllUsersControl,
   getDetailUserControl,
   updateUserControl,
   resetPasswordController,
+  updatePasswordControl,
 };

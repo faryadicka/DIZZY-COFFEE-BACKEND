@@ -1,4 +1,5 @@
 const db = require("../config/db");
+const bcrypt = require("bcrypt");
 
 const getAllUsersModel = (query) => {
   return new Promise((resolve, reject) => {
@@ -115,6 +116,34 @@ const updateUserModel = (body, id, file) => {
   });
 };
 
+const updatePasswordModel = (newPassword, id) => {
+  return new Promise((resolve, reject) => {
+    bcrypt.hash(newPassword, 10, (err, hashed) => {
+      if (err)
+        return reject({
+          message: "Failed to hashing password",
+          status: 500,
+          err,
+        });
+      const SQL =
+        "UPDATE public.users SET password = $1 WHERE id =$2 RETURNING email";
+      db.query(SQL, [hashed, id], (err, res) => {
+        if (err)
+          return reject({
+            message: "Update user failed",
+            status: 500,
+            err,
+          });
+        return resolve({
+          data: res.rows[0],
+          message: "Updated password success",
+          status: 200,
+        });
+      });
+    });
+  });
+};
+
 const resetPasswordModel = (body) => {
   const { newPassword, confirmPassword, otp, email } = body;
   return new Promise((resolve, reject) => {
@@ -147,4 +176,5 @@ module.exports = {
   getDetailUserModel,
   updateUserModel,
   resetPasswordModel,
+  updatePasswordModel,
 };
