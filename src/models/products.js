@@ -14,7 +14,7 @@ const getProductsModel = (query) => {
     } = query;
     const offset = (Number(page) - 1) * Number(limit);
     let sql =
-      "SELECT p.id, p.name as name, p.price as price, p.start_hour as time, p.image, c.category as category FROM public.products p JOIN public.category c on p.category_id = c.id ";
+      "SELECT p.id, p.name as name, p.price as price, p.start_hour as time, p.image, c.category as category, p.delivery_info FROM public.products p JOIN public.category c on p.category_id = c.id ";
     let totalSql =
       "SELECT COUNT(p.id) AS total FROM public.products p join category c on p.category_id = c.id ";
     let value = [];
