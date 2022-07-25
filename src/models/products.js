@@ -79,7 +79,7 @@ const getProductsModel = (query) => {
     // console.log(sql);
     db.query(sql, value, (err, res) => {
       db.query(totalSql, totalValue, (err, total) => {
-        console.log(res)
+        console.log(res);
         const totalData = Number(total.rows[0]["total"]) || [];
         const response = {
           query,
@@ -149,10 +149,10 @@ const getFavoriteProductModel = (query) => {
 
 const insertProductModel = (body, file) => {
   return new Promise((resolve, reject) => {
-    const { name, price, description, start, end, categoryId, deliveryInfo} =
+    const { name, price, description, start, end, categoryId, deliveryInfo } =
       body;
     // const image = file ? file.path.replace("public", "").replace(/\\/g, "/") : null
-    const image = file ? file.path : null
+    const image = file ? file.path : null;
     const sql =
       "INSERT INTO public.products(name, price ,image, description, start_hour, end_hour, category_id, delivery_info) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *";
     // console.log(file);
@@ -160,7 +160,7 @@ const insertProductModel = (body, file) => {
       sql,
       [name, price, image, description, start, end, categoryId, deliveryInfo],
       (err, res) => {
-        console.log()
+        console.log();
         if (image === null) {
           return reject({
             message: "You have to upload a picture!",
@@ -194,29 +194,47 @@ const updateProductModel = (body, params, file) => {
       end,
       updated,
       categoryId,
+      deliveryInfo,
     } = body;
     const { id } = params;
-    const image = file ? file.path : null
+    const image = file ? file.path : null;
     let sql =
-      "UPDATE public.products SET name=COALESCE($1, name ), price=COALESCE($2, price ),description=COALESCE($3, description ), start_hour=COALESCE($4, start_hour ), end_hour=COALESCE($5, end_hour ), updated_at=COALESCE($6, updated_at ), category_id=COALESCE($7, category_id),  image=COALESCE($8, image) WHERE id=$9 RETURNING *";
-    db.query(sql, [name, price, description, start, end, updated, categoryId, image, id], (err, res) => {
-      console.log(err)
-      if (err) return reject({
-        message: "Internal server error",
-        status: 500,
-        err,
-      })
-      if (res.rowCount === 0) return reject({
-        message: "Id product not found",
-        status: 403,
-        err
-      })
-      return resolve({
-        data: res.rows[0],
-        message: "Updated data success!",
-        status: 200,
-      })
-    })
+      "UPDATE public.products SET name=COALESCE($1, name ), price=COALESCE($2, price ),description=COALESCE($3, description ), start_hour=COALESCE($4, start_hour ), end_hour=COALESCE($5, end_hour ), updated_at=COALESCE($6, updated_at ), category_id=COALESCE($7, category_id),  image=COALESCE($8, image), delivery_info=COALESCE($9, delivery_info) WHERE id=$10 RETURNING *";
+    db.query(
+      sql,
+      [
+        name,
+        price,
+        description,
+        start,
+        end,
+        updated,
+        categoryId,
+        image,
+        deliveryInfo,
+        id,
+      ],
+      (err, res) => {
+        console.log(err);
+        if (err)
+          return reject({
+            message: "Internal server error",
+            status: 500,
+            err,
+          });
+        if (res.rowCount === 0)
+          return reject({
+            message: "Id product not found",
+            status: 403,
+            err,
+          });
+        return resolve({
+          data: res.rows[0],
+          message: "Updated data success!",
+          status: 200,
+        });
+      }
+    );
   });
 };
 
