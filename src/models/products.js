@@ -149,16 +149,16 @@ const getFavoriteProductModel = (query) => {
 
 const insertProductModel = (body, file) => {
   return new Promise((resolve, reject) => {
-    const { name, price, description, start, end, categoryId } =
+    const { name, price, description, start, end, categoryId, deliveryInfo} =
       body;
     // const image = file ? file.path.replace("public", "").replace(/\\/g, "/") : null
     const image = file ? file.path : null
     const sql =
-      "INSERT INTO public.products(name, price ,image, description, start_hour, end_hour, category_id) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *";
+      "INSERT INTO public.products(name, price ,image, description, start_hour, end_hour, category_id, delivery_info) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *";
     // console.log(file);
     db.query(
       sql,
-      [name, price, image, description, start, end, categoryId],
+      [name, price, image, description, start, end, categoryId, deliveryInfo],
       (err, res) => {
         console.log()
         if (image === null) {
