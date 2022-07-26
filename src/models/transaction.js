@@ -18,7 +18,7 @@ const insertTransactionModel = (body, id) => {
       phone,
     } = body;
     const sql =
-      "INSERT INTO public.transactions(quantity, payment_methods, size, products_id, users_id, total, subtotal, shipping, tax_and_fees, updated_at, delivery_methods, time, address, phone, status)VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, paid) RETURNING *";
+      "INSERT INTO public.transactions(quantity, payment_methods, size, products_id, users_id, total, subtotal, shipping, tax_and_fees, updated_at, delivery_methods, time, address, phone, status)VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, 'paid') RETURNING *";
     db.query(
       sql,
       [
