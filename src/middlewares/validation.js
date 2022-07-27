@@ -42,7 +42,7 @@ validate.checkDuplicate = (req, res, next) => {
 
 validate.registerInput = (req, res, next) => {
   // cek apakah Undifined body sesuai dengan yang diinginkan
-  const { email, password } = req.body;
+  const { email, password, phone } = req.body;
   let emailFormat = /^\w+([.-]?\w+)@\w+([.-]?\w+)(.\w{2,3})+$/;
   if (!email) {
     return onFailed(res, 400, "Email cannot be empty!");
@@ -54,15 +54,21 @@ validate.registerInput = (req, res, next) => {
       }
     }
   }
-
   if (!password) {
     return onFailed(res, 400, "Password cannot be empty!");
+  }
+  if (password.length <= 8) {
+    return onFailed(res, 400, "Password must be 8 characters");
+  }
+
+  if (!phone) {
+    return onFailed(res, 400, "Phone cannot be empty!");
   }
 
   next();
 };
+
 validate.loginInput = (req, res, next) => {
-  // cek apakah Undifined body sesuai dengan yang diinginkan
   const { email, password } = req.body;
   let emailFormat = /^\w+([.-]?\w+)@\w+([.-]?\w+)(.\w{2,3})+$/;
   if (!email) {
@@ -82,4 +88,51 @@ validate.loginInput = (req, res, next) => {
 
   next();
 };
+
+validate.forgotInput = (req, res, next) => {
+  const { email } = req.body;
+  let emailFormat = /^\w+([.-]?\w+)@\w+([.-]?\w+)(.\w{2,3})+$/;
+  if (!email) {
+    return onFailed(res, 400, "Email cannot be empty!");
+  }
+
+  for (const key in req.body) {
+    if (key === "email") {
+      if (!req.body[key].match(emailFormat)) {
+        return onFailed(res, 400, "Please insert a valid email!");
+      }
+    }
+  }
+
+  next();
+};
+
+validate.resetInput = (req, res, next) => {
+  const { email, password, otp } = req.body;
+  let emailFormat = /^\w+([.-]?\w+)@\w+([.-]?\w+)(.\w{2,3})+$/;
+  if (!email) {
+    return onFailed(res, 400, "Email cannot be empty!");
+  }
+
+  for (const key in req.body) {
+    if (key === "email") {
+      if (!req.body[key].match(emailFormat)) {
+        return onFailed(res, 400, "Please insert a valid email!");
+      }
+    }
+  }
+
+  if (!password) {
+    return onFailed(res, 400, "Password cannot be empty!");
+  }
+
+  if (!otp) {
+    return onFailed(res, 400, "OTP cannot be empty!");
+  }
+  if (otp.length < 6) {
+    return onFailed(res, 400, "OTP code must be 6 characters");
+  }
+  next();
+};
+
 module.exports = validate;

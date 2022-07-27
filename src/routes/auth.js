@@ -5,17 +5,17 @@ const {
   forgotPassword,
   resetPasswordControl,
 } = require("../controllers/auth");
-const { checkDuplicate } = require("../middlewares/validation");
-const { validateCreateUsers } = require("../middlewares/validationAuth");
-
-Router.post(
-  "/register",
+const {
   checkDuplicate,
-  validateCreateUsers,
-  registerUserControl
-)
-  .post("/login", loginAuthControl)
-  .post("/forgot", forgotPassword)
-  .patch("/reset-password", resetPasswordControl);
+  registerInput,
+  loginInput,
+  forgotInput,
+  resetInput,
+} = require("../middlewares/validation");
+
+Router.post("/register", checkDuplicate, registerInput, registerUserControl)
+  .post("/login", loginInput, loginAuthControl)
+  .post("/forgot", forgotInput, forgotPassword)
+  .patch("/reset-password", resetInput, resetPasswordControl);
 
 module.exports = Router;
