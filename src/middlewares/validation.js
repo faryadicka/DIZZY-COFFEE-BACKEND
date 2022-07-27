@@ -57,7 +57,7 @@ validate.registerInput = (req, res, next) => {
   if (!password) {
     return onFailed(res, 400, "Password cannot be empty!");
   }
-  if (password.length <= 8) {
+  if (password.length < 8) {
     return onFailed(res, 400, "Password must be 8 characters");
   }
 
