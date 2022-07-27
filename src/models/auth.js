@@ -1,11 +1,5 @@
 const bcrypt = require("bcrypt");
-// const { resolve } = require("path")
-// const jwt = require("jsonwebtoken")
 const db = require("../config/db");
-
-// const {
-//   SECRET_KEY
-// } = process.env
 
 const getEmailUser = (email) => {
   return new Promise((resolve, reject) => {
@@ -123,12 +117,32 @@ const resetPasswordModel = (newPassword, otp, email) => {
   });
 };
 
+const verifyEmailModel = (email) => {
+  return new Promise((resolve, reject) => {
+    const SQL = "UPDATE public.users status WHERE email = $1 RETURNING *";
+    db.query(SQL, [email], (err, res) => {
+      if (err)
+        return reject({
+          message: "Server Internal Error",
+          status: 500,
+          err,
+        });
+      return resolve({
+        data: res.rows[0],
+        message: "Your Email has been verified. Please Login",
+        status: 200,
+      });
+    });
+  });
+};
+
 module.exports = {
   getEmailUser,
   registerUserModel,
   logoutUserModel,
   getPasswordForCompare,
   resetPasswordModel,
+  verifyEmailModel,
 };
 
 // const loginUserModel = (body) => {

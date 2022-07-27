@@ -6,6 +6,7 @@ const {
   loginUserModel,
   getPasswordForCompare,
   resetPasswordModel,
+  verifyEmailModel,
 } = require("../models/auth");
 const { sendPasswordConfirmation } = require("../config/nodemailer");
 const { onFailed, onSuccess } = require("../helpers/response");
@@ -96,10 +97,23 @@ const resetPasswordControl = async (req, res) => {
   }
 };
 
+const verifyEmailControl = async (req, res) => {
+  try {
+    const { email } = req.userInfo;
+    const result = verifyEmailModel(email);
+    const { message, status, data } = result;
+    onSuccess(res, status, message, data);
+  } catch (error) {
+    const { message, status, err } = error;
+    onFailed(res, status, message, err);
+  }
+};
+
 module.exports = {
   registerUserControl,
   loginUserControl,
   loginAuthControl,
   forgotPassword,
   resetPasswordControl,
+  verifyEmailControl,
 };
