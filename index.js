@@ -42,24 +42,24 @@ db.connect()
         "https://dizzycoffeeshop.netlify.app",
       ],
       methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS", "PUT"],
-      credentials: true,
+      allowedHeaders: ["Content-Type", "Authorization"],
     };
     app.use(cors(corsOptions));
 
-    app.use(function (req, res, next) {
-      res.setHeader("Access-Control-Allow-Origin", "*");
-      res.setHeader(
-        "Access-Control-Allow-Methods",
-        "GET, POST, OPTIONS, PUT, PATCH, DELETE"
-      );
-      res.setHeader(
-        "Access-Control-Allow-Headers",
-        "x-access-token,content-type"
-      );
-      res.setHeader("Access-Control-Allow-Credentials", true);
+//     app.use(function (req, res, next) {
+//       res.setHeader("Access-Control-Allow-Origin", "*");
+//       res.setHeader(
+//         "Access-Control-Allow-Methods",
+//         "GET, POST, OPTIONS, PUT, PATCH, DELETE"
+//       );
+//       res.setHeader(
+//         "Access-Control-Allow-Headers",
+//         "x-access-token,content-type"
+//       );
+//       res.setHeader("Access-Control-Allow-Credentials", true);
 
-      next();
-    });
+//       next();
+//     });
     app.use("/api", mainRoute);
     //Error Handling When URL is Wrong
     app.use((req, res) => {
