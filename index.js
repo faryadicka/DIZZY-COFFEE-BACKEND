@@ -42,7 +42,7 @@ db.connect()
         "https://dizzycoffeeshop.netlify.app",
       ],
       methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS", "PUT"],
-      allowedHeaders: ["Content-Type", "Authorization"],
+      allowedHeaders: ["Content-Type", "x-access-token"],
     };
     app.use(cors(corsOptions));
 
