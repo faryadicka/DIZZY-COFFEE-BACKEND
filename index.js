@@ -36,30 +36,12 @@ db.connect()
     //CORS
     // install CORS
     const corsOptions = {
-      origin: [
-        "*",
-        "http:localhost:3000",
-        "https://dizzycoffeeshop.netlify.app",
-      ],
-      methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS", "PUT"],
+      origin: ["http:localhost:3000", "https://dizzycoffeeshop.netlify.app"],
+      methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
       allowedHeaders: ["Content-Type", "x-access-token"],
     };
     app.use(cors(corsOptions));
-
-    app.use(function (req, res, next) {
-      res.setHeader("Access-Control-Allow-Origin", "*");
-      res.setHeader(
-        "Access-Control-Allow-Methods",
-        "GET, POST, OPTIONS, PUT, PATCH, DELETE"
-      );
-      res.setHeader(
-        "Access-Control-Allow-Headers",
-        "x-access-token,content-type"
-      );
-      res.setHeader("Access-Control-Allow-Credentials", true);
-
-      next();
-    });
+  
     app.use("/api", mainRoute);
     //Error Handling When URL is Wrong
     app.use((req, res) => {
