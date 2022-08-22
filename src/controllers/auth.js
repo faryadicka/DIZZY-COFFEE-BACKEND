@@ -8,17 +8,20 @@ const {
   resetPasswordModel,
   verifyEmailModel,
 } = require("../models/auth");
-const { sendPasswordConfirmation } = require("../config/nodemailer");
+const { sendPasswordConfirmation, sendEmailVerifycation } = require("../config/nodemailer");
 const { onFailed, onSuccess } = require("../helpers/response");
+const { client } = require("../config/redis");
 var confirmOTP = Math.random();
 confirmOTP = confirmOTP * 1000000;
 confirmOTP = parseInt(confirmOTP);
 
 const registerUserControl = async (req, res) => {
   try {
-    const result = await registerUserModel(req.body);
-    const { data, message, status } = result;
-    onSuccess(res, status, message, data);
+    const {email, password, phone} = req.body
+    const hashedPass = await bcrypt.hash(password, 10)
+    await sendEmailVerifycation(email)
+    const result = await registerUserModel(email, hashedPass, phone);
+    onSuccess(res, 200, "Register successfully, please check your email for verification!", result.data);
   } catch (error) {
     const { message, status, err } = error;
     onFailed(res, status, message, err);
@@ -69,11 +72,8 @@ const loginAuthControl = async (req, res) => {
 const forgotPassword = async (req, res) => {
   try {
     const { email } = req.body;
-    // const confirmCode = generator.generate({
-    //   length: 7,
-    //   numbers: true,
-    // });
-    await sendPasswordConfirmation(email, email, confirmOTP);
+    client.set("emailUser", email);
+    await sendPasswordConfirmation(email, confirmOTP);
     onSuccess(res, 200, "Please check your email for password confirmation");
   } catch (error) {
     const { message, status } = error;
@@ -83,12 +83,19 @@ const forgotPassword = async (req, res) => {
 
 const resetPasswordControl = async (req, res) => {
   try {
-    const { newPassword, otp, email } = req.body;
+    const emailUser = await client.get("emailUser");
+    const { otp } = req.params;
+    const { newPassword } = req.body;
     console.log("ConfirmOtp :", confirmOTP);
     console.log("otp :", Number(otp));
+    console.log(emailUser);
     if (Number(otp) !== confirmOTP)
-      return onFailed(res, 401, "OTP code invalid!", "NOT MATCH");
-    const result = await resetPasswordModel(newPassword, Number(otp), email);
+      return onFailed(res, 401, "OTP code invalid, please resend link!");
+    const result = await resetPasswordModel(
+      newPassword,
+      Number(otp),
+      emailUser
+    );
     const { message, status, data } = result;
     onSuccess(res, status, message, data);
   } catch (error) {
@@ -99,13 +106,15 @@ const resetPasswordControl = async (req, res) => {
 
 const verifyEmailControl = async (req, res) => {
   try {
-    const { email } = req.userInfo;
-    const result = verifyEmailModel(email);
-    const { message, status, data } = result;
-    onSuccess(res, status, message, data);
+    const { email } = req.params;
+    await verifyEmailModel(email);
+    onSuccess(
+      res,
+      200,
+      "Congratulation, your email has been verified!"
+    );
   } catch (error) {
-    const { message, status, err } = error;
-    onFailed(res, status, message, err);
+    onFailed(res, 500, "Verify email failed!", error);
   }
 };
 

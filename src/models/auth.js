@@ -19,31 +19,22 @@ const getEmailUser = (email) => {
   });
 };
 
-const registerUserModel = (body) => {
+const registerUserModel = (email, password, phone) => {
   return new Promise((resolve, reject) => {
-    const { email, password, phone } = body;
-    bcrypt.hash(password, 10, (err, hashed) => {
+    const registerSQL =
+      "INSERT INTO public.users(phone, email, password) VALUES($1, $2, $3) RETURNING email, phone";
+    db.query(registerSQL, [phone, email, password], (err, res) => {
       if (err)
         return reject({
-          message: "Failed to hashing password",
+          message: "Register user failed",
           status: 500,
           err,
         });
-      const registerSQL =
-        "INSERT INTO public.users(phone, email, password) VALUES($1, $2, $3) RETURNING email, phone";
-      db.query(registerSQL, [phone, email, hashed], (err, res) => {
-        if (err)
-          return reject({
-            message: "Register user failed",
-            status: 500,
-            err,
-          });
-        return resolve({
-          message: "Register successful",
-          status: 201,
-          data: res.rows[0],
-          total: res.rowCount,
-        });
+      return resolve({
+        message: "Register successful",
+        status: 201,
+        data: res.rows[0],
+        total: res.rowCount,
       });
     });
   });
@@ -119,19 +110,12 @@ const resetPasswordModel = (newPassword, otp, email) => {
 
 const verifyEmailModel = (email) => {
   return new Promise((resolve, reject) => {
-    const SQL = "UPDATE public.users status WHERE email = $1 RETURNING *";
+    const SQL = "UPDATE public.users SET status = 'verified' WHERE email = $1";
     db.query(SQL, [email], (err, res) => {
-      if (err)
-        return reject({
-          message: "Server Internal Error",
-          status: 500,
-          err,
-        });
-      return resolve({
-        data: res.rows[0],
-        message: "Your Email has been verified. Please Login",
-        status: 200,
-      });
+      if (err) {
+        return reject(err);
+      }
+      return resolve(res);
     });
   });
 };

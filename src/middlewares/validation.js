@@ -36,7 +36,7 @@ validate.checkDuplicate = (req, res, next) => {
       next();
     })
     .catch(() => {
-      onFailed(res, 409, "email is already use");
+      onFailed(res, 500, "Internal server error");
     });
 };
 
@@ -108,30 +108,32 @@ validate.forgotInput = (req, res, next) => {
 };
 
 validate.resetInput = (req, res, next) => {
-  const { email, password, otp } = req.body;
-  let emailFormat = /^\w+([.-]?\w+)@\w+([.-]?\w+)(.\w{2,3})+$/;
-  if (!email) {
-    return onFailed(res, 400, "Email cannot be empty!");
-  }
+  const { newPassword } = req.body;
+  // let emailFormat = /^\w+([.-]?\w+)@\w+([.-]?\w+)(.\w{2,3})+$/;
+  // if (!email) {
+  //   return onFailed(res, 400, "Email cannot be empty!");
+  // }
 
-  for (const key in req.body) {
-    if (key === "email") {
-      if (!req.body[key].match(emailFormat)) {
-        return onFailed(res, 400, "Please insert a valid email!");
-      }
-    }
-  }
+  // for (const key in req.body) {
+  //   if (key === "email") {
+  //     if (!req.body[key].match(emailFormat)) {
+  //       return onFailed(res, 400, "Please insert a valid email!");
+  //     }
+  //   }
+  // }
 
-  if (!password) {
-    return onFailed(res, 400, "Password cannot be empty!");
+  if (!newPassword) {
+    return onFailed(res, 400, "New Password cannot be empty!");
   }
-
-  if (!otp) {
-    return onFailed(res, 400, "OTP cannot be empty!");
+  if(newPassword.length < 8) {
+    return onFailed(res, 400, "New password must be more than 8 characters!")
   }
-  if (otp.length < 6) {
-    return onFailed(res, 400, "OTP code must be 6 characters");
-  }
+  // if (!otp) {
+  //   return onFailed(res, 400, "OTP cannot be empty!");
+  // }
+  // if (otp.length < 6) {
+  //   return onFailed(res, 400, "OTP code must be 6 characters");
+  // }
   next();
 };
 

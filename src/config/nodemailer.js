@@ -8,7 +8,7 @@ const {
   CLIENT_URL,
 } = process.env;
 
-const sendPasswordConfirmation = async (name, email, confirmCode) => {
+const sendPasswordConfirmation = async (email, confirmCode) => {
   try {
     const transport = nodemailer.createTransport({
       service: "gmail",
@@ -23,15 +23,12 @@ const sendPasswordConfirmation = async (name, email, confirmCode) => {
     });
     let html = `<div>
   <h5>Dizzy Coffee Forgot Password Confirmation</h5>
-  <h6>Hi, ${name}</h6>
   <h6>Here is your account detail :</h6>
   <ul>
-    <h6>Name : ${name}</h6>
     <h6>Email : ${email}</h6>
   </ul>
-  <p>Click the link below to proceed to the next step, thank you.</p>
-  <p><a href=${CLIENT_URL}/auth/forgot/${confirmCode}>Click here</a></p>
-  <p>If you are mobile user please copy this code for reset <strong>${confirmCode}</strong> </p>
+  <p style='text-align:center'><a href=${CLIENT_URL}/auth/reset/${confirmCode}>Click here</a> to proceed to the next step, thank you.</p>
+  <p style='text-align:center'>If you are mobile user please copy this code for reset <big style='font-weight:bolder;'>${confirmCode}</big> </p>
   </div>
   `;
 
@@ -47,6 +44,45 @@ const sendPasswordConfirmation = async (name, email, confirmCode) => {
   }
 };
 
+const sendEmailVerifycation = async (email) => {
+  try {
+    const transport = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        type: "OAuth2",
+        user: MAIL_USERNAME,
+        pass: MAIL_PASSWORD,
+        clientId: OAUTH_CLIENTID,
+        clientSecret: OAUTH_CLIENT_SECRET,
+        refreshToken: OAUTH_REFRESH_TOKEN,
+      },
+    });
+    let html = `<div>
+  <h5>Portoku Email Verification</h5>
+  <h6>Here is your account detail :</h6>
+  <ul>
+    <h6>Email : ${email}</h6>
+  </ul>
+  <p style='text-align:center'><a href=${CLIENT_URL}/auth/verify/${email}>Click here</a> to verify your email.</p>
+  </div>
+  `;
+
+    let mailOptions = {
+      from: MAIL_USERNAME,
+      to: email,
+      subject: "Email Verification",
+      html,
+    };
+    await transport.sendMail(mailOptions);
+  } catch (error) {
+    return error.message;
+  }
+};
+
+
+
+
 module.exports = {
   sendPasswordConfirmation,
+  sendEmailVerifycation
 };
