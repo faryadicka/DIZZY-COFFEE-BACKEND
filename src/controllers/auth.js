@@ -7,8 +7,12 @@ const {
   getPasswordForCompare,
   resetPasswordModel,
   verifyEmailModel,
+  getEmailUser,
 } = require("../models/auth");
-const { sendPasswordConfirmation, sendEmailVerifycation } = require("../config/nodemailer");
+const {
+  sendPasswordConfirmation,
+  sendEmailVerifycation,
+} = require("../config/nodemailer");
 const { onFailed, onSuccess } = require("../helpers/response");
 const { client } = require("../config/redis");
 var confirmOTP = Math.random();
@@ -17,11 +21,20 @@ confirmOTP = parseInt(confirmOTP);
 
 const registerUserControl = async (req, res) => {
   try {
-    const {email, password, phone} = req.body
-    const hashedPass = await bcrypt.hash(password, 10)
-    await sendEmailVerifycation(email)
+    const { email, password, phone } = req.body;
+    const checkEmail = await getEmailUser(email);
+    if (checkEmail.rowCount !== 0) {
+      return onFailed(res, 409, "email is already use");
+    }
+    const hashedPass = await bcrypt.hash(password, 10);
+    await sendEmailVerifycation(email);
     const result = await registerUserModel(email, hashedPass, phone);
-    onSuccess(res, 200, "Register successfully, please check your email for verification!", result.data);
+    onSuccess(
+      res,
+      200,
+      "Register successfully, please check your email for verification!",
+      result.data
+    );
   } catch (error) {
     const { message, status, err } = error;
     onFailed(res, status, message, err);
@@ -108,11 +121,7 @@ const verifyEmailControl = async (req, res) => {
   try {
     const { email } = req.params;
     await verifyEmailModel(email);
-    onSuccess(
-      res,
-      200,
-      "Congratulation, your email has been verified!"
-    );
+    onSuccess(res, 200, "Congratulation, your email has been verified!");
   } catch (error) {
     onFailed(res, 500, "Verify email failed!", error);
   }

@@ -11,7 +11,7 @@ const getEmailUser = (email) => {
       .catch((err) => {
         if (err)
           return reject({
-            message: "Internal Server Error",
+            message: "Internal Server Errors",
             status: 500,
             err,
           });
