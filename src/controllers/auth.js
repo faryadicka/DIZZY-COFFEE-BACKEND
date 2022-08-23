@@ -3,7 +3,6 @@ const jwt = require("jsonwebtoken");
 // const generator = require("generate-password");
 const {
   registerUserModel,
-  loginUserModel,
   getPasswordForCompare,
   resetPasswordModel,
   verifyEmailModel,
@@ -41,17 +40,6 @@ const registerUserControl = async (req, res) => {
   }
 };
 
-const loginUserControl = async (req, res) => {
-  try {
-    const result = await loginUserModel(req.body);
-    const { data, message, status } = result;
-    onSuccess(res, status, message, data);
-  } catch (error) {
-    const { message, status, err } = error;
-    onFailed(res, status, message, err);
-  }
-};
-
 const loginAuthControl = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -67,7 +55,7 @@ const loginAuthControl = async (req, res) => {
       name: data.display_name ? data.display_name : "Dear customer",
     };
     const jwtOption = {
-      expiresIn: "100000000000s",
+      expiresIn: "1h",
     };
     const token = jwt.sign(payload, process.env.SECRET_KEY, jwtOption);
     onSuccess(res, 200, "Login Success!", {
@@ -76,9 +64,8 @@ const loginAuthControl = async (req, res) => {
       role: data.role_id,
     });
   } catch (error) {
-    console.log(error, "err");
-    const { message, status, err } = error;
-    onFailed(res, status, message, err);
+    const { message, err } = error;
+    onFailed(res, 500, message, err);
   }
 };
 
@@ -129,7 +116,6 @@ const verifyEmailControl = async (req, res) => {
 
 module.exports = {
   registerUserControl,
-  loginUserControl,
   loginAuthControl,
   forgotPassword,
   resetPasswordControl,

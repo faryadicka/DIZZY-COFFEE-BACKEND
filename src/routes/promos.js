@@ -7,15 +7,15 @@ const {
   getPromoByIdControl,
 } = require("../controllers/promos")
 
-const { verifyToken } = require("../middlewares/auth")
+const { verifyTokenv2 } = require("../middlewares/auth")
 const { roleAdmin } = require("../middlewares/authRole")
 const { imageUpload } = require("../middlewares/multer")
 
 Router
-  .post("/", verifyToken, roleAdmin, imageUpload("image"), insertPromoControl)
+  .post("/", verifyTokenv2, roleAdmin, imageUpload("image"), insertPromoControl)
   .get("/", getPromosControl)
-  .get("/:id", verifyToken, getPromoByIdControl)
-  .patch("/:id", verifyToken, roleAdmin, imageUpload("image"), updatePromoControl)
-  .delete("/:id", verifyToken, roleAdmin, deletePromoControl)
+  .get("/:id", verifyTokenv2, getPromoByIdControl)
+  .patch("/:id", verifyTokenv2, roleAdmin, imageUpload("image"), updatePromoControl)
+  .delete("/:id", verifyTokenv2, roleAdmin, deletePromoControl)
 
 module.exports = Router

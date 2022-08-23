@@ -8,12 +8,12 @@ const {
   getTransactionDetailControl,
 } = require("../controllers/transaction");
 
-const { verifyToken } = require("../middlewares/auth");
+const { verifyTokenv2 } = require("../middlewares/auth");
 
-Router.post("/", verifyToken, insertTransactionControl)
-  .get("/", verifyToken, getAllTransactionControl)
+Router.post("/", verifyTokenv2, insertTransactionControl)
+  .get("/", verifyTokenv2, getAllTransactionControl)
   .get("/:id", getTransactionDetailControl)
-  .patch("/soft-delete", verifyToken, softDeleteTransactionControl)
-  .delete("/:id", verifyToken, deleteTransactionControl);
+  .patch("/soft-delete", verifyTokenv2, softDeleteTransactionControl)
+  .delete("/:id", verifyTokenv2, deleteTransactionControl);
 
 module.exports = Router;

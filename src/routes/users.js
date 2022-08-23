@@ -6,13 +6,13 @@ const {
   resetPasswordController,
   updatePasswordControl,
 } = require("../controllers/users");
-const { verifyToken } = require("../middlewares/auth");
+const { verifyTokenv2 } = require("../middlewares/auth");
 const { imageUpload } = require("../middlewares/multer");
 
 Router.get("/", getAllUsersControl)
-  .get("/profile", verifyToken, getDetailUserControl)
-  .patch("/profile", verifyToken, imageUpload("image"), updateUserControl)
+  .get("/profile", verifyTokenv2, getDetailUserControl)
+  .patch("/profile", verifyTokenv2, imageUpload("image"), updateUserControl)
   .patch("/reset-password", resetPasswordController)
-  .patch("/password", verifyToken, updatePasswordControl);
+  .patch("/password", verifyTokenv2, updatePasswordControl);
 
 module.exports = Router;
