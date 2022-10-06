@@ -41,6 +41,7 @@ const sendPasswordConfirmation = async (email, confirmCode) => {
     await transport.sendMail(mailOptions);
   } catch (error) {
     console.log(error.message);
+    return error.message
   }
 };
 
